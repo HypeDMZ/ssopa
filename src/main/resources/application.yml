@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:mariadb://swiftsjh.tplinkdns.com:3306/test
+    username: dmz
+    password: 1234
+    driverClassName: org.mariadb.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+
