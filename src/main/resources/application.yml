@@ -1,11 +1,24 @@
+
+
 spring:
-  datasource:
-    url: jdbc:mariadb://swiftsjh.tplinkdns.com:3306/test
-    username: dmz
-    password: 1234
-    driverClassName: org.mariadb.jdbc.Driver
 
-  jpa:
-    hibernate:
-      ddl-auto: none
+    datasource:
+        url: jdbc:mysql://swiftsjh.tplinkdns.com:3306/test
+        username: dmz
+        password: 1234
+        driver-class-name: com.mysql.cj.jdbc.Driver
 
+    jpa:
+        hibernate:
+            ddl-auto: create-drop
+        properties:
+            hibernate:
+                format_sql: true
+                show_sql: true
+
+logging:
+    level:
+        com.tutorial: debug
+
+jwt:
+    secret: c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXR1dG9yaWFsLWppd29vbi1zcHJpbmctYm9vdC1zZWN1cml0eS1qd3QtdHV0b3JpYWwK
