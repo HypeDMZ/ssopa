@@ -30,6 +30,7 @@ function App() {
                 ) : (
                     <Link to="/login">
                         <button>Login</button>
+                        <button>hio</button>
                     </Link>
                 )}
             </header>
