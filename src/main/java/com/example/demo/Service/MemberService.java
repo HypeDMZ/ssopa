@@ -4,7 +4,7 @@ import com.example.demo.config.SecurityUtil;
 import com.example.demo.dto.MemberResponseDto;
 import com.example.demo.entity.Member;
 import com.example.demo.repository.MemberRepository;
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
