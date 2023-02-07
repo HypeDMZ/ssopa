@@ -14,12 +14,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
 @Component
-public class WebSecurityConfig {
+public class WebSecurityConfig implements WebMvcConfigurer {
 
     private final TokenProvider tokenProvider;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
@@ -46,5 +48,13 @@ public class WebSecurityConfig {
                 .apply(new JwtSecurityConfig(tokenProvider));
 
         return http.build();
+    }
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("http://localhost:3000") // 허용할 출처
+                .allowedMethods("GET", "POST","fetch","delete") // 허용할 HTTP method
+                .allowCredentials(true) // 쿠키 인증 요청 허용
+                .maxAge(3000); // 원하는 시간만큼 pre-flight 리퀘스트를 캐싱
     }
 }

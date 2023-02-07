@@ -1,49 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { Link, Route, Switch, BrowserRouter as Router } from 'react-router-dom';
-
-
-
-
-
-import Profile from './Profile';
-
-
+import { Link, Route, Routes , BrowserRouter} from 'react-router-dom';
+import './App.css';
+import { Main } from "./component/Main";
+import { Login } from "./component/Login";
+import { Signup } from "./component/Signup";
 
 function App() {
-    const [user, setUser] = useState(null);
-    const authenticated = user != null;
-
-
-    const logout = () => setUser(null);
 
     return (
-        <Router>
-            <header>
-                <Link to="/">
-                    <button>Home</button>
-                </Link>
-                <Link to="/profile">
-                    <button>Profile</button>
-                </Link>
-                {authenticated ? (
-                    <button onClick={logout}>Logout</button>
-                ) : (
-                    <Link to="/login">
-                        <button>Login</button>
-                        <button>hio</button>
-                    </Link>
-                )}
-            </header>
-            <hr />
-            <main>
-                <Switch>
-
-
-
-
-                </Switch>
-            </main>
-        </Router>
+        <BrowserRouter>
+            <div>
+                <Routes>
+                    <Route path="/" element={<Main />}></Route>
+                    <Route path="/auth/login" element={<Login />}></Route>
+                    <Route path="/auth/signup" element={<Signup />}></Route>
+                </Routes>
+            </div>
+        </BrowserRouter>
     );
 }
 
