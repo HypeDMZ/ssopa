@@ -28,7 +28,7 @@ function Signup(props){
                 SignUpDataJSONChange(JSON.stringify(SignUpData));
                 console.log(SignUpDataJSON);
 
-                axios.post("http://localhost:80/auth/signup",
+                axios.post("http://localhost:8080/auth/signup",
                     SignUpDataJSON,
                     {
                         withCredentials : true,
