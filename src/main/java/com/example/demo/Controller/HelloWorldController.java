@@ -13,7 +13,7 @@ public class HelloWorldController {
 
 
 
-        return "Hello World";
+        return "World";
 
     }
 }
