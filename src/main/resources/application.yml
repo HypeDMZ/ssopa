@@ -1,6 +1,9 @@
 
 
 spring:
+    profiles:
+      active: local
+
 
     datasource:
         url: jdbc:mysql://swiftsjh.tplinkdns.com:3306/test
