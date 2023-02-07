@@ -13,7 +13,7 @@ public class HelloWorldController {
 
 
 
-        return "kim ui jin";
+        return "jiho z";
 
     }
 }
