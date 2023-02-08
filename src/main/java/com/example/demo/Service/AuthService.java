@@ -1,5 +1,6 @@
 package com.example.demo.Service;
 
+import com.example.demo.dto.LoginDto;
 import com.example.demo.dto.MemberRequestDto;
 import com.example.demo.dto.MemberResponseDto;
 import com.example.demo.dto.TokenDto;
@@ -32,8 +33,8 @@ public class AuthService {
         return MemberResponseDto.of(memberRepository.save(member));
     }
 
-    public TokenDto login(MemberRequestDto requestDto) {
-        UsernamePasswordAuthenticationToken authenticationToken = requestDto.toAuthentication();
+    public TokenDto login(LoginDto loginrequest) {
+        UsernamePasswordAuthenticationToken authenticationToken = loginrequest.toAuthentication();
 
         Authentication authentication = managerBuilder.getObject().authenticate(authenticationToken);
 

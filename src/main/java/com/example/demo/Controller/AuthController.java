@@ -1,6 +1,7 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Service.AuthService;
+import com.example.demo.dto.LoginDto;
 import com.example.demo.dto.MemberRequestDto;
 import com.example.demo.dto.MemberResponseDto;
 import com.example.demo.dto.TokenDto;
@@ -31,7 +32,7 @@ public class AuthController {
     @Operation(summary = "로그인")
     @ApiResponse(code = 200, message = "로그인 성공")
     @PostMapping("/login")
-    public ResponseEntity<TokenDto> login(@RequestBody MemberRequestDto requestDto) {
-        return ResponseEntity.ok(authService.login(requestDto));
+    public ResponseEntity<TokenDto> login(@RequestBody LoginDto loginrequest) {
+        return ResponseEntity.ok(authService.login(loginrequest));
     }
 }
