@@ -41,4 +41,8 @@ public class AuthService {
         return tokenProvider.generateTokenDto(authentication);
     }
 
+    public TokenDto refresh(String email, String refreshToken) {
+        return tokenProvider.refreshToken(email, refreshToken);
+    }
+
 }

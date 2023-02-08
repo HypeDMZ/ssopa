@@ -1,6 +1,8 @@
 package com.example.demo.jwt;
 
 import com.example.demo.dto.TokenDto;
+import com.example.demo.entity.RefreshToken;
+import com.example.demo.repository.RefreshTokenRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -13,6 +15,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.util.Arrays;
@@ -22,19 +25,20 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
-
+@Service
 public class TokenProvider {
 
     private static final String AUTHORITIES_KEY = "auth";
     private static final String BEARER_TYPE = "bearer";
     private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30;
     private final Key key;
-
+    private final RefreshTokenRepository refreshTokenRepository;
 
 
     // 주의점: 여기서 @Value는 `springframework.beans.factory.annotation.Value`소속이다! lombok의 @Value와 착각하지 말것!
     //     * @param secretKey
-    public TokenProvider(@Value("${jwt.secret}") String secretKey) {
+    public TokenProvider(@Value("${jwt.secret}") String secretKey, RefreshTokenRepository refreshTokenRepository) {
+        this.refreshTokenRepository = refreshTokenRepository;
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
@@ -61,10 +65,29 @@ public class TokenProvider {
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
 
+        // refresh token 구현
+        Date refreshtokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME * 2);
+        String refreshToken = Jwts.builder()
+                .setSubject(authentication.getName())
+                .claim(AUTHORITIES_KEY, authorities)
+                .setExpiration(refreshtokenExpiresIn)
+                .signWith(key, SignatureAlgorithm.HS512)
+                .compact();
+
+        RefreshToken refresh = RefreshToken.builder()
+                .refreshToken(refreshToken)
+                .userid(authentication.getName())
+                .build();
+
+        // database에 refresh token 저장
+        refreshTokenRepository.save(refresh);
+
         return TokenDto.builder()
                 .grantType(BEARER_TYPE)
                 .accessToken(accessToken)
+                .refreshToken(refreshToken)
                 .tokenExpiresIn(tokenExpiresIn.getTime())
+                .refreshTokenExpiresIn(refreshtokenExpiresIn.getTime())
                 .build();
     }
 
@@ -99,6 +122,27 @@ public class TokenProvider {
             log.info("JWT 토큰이 잘못되었습니다.");
         }
         return false;
+    }
+
+    public TokenDto refreshToken(String email, String refreshToken) {
+        try {
+            Claims claims = parseClaims(refreshToken);
+            if (claims.get(AUTHORITIES_KEY) == null) {
+                throw new RuntimeException("권한 정보가 없는 토큰입니다.");
+            }
+            if (claims.getSubject().equals(email)) {
+                return generateTokenDto(getAuthentication(refreshToken));
+            }
+        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
+            log.info("잘못된 JWT 서명입니다.");
+        } catch (ExpiredJwtException e) {
+            log.info("만료된 JWT 토큰입니다.");
+        } catch (UnsupportedJwtException e) {
+            log.info("지원되지 않는 JWT 토큰입니다.");
+        } catch (IllegalArgumentException e) {
+            log.info("JWT 토큰이 잘못되었습니다.");
+        }
+        return null;
     }
 
     private Claims parseClaims(String accessToken) {
