@@ -31,6 +31,11 @@ public class PostController {
         return ResponseEntity.ok(postService.newpost(request.getTitle(), request.getContent()));
     }
 
+    @GetMapping("/get/{id}")
+    @ApiOperation(value = "게시글 정보 불러오기")
+    public ResponseEntity<PostReadDto> ReadPost(@PathVariable(name = "id") Long id) {
+        return ResponseEntity.ok(postService.readpost(id));
+    }
 
 
 }
