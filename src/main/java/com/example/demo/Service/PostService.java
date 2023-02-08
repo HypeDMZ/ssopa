@@ -46,7 +46,15 @@ public class PostService {
                 .view_cnt(0)
                 .build();
         return PostResponseDto.of(postRepository.save(post));
+    }
 
+    @Transactional
+    public PostReadDto readpost (Long id) {
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
+        System.out.println("로그인 정보 : "+member.getEmail());
+        Post post = postRepository.findById(id).orElseThrow(() -> new RuntimeException("게시글 정보가 없습니다"));
+
+        return PostReadDto.of(post);
     }
 
 
