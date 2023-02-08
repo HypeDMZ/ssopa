@@ -13,7 +13,7 @@ public class HelloWorldController {
 
 
 
-        return "jiho z";
+        return "cicd";
 
     }
 }
