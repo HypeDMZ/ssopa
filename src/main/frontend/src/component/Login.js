@@ -1,10 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import {Link} from "react-router-dom";
-import { post, put, axios } from 'axios';
-import Cookie from "cookie";
+import axios from 'axios';
+import {setCookie,getCookie,removeCookie} from "../function/cookie";
+
 function Login(props){
     let [아이디, 아이디변경] = useState('');
     let [비밀번호, 비밀번호변경] = useState('');
+    let [loginDataJSON, loginDataJSONChange] = useState({});
+    let loginData = new Object();
+
+    useEffect( () => {
+        loginData.email = 아이디;
+        loginData.password = 비밀번호;
+        loginDataJSONChange(JSON.stringify(loginData));
+    },[아이디,비밀번호]);
+
     return (
         <div>
             <h4>홈</h4>
@@ -15,7 +25,31 @@ function Login(props){
                 비밀번호변경(e.target.value);
             }}></input><br/>
             <button onClick={ ()=>{
+                console.log(loginDataJSON);
+                axios.post("http://localhost:8080/auth/login",
+                    loginDataJSON,
+                    {
+                        withCredentials : true,
+                        headers : {"Content-Type": 'application/json'}
+                    })
+                    .then((response) => {
+                        console.log(response.data);
+                        axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.accessToken}`;
+                        console.log(axios.defaults.headers.common["Authorization"]);
 
+                        setCookies('accessToken',
+                            axios.defaults.headers.common["Authorization"],
+                            {
+                                path:"/"
+                            }
+                            )
+                        axios.get("http://localhost:8080/member/me")
+                            .then((response) => {
+                                console.log(response.data);
+                            })
+                            .catch((response) => { console.log('Error!') });
+                    })
+                    .catch((response) => { console.log('Error!') });
             }}>로그인</button>
         </div>
     )
