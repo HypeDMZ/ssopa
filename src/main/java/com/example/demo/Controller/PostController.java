@@ -37,5 +37,10 @@ public class PostController {
         return ResponseEntity.ok(postService.readpost(id));
     }
 
+    @GetMapping("/delete/{id}")
+    @ApiOperation(value = "게시글 지우기 불러오기")
+    public ResponseEntity<PostDeleteDto> DeletePost(@PathVariable(name = "id") Long id) {
+        return ResponseEntity.ok(postService.deletepost(id));
+    }
 
 }

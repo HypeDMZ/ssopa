@@ -37,8 +37,8 @@ public class Post {
     private LocalDateTime created_date;
     @Column()
     private LocalDateTime modified_date;
-
-
+    @Column()
+    private Long user_id;
   }
 
 
