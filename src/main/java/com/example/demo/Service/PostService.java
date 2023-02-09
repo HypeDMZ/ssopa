@@ -44,6 +44,7 @@ public class PostService {
                 .deleteYn(Boolean.FALSE)
                 .noticeYn(Boolean.FALSE)
                 .view_cnt(0)
+                .user_id(member.getId())
                 .build();
         return PostResponseDto.of(postRepository.save(post));
     }
@@ -55,6 +56,20 @@ public class PostService {
         Post post = postRepository.findById(id).orElseThrow(() -> new RuntimeException("게시글 정보가 없습니다"));
 
         return PostReadDto.of(post);
+    }
+
+    @Transactional
+    public PostDeleteDto deletepost (Long id) {
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
+        System.out.println("로그인 정보 : "+member.getEmail());
+        Post post = postRepository.findById(id).orElseThrow(() -> new RuntimeException("게시글 정보가 없습니다"));
+        // post 데이터베이스 지우기
+        if (post.getUser_id() == member.getId()) {
+            postRepository.delete(post);
+            return PostDeleteDto.of(post);
+        } else {
+            return null;
+        }
     }
 
 
