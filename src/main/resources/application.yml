@@ -22,6 +22,16 @@ spring:
 logging:
     level:
         com.tutorial: debug
+server:
+    ssl:
+        enabled: true
+        key-store: src/main/resources/kanu-keystore.p12
+        key-store-password: 123456
+        key-store-type: PKCS12
+        key-alias: kanu-keystore
+    port: 8080
+    http2:
+        enabled: true
 
 jwt:
     secret: c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXR1dG9yaWFsLWppd29vbi1zcHJpbmctYm9vdC1zZWN1cml0eS1qd3QtdHV0b3JpYWwK
