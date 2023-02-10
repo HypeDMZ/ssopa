@@ -30,7 +30,7 @@ function Signup(props){
             <div>
                 <button onClick={ ()=>{
                     console.log(SignUpDataJSON);
-                    axios.post("http://localhost:8080/auth/signup",
+                    axios.post("https://localhost:8080/auth/signup",
                         SignUpDataJSON,
                         {
                             withCredentials : true,
