@@ -4,23 +4,32 @@ import lombok.*;
 
 import javax.persistence.*;
 
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 @Getter
-@Setter
-@Entity
-@ToString
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "refresh_token")
+@Entity
+@Builder
 public class RefreshToken {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String email;
 
-    @Column()
-    private String userid;
+    @Column(nullable = false)
+    private String value;
 
-    @Column()
-    private String refreshToken;
+    public void updateValue(String token) {
+        this.value = token;
+    }
 
 
 }

@@ -3,6 +3,8 @@ package com.example.demo.entity;
 import javax.persistence.*;
 import lombok.*;
 
+import java.util.stream.Collectors;
+
 @Getter
 @Setter
 @Entity
@@ -42,4 +44,6 @@ public class Member {
         this.nickname = nickname;
         this.authority = authority;
     }
+
+
 }

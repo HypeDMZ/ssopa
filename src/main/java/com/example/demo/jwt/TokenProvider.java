@@ -30,16 +30,22 @@ public class TokenProvider {
 
     private static final String AUTHORITIES_KEY = "auth";
     private static final String BEARER_TYPE = "bearer";
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30;
+    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30; //30분
+
+    private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24; //24시간
     private final Key key;
+
+    private final Key key4refresh;
     private final RefreshTokenRepository refreshTokenRepository;
 
 
     // 주의점: 여기서 @Value는 `springframework.beans.factory.annotation.Value`소속이다! lombok의 @Value와 착각하지 말것!
     //     * @param secretKey
-    public TokenProvider(@Value("${jwt.secret}") String secretKey, RefreshTokenRepository refreshTokenRepository) {
+    public TokenProvider(@Value("${jwt.secret}") String secretKey,@Value("${jwt.refresh-secret}") String refreshSecretKey, RefreshTokenRepository refreshTokenRepository) {
         this.refreshTokenRepository = refreshTokenRepository;
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+        byte[] keyBytes2 = Decoders.BASE64.decode(refreshSecretKey);
+        this.key4refresh = Keys.hmacShaKeyFor(keyBytes2);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
@@ -66,21 +72,16 @@ public class TokenProvider {
                 .compact();
 
         // refresh token 구현
-        Date refreshtokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME * 2);
+        Date refreshtokenExpiresIn = new Date(now + REFRESH_TOKEN_EXPIRE_TIME);
         String refreshToken = Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim(AUTHORITIES_KEY, authorities)
                 .setExpiration(refreshtokenExpiresIn)
-                .signWith(key, SignatureAlgorithm.HS512)
+                .signWith(key4refresh, SignatureAlgorithm.HS512)
                 .compact();
 
-        RefreshToken refresh = RefreshToken.builder()
-                .refreshToken(refreshToken)
-                .userid(authentication.getName())
-                .build();
 
-        // database에 refresh token 저장
-        refreshTokenRepository.save(refresh);
+
 
         return TokenDto.builder()
                 .grantType(BEARER_TYPE)
@@ -124,15 +125,10 @@ public class TokenProvider {
         return false;
     }
 
-    public TokenDto refreshToken(String email, String refreshToken) {
+    public boolean validateRefreshToken(String token) {
         try {
-            Claims claims = parseClaims(refreshToken);
-            if (claims.get(AUTHORITIES_KEY) == null) {
-                throw new RuntimeException("권한 정보가 없는 토큰입니다.");
-            }
-            if (claims.getSubject().equals(email)) {
-                return generateTokenDto(getAuthentication(refreshToken));
-            }
+            Jwts.parserBuilder().setSigningKey(key4refresh).build().parseClaimsJws(token);
+            return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.info("잘못된 JWT 서명입니다.");
         } catch (ExpiredJwtException e) {
@@ -142,8 +138,9 @@ public class TokenProvider {
         } catch (IllegalArgumentException e) {
             log.info("JWT 토큰이 잘못되었습니다.");
         }
-        return null;
+        return false;
     }
+
 
     private Claims parseClaims(String accessToken) {
         try {
@@ -151,5 +148,15 @@ public class TokenProvider {
         } catch (ExpiredJwtException e) {
             return e.getClaims();
         }
+    }
+
+    /**
+     *
+     * @param token
+     * @return 토큰 값을 파싱하여 클레임에 담긴 이메일 값을 가져온다.
+     */
+    public String getMemberEmailByToken(String token) {
+        // 토큰의 claim 의 sub 키에 이메일 값이 들어있다.
+        return this.parseClaims(token).getSubject();
     }
 }
