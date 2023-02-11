@@ -1,12 +1,12 @@
 package com.example.demo.Service;
 
-import com.example.demo.dto.LoginDto;
-import com.example.demo.dto.MemberRequestDto;
-import com.example.demo.dto.MemberResponseDto;
-import com.example.demo.dto.TokenDto;
+import antlr.Token;
+import com.example.demo.dto.*;
 import com.example.demo.entity.Member;
+import com.example.demo.entity.RefreshToken;
 import com.example.demo.jwt.TokenProvider;
 import com.example.demo.repository.MemberRepository;
+import com.example.demo.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,6 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Ref;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -22,7 +24,12 @@ public class AuthService {
     private final AuthenticationManagerBuilder managerBuilder;
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+
+    private final RefreshTokenRepository refreshTokenRepository;
     private final TokenProvider tokenProvider;
+
+    private final CustomUserDetailsService customUserDetailsService;
+
 
     public MemberResponseDto signup(MemberRequestDto requestDto) {
         if (memberRepository.existsByEmail(requestDto.getEmail())) {
@@ -38,11 +45,60 @@ public class AuthService {
 
         Authentication authentication = managerBuilder.getObject().authenticate(authenticationToken);
 
-        return tokenProvider.generateTokenDto(authentication);
+        TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
+        RefreshToken refreshToken = RefreshToken.builder()
+                .email(loginrequest.getEmail())
+                .value(tokenDto.getRefreshToken())
+                .build();
+
+        refreshTokenRepository.save(refreshToken);
+
+        return tokenDto;
     }
 
-    public TokenDto refresh(String email, String refreshToken) {
-        return tokenProvider.refreshToken(email, refreshToken);
+    @Transactional
+    public TokenDto reissue(TokenReqDto tokenRequestDto) {
+        /*
+         *  accessToken 은 JWT Filter 에서 검증되고 옴
+         * */
+        String originAccessToken = tokenRequestDto.getAccessToken();
+        String originRefreshToken = tokenRequestDto.getRefreshToken();
+
+        // refreshToken 검증
+        Boolean refreshTokenFlag = tokenProvider.validateRefreshToken(originRefreshToken);
+
+        if (refreshTokenFlag == false) {
+            throw new RuntimeException("refreshToken 이 만료되었습니다");
+        }
+
+
+        // 2. Access Token 에서 Member Email 가져오기
+        Authentication authentication = tokenProvider.getAuthentication(originAccessToken);
+        Member authMember = memberRepository.findById(Long.parseLong(authentication.getName())).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
+
+
+        // 3. 저장소에서 Member Email 를 기반으로 Refresh Token 값 가져옴
+        RefreshToken refreshToken = refreshTokenRepository.findByEmail(authMember.getEmail())
+                .orElseThrow(() -> new RuntimeException("로그아웃된 사용자 입니다"));
+
+
+        // 4. Refresh Token 일치하는지 검사
+        if (!refreshToken.getValue().equals(originRefreshToken)) {
+            throw new RuntimeException("refreshToken 이 일치하지 않습니다");
+        }
+
+        Authentication newAuthentication = tokenProvider.getAuthentication(originAccessToken);
+
+        TokenDto tokenDto= tokenProvider.generateTokenDto(newAuthentication);
+
+
+
+        // 6. 저장소 정보 업데이트 (dirtyChecking으로 업데이트)
+        refreshToken.updateValue(tokenDto.getRefreshToken());
+
+        // 토큰 발급
+        return tokenDto;
     }
+
 
 }

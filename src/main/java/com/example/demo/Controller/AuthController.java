@@ -1,10 +1,7 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Service.AuthService;
-import com.example.demo.dto.LoginDto;
-import com.example.demo.dto.MemberRequestDto;
-import com.example.demo.dto.MemberResponseDto;
-import com.example.demo.dto.TokenDto;
+import com.example.demo.dto.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,5 +31,9 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<TokenDto> login(@RequestBody LoginDto loginrequest) {
         return ResponseEntity.ok(authService.login(loginrequest));
+    }
+    @PostMapping("/reissue")
+    public ResponseEntity<TokenDto> reissue(@RequestBody TokenReqDto tokenRequestDto) {
+        return ResponseEntity.ok(authService.reissue(tokenRequestDto));
     }
 }

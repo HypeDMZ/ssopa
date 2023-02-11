@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 
@@ -33,5 +34,11 @@ public class CustomUserDetailsService implements UserDetailsService {
                 member.getPassword(),
                 Collections.singleton(grantedAuthority)
         );
+    }
+
+    @Transactional(readOnly = true)
+    public Member getMember(String email) throws RuntimeException {
+        return memberRepository.findByEmail(email)
+                .orElseThrow(()->new RuntimeException("로그인 유저 정보가 없습니다"));
     }
 }
