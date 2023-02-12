@@ -31,4 +31,11 @@ public class SmsDao {
     public boolean hasKey(String phone) {  //(6)
         return stringRedisTemplate.hasKey(PREFIX + phone);
     }
+
+    public boolean check_as_verfied(String phone) {  //(7)
+        String certkey=stringRedisTemplate.opsForValue().get(PREFIX + phone);
+        removeSmsCertification(phone);
+        createSmsCertification(phone,certkey+"1");
+        return true;
+    }
 }
