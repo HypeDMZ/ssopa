@@ -22,6 +22,9 @@ public class Member {
     private String email;
 
     @Column(nullable = false)
+    private int phonenumber;
+
+    @Column(nullable = false)
     private String password;
 
     @Column(nullable = false)
@@ -37,9 +40,10 @@ public class Member {
     public void setPassword(String password) { this.password = password; }
 
     @Builder
-    public Member(Long id, String email, String password, String nickname, Authority authority) {
+    public Member(Long id, String email, int phonenumber, String password, String nickname, Authority authority) {
         this.id = id;
         this.email = email;
+        this.phonenumber = phonenumber;
         this.password = password;
         this.nickname = nickname;
         this.authority = authority;

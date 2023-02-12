@@ -4,10 +4,18 @@ import antlr.Token;
 import com.example.demo.dto.*;
 import com.example.demo.entity.Member;
 import com.example.demo.entity.RefreshToken;
+import com.example.demo.entity.verifySms;
 import com.example.demo.jwt.TokenProvider;
 import com.example.demo.repository.MemberRepository;
 import com.example.demo.repository.RefreshTokenRepository;
+import com.example.demo.repository.VerifySmsRepository;
 import lombok.RequiredArgsConstructor;
+import net.nurigo.sdk.NurigoApp;
+import net.nurigo.sdk.message.model.Message;
+import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
+import net.nurigo.sdk.message.response.SingleMessageSentResponse;
+import net.nurigo.sdk.message.service.DefaultMessageService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -16,6 +24,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Ref;
+import java.util.HashMap;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -28,8 +38,11 @@ public class AuthService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final TokenProvider tokenProvider;
 
+    private final VerifySmsRepository verifySmsRepository;
+
     private final CustomUserDetailsService customUserDetailsService;
 
+    final DefaultMessageService messageService = NurigoApp.INSTANCE.initialize("NCSWUXEY6GVEX4US", "OAEENSHT7XUHYHJLPHUIAWVWVJSE3XC7", "https://api.coolsms.co.kr");
 
     public MemberResponseDto signup(MemberRequestDto requestDto) {
         if (memberRepository.existsByEmail(requestDto.getEmail())) {
@@ -100,5 +113,28 @@ public class AuthService {
         return tokenDto;
     }
 
+    public SmsDto PhoneNumberCheck(String phoneNumber) {
 
+        Random rand  = new Random();
+        String numStr = "";
+        for(int i=0; i<4; i++) {
+            String ran = Integer.toString(rand.nextInt(10));
+            numStr+=ran;
+        }
+        Message coolsms = new Message();
+        coolsms.setFrom("01046306320");
+        coolsms.setTo(phoneNumber);
+        coolsms.setText("[dmztime]인증번호는 [" + numStr + "] 입니다.");
+
+        SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(coolsms));
+        System.out.println(response);
+
+        verifySms verifySms = new verifySms(phoneNumber, numStr);
+        verifySmsRepository.save(verifySms);
+
+
+        return new SmsDto().builder()
+                .success(true)
+                .build();
+    }
 }
