@@ -10,7 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import org.springframework.data.annotation.Id;
 @Getter
-@RedisHash(value = "sms" , timeToLive = 180)
+@RedisHash(value = "sms" , timeToLive = 60*5)
 public class verifySms {
     @Id
     @AccessType(AccessType.Type.PROPERTY)

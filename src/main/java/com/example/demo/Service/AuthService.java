@@ -53,6 +53,12 @@ public class AuthService {
         }
 
         Member member = requestDto.toMember(passwordEncoder);
+        if(smsCertificationDao.hasKey(member.getPhonenumber())){
+            smsCertificationDao.removeSmsCertification(member.getPhonenumber());
+        }else{
+            throw new RuntimeException("비정상접근입니다");
+        }
+
         return MemberResponseDto.of(memberRepository.save(member));
     }
 
@@ -148,7 +154,7 @@ public class AuthService {
         }else{
             System.out.println("인증번호 일치");
         }
-        smsCertificationDao.removeSmsCertification(phoneNumber);
+
         return new SmsDto().builder()
                 .success(true)
                 .build();
