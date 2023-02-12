@@ -1,44 +1,95 @@
 import React, { useState, useEffect } from 'react';
+import './Singup.css';
 import axios from "axios";
+
 function Signup(props){
-    let [이메일, 이메일변경] = useState('');
-    let [비밀번호, 비밀번호변경] = useState('');
-    let [이름, 이름변경] = useState('');
-    let [SignUpDataJSON, SignUpDataJSONChange] = useState({});
+
+    const [Email, setEmail] = useState("");
+    const [Name, setName] = useState("");
+    const [Password, setPassword] = useState("");
+    const [ConfirmPassword, setConfirmPassword] = useState("");
+
+    const onEmailHandler = (event) => {
+        setEmail(event.currentTarget.value);
+    }
+    const onNameHandler = (event) => {
+        setName(event.currentTarget.value);
+    }
+    const onPasswordHandler = (event) => {
+        setPassword(event.currentTarget.value);
+    }
+    const onConfirmPasswordHandler = (event) => {
+        setConfirmPassword(event.currentTarget.value);
+    }
+    const onSubmitHandler = (event) => {
+        event.preventDefault();
+
+        if(Password !== ConfirmPassword){
+            return alert('비밀번호와 비밀번호 확인이 같지 않습니다.')
+        }
+
+        let body = {
+            email: Email,
+            name: Name,
+            password: Password,
+            confirmPassword: ConfirmPassword,
+        }
+
+        axios.post('https://dmz02.com', body)
+        .then(response => {
+            if(response.payload.success){
+                console.log(response)
+                //token.innerHTML = response.data.token;
+            }
+            else alert('error')
+        });
+    
+        /*dispatch(registerUser(body))
+        .then(response => {
+            if(response.payload.success){
+                props.history.push('/Login')
+            } else {
+                alert('Error')
+            }
+        })*/
+    }
 
 
     return (
         <div>
-            <h4>회원가입</h4>
-            <span>닉네임<input type={"text"} onChange={ (e)=>{
-                이름변경(e.target.value);
-            }}></input></span><br/>
-            <span>이메일<input type={"text"} onChange={ (e)=>{
-                이메일변경(e.target.value);
-            }}></input></span><br/>
-            <span>비밀번호<input type={"password"} onChange={ (e)=>{
-                비밀번호변경(e.target.value);
-            }}></input></span><br/>
-            <button onClick={ ()=>{
-                let SignUpData = new Object();
-                SignUpData.email = 이메일;
-                SignUpData.nickname = 이름;
-                SignUpData.password = 비밀번호;
+            <Nav></Nav>
 
-                SignUpDataJSONChange(JSON.stringify(SignUpData));
-                console.log(SignUpDataJSON);
-
-                axios.post("http://dmz.tplinkdns.com:80/auth/signup",
-                    SignUpDataJSON,
-                    {
-                        withCredentials : true,
-                        headers : {"Content-Type": 'application/json'}
-                    })
-                    .then((response) => { console.log(response.data); })
-                    .catch((response) => { console.log('Error!') });
-            }}>회원가입</button>
+            <div className='join' style={{ 
+            display: 'flex', justifyContent: 'center', alignItems: 'center', 
+            width: '100%', height: '100vh'
+            }}>
+            <form style={{ display: 'flex', flexDirection: 'column'}}
+                onSubmit={onSubmitHandler}
+            >
+                <h4>Email</h4>
+                <input className='inputBox' type='email' value={Email} placeholder = '입력해주세요' onChange={onEmailHandler}/>
+                <h4>Name</h4>
+                <input className='inputBox' type='text' value={Name} placeholder = '입력해주세요' onChange={onNameHandler}/>
+                <h4>Password</h4>
+                <input className='inputBox' type='password' value={Password} placeholder = '입력해주세요' onChange={onPasswordHandler}/>
+                <h4>Confirm Password</h4>
+                <input className='inputBox' type='password' value={ConfirmPassword} placeholder = '입력해주세요' onChange={onConfirmPasswordHandler}/>
+                <br />
+                <button className='joinB' formAction=''>
+                    회원가입
+                </button>
+            </form>
+        </div>
         </div>
     )
 }
+
+function Nav(){
+    return(
+        <div className="nav">
+            <h2>DMZ - Join</h2>
+        </div>
+    )
+  }
 
 export {Signup};
