@@ -22,11 +22,15 @@ public class MemberRequestDto {
     @ApiModelProperty(value="닉네임", example="조태완바보",required = true)
     private String nickname;
 
+    @ApiModelProperty(value="전화번호", example="01028686435",required = true)
+    private String phonenumber;
+
     public Member toMember(PasswordEncoder passwordEncoder) {
         return Member.builder()
                 .email(email)
                 .password(passwordEncoder.encode(password))
                 .nickname(nickname)
+                .phonenumber(phonenumber)
                 .authority(Authority.ROLE_USER)
                 .build();
     }
