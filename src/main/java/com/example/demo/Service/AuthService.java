@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.Ref;
 import java.util.HashMap;
 import java.util.Random;
+import com.example.demo.Service.SmsDao;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +35,8 @@ public class AuthService {
     private final AuthenticationManagerBuilder managerBuilder;
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+
+    private final SmsDao smsCertificationDao;
 
     private final RefreshTokenRepository refreshTokenRepository;
     private final TokenProvider tokenProvider;
@@ -129,12 +132,31 @@ public class AuthService {
         SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(coolsms));
         System.out.println(response);
 
-        verifySms verifySms = new verifySms(phoneNumber, numStr);
-        verifySmsRepository.save(verifySms);
+        smsCertificationDao.createSmsCertification(phoneNumber,numStr); //저장
 
 
         return new SmsDto().builder()
                 .success(true)
                 .build();
+    }
+
+
+    //사용자가 입력한 인증번호가 Redis에 저장된 인증번호와 동일한지 확인
+    public SmsDto verifySms(String certNumber,String phoneNumber) {
+        if (isVerify(certNumber,phoneNumber)) {
+            throw new RuntimeException("인증번호가 일치하지 않습니다.");
+        }else{
+            System.out.println("인증번호 일치");
+        }
+        smsCertificationDao.removeSmsCertification(phoneNumber);
+        return new SmsDto().builder()
+                .success(true)
+                .build();
+    }
+
+    private boolean isVerify(String certNumber,String phoneNumber) {
+        return !(smsCertificationDao.hasKey(phoneNumber) &&
+                smsCertificationDao.getSmsCertification(phoneNumber)
+                        .equals(certNumber));
     }
 }

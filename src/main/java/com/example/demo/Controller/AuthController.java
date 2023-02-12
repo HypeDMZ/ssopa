@@ -40,7 +40,7 @@ public class AuthController {
     }
 
     @GetMapping("/check/verifySMS")
-    public @ResponseBody ResponseEntity<SmsDto> verifySMS(@RequestParam(value="to") String to){
-        return ResponseEntity.ok(authService.PhoneNumberCheck(to));
+    public @ResponseBody ResponseEntity<SmsDto> verifySMS(@RequestParam(value="to") String to,@RequestParam(value="code") String code){
+        return ResponseEntity.ok(authService.verifySms(code,to));
     }
 }
