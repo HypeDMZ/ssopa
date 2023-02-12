@@ -53,13 +53,17 @@ public class AuthService {
         }
 
         Member member = requestDto.toMember(passwordEncoder);
-        if(smsCertificationDao.hasKey(member.getPhonenumber())){
-            smsCertificationDao.removeSmsCertification(member.getPhonenumber());
+        if(smsCertificationDao.hasKey(member.getPhonenumber())) {
+            String Origincert = smsCertificationDao.getSmsCertification(member.getPhonenumber());
+            String[] split = Origincert.split(":");
+            if(split[1].equals("01")){
+                smsCertificationDao.removeSmsCertification(member.getPhonenumber());
+                return MemberResponseDto.of(memberRepository.save(member));
+            }
         }else{
             throw new RuntimeException("비정상접근입니다");
         }
-
-        return MemberResponseDto.of(memberRepository.save(member));
+        return MemberResponseDto.of(null);
     }
 
     public TokenDto login(LoginDto loginrequest) {
@@ -138,7 +142,7 @@ public class AuthService {
         SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(coolsms));
         System.out.println(response);
 
-        smsCertificationDao.createSmsCertification(phoneNumber,numStr); //저장
+        smsCertificationDao.createSmsCertification(phoneNumber,numStr+":0"); //저장
 
 
         return new SmsDto().builder()
@@ -149,10 +153,11 @@ public class AuthService {
 
     //사용자가 입력한 인증번호가 Redis에 저장된 인증번호와 동일한지 확인
     public SmsDto verifySms(String certNumber,String phoneNumber) {
-        if (isVerify(certNumber,phoneNumber)) {
+        if (isVerify(certNumber+":0",phoneNumber)) {
             throw new RuntimeException("인증번호가 일치하지 않습니다.");
         }else{
             System.out.println("인증번호 일치");
+            smsCertificationDao.check_as_verfied(phoneNumber);
         }
 
         return new SmsDto().builder()
