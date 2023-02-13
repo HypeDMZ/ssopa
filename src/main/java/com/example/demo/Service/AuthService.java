@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Ref;
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.Random;
 import com.example.demo.Service.SmsDao;
 
@@ -129,6 +130,13 @@ public class AuthService {
     }
 
     public SmsDto PhoneNumberCheck(String phoneNumber) {
+
+        Member member = memberRepository.findByPhonenumber(phoneNumber).orElse(null);
+        if(member != null){
+            return new SmsDto().builder()
+                    .success(false)
+                    .build();
+        }
 
         Random rand  = new Random();
         String numStr = "";
