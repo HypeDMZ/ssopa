@@ -31,8 +31,9 @@ spring:
               google:
                   client-id: 271384889161-o9cpsam4g7f56o3fval002i5u9ng7hk6.apps.googleusercontent.com
                   client-secret: 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
-                  scope: profile,email
-                  redirect-uri: http://localhost:8080/login/oauth2/code/google
+                  scope: https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile
+                  redirect-uri: http://localhost:8080/app/accounts/auth/google/rediret
+
 
 logging:
     level:
