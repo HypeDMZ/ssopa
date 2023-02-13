@@ -1,0 +1,21 @@
+.layout{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    text-align: center;
+    margin: 0;
+    width:100%;
+}
+
+.main{
+    min-height: 1024px;
+    width: 100%;
+    /*height: 100%; /* 이렇게 해야 footer가 하단 고정 */
+    background-color: white;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'NotoSansKR-400';
+}
