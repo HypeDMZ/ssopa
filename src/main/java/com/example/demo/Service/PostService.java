@@ -6,6 +6,7 @@ import com.example.demo.dto.*;
 import com.example.demo.entity.Member;
 import com.example.demo.entity.Post;
 import com.example.demo.jwt.TokenProvider;
+import com.example.demo.repository.LoadPostRepository;
 import com.example.demo.repository.MemberRepository;
 import com.example.demo.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,9 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +34,8 @@ public class PostService {
     private final PostRepository postRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
+
+    private final LoadPostRepository loadPostRepository;
 
 
     @Transactional
@@ -87,5 +93,20 @@ public class PostService {
         } else {
             throw new NoSufficientPermissionException();
         }
+    }
+
+    @Transactional
+    public List<LoadDto> loadpost (String category) {
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
+        System.out.println("로그인 정보 : "+member.getEmail());
+
+        List<LoadDto> loadDtoList = Collections.emptyList();
+        if (loadPostRepository.existsPostByCategory(category)) {
+            loadDtoList = loadPostRepository.findAllByCategory(category);
+        }
+        else {
+            throw new NoSufficientPermissionException();
+        }
+        return loadDtoList;
     }
 }

@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 @RestController
 @RequiredArgsConstructor
@@ -78,4 +79,13 @@ public class PostController {
 
     }
 
+    @GetMapping("/load/{category}")
+    @ApiOperation(value = "게시글 불러오기")
+    @ApiResponse(
+            code = 403
+            , message = "게시글 삭제 권한이 없습니다."
+    )
+    public ResponseEntity<List<LoadDto>> LoadPost(@PathVariable(name = "category") String category) {
+        return ResponseEntity.ok(postService.loadpost(category));
+    }
 }
