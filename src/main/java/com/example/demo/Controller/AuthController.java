@@ -3,6 +3,7 @@ package com.example.demo.Controller;
 import com.example.demo.Service.AuthService;
 import com.example.demo.dto.*;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -42,5 +43,16 @@ public class AuthController {
     @GetMapping("/check/verifySMS")
     public @ResponseBody ResponseEntity<SmsDto> verifySMS(@RequestParam(value="to") String to,@RequestParam(value="code") String code){
         return ResponseEntity.ok(authService.verifySms(code,to));
+    }
+
+    @GetMapping("/findId")
+    @ApiOperation(value = "아이디 찾기")
+    public @ResponseBody ResponseEntity<Boolean> findID(@RequestParam(value="to") String phonenumber) {
+        return ResponseEntity.ok((authService.findID(phonenumber)));
+    }
+
+    @GetMapping("/findId/veritfySMS")
+    public @ResponseBody ResponseEntity<FindIdResponseDto> findID(@RequestParam(value="to") String to,@RequestParam(value="code") String code){
+        return ResponseEntity.ok(authService.findIdverifySms(code,to));
     }
 }
