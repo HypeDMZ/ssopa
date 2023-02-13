@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './Singup.css';
+import '../css/Singup.css';
 import axios from "axios";
 
 function Signup(props){

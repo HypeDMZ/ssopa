@@ -18,17 +18,11 @@ function Main(props){
                 background: 'blue'
             }}><Link to="/auth/signup" style={{color: 'white', textDecoration: "none"}}>회원가입</Link></button>
             <h3 onClick = {()=>{
-                removeCookies("accessToken");
+
             }
             }>DMZ project</h3>
             <p onClick={ ()=> {
-                const accessToken = getCookies("accessToken");
-                console.log(accessToken);
-                axios.get("http://localhost:8080/member/me")
-                    .then((response) => {
-                        console.log(response.data);
-                    })
-                    .catch((response) => { console.log('Error!') });
+
             }}>너도 오던가</p>
         </div>
     )

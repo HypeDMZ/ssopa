@@ -36,18 +36,6 @@ function Login(props){
                         console.log(response.data);
                         axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.accessToken}`;
                         console.log(axios.defaults.headers.common["Authorization"]);
-
-                        setCookies('accessToken',
-                            axios.defaults.headers.common["Authorization"],
-                            {
-                                path:"/"
-                            }
-                            )
-                        axios.get("http://localhost:8080/member/me")
-                            .then((response) => {
-                                console.log(response.data);
-                            })
-                            .catch((response) => { console.log('Error!') });
                     })
                     .catch((response) => { console.log('Error!') });
             }}>로그인</button>
