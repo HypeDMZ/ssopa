@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {Link} from "react-router-dom";
-import axios from 'axios';
+import axios, {get} from 'axios';
 import {setCookie,getCookie,removeCookie} from "../function/cookie";
 
 function Login(props){
@@ -36,8 +36,20 @@ function Login(props){
                         console.log(response.data);
                         axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.accessToken}`;
                         console.log(axios.defaults.headers.common["Authorization"]);
+
+                        setCookie('token', axios.defaults.headers.common["Authorization"],
+                            {
+                                path: "/"
+                            });
+
+                        console.log(getCookie('token'));
+
+                        removeCookie('token')
+
+                        console.log(getCookie('token'));
                     })
                     .catch((response) => { console.log('Error!') });
+
             }}>로그인</button>
         </div>
     )
