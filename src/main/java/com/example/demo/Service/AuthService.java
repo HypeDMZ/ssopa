@@ -1,8 +1,10 @@
 package com.example.demo.Service;
 
 import antlr.Token;
+import com.example.demo.config.SecurityUtil;
 import com.example.demo.dto.*;
 import com.example.demo.entity.Member;
+import com.example.demo.entity.Post;
 import com.example.demo.entity.RefreshToken;
 import com.example.demo.entity.verifySms;
 import com.example.demo.jwt.TokenProvider;
@@ -170,4 +172,29 @@ public class AuthService {
                 smsCertificationDao.getSmsCertification(phoneNumber)
                         .equals(certNumber));
     }
+
+
+    public boolean findID(String phonenumber) {
+        PhoneNumberCheck(phonenumber);
+        return true;
+        // 사용자가 보낸 인증 코드 receive
+       // return FindIdResponseDto.of(memberRepository.);
+    }
+
+    public FindIdResponseDto findIdverifySms(String certNumber,String phoneNumber) {
+        if (isVerify(certNumber+":0",phoneNumber)) {
+            throw new RuntimeException("인증번호가 일치하지 않습니다.");
+        }else{
+            System.out.println("인증번호 일치");
+            smsCertificationDao.removeSmsCertification(phoneNumber);
+
+            Member member = memberRepository.findByPhonenumber(phoneNumber).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
+            System.out.println("로그인 정보 : "+member.getEmail());
+
+            return new FindIdResponseDto().builder()
+                    .email(member.getEmail())
+                    .build();
+        }
+    }
+
 }

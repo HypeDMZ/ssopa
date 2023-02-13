@@ -23,6 +23,9 @@ public class Post {
     private String title;
 
     @Column(nullable = false)
+    private String category;
+
+    @Column(nullable = false)
     private String content;
 
     @Column(nullable = false)
