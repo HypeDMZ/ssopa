@@ -39,6 +39,13 @@ public class Post {
     private LocalDateTime modified_date;
     @Column()
     private Long user_id;
+
+    public void updateValue(String title, String content, LocalDateTime modified_date) {
+        this.title = title;
+        this.content = content;
+        this.modified_date=modified_date;
+    }
+
   }
 
 

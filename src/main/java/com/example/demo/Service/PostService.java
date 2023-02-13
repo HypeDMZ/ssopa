@@ -1,5 +1,6 @@
 package com.example.demo.Service;
 
+import com.example.demo.Exception.Post.NoSufficientPermissionException;
 import com.example.demo.config.SecurityUtil;
 import com.example.demo.dto.*;
 import com.example.demo.entity.Member;
@@ -59,7 +60,7 @@ public class PostService {
     }
 
     @Transactional
-    public PostDeleteDto deletepost (Long id) {
+    public PostDeleteDto deletepost (Long id) throws RuntimeException {
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
         System.out.println("로그인 정보 : "+member.getEmail());
         Post post = postRepository.findById(id).orElseThrow(() -> new RuntimeException("게시글 정보가 없습니다"));
@@ -68,9 +69,22 @@ public class PostService {
             postRepository.delete(post);
             return PostDeleteDto.of(post);
         } else {
-            return null;
+            throw new NoSufficientPermissionException();
         }
     }
 
+    @Transactional
+    public PostUpdateDto updatepost(String title, String content, Long id)  {
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
+        System.out.println("로그인 정보 : "+member.getEmail());
+        Post post = postRepository.findById(id).orElseThrow(() -> new RuntimeException("게시글 정보가 없습니다"));
+        // 저자 일치 확인 -> 아니면 error
 
+        if (post.getUser_id() == member.getId()) {
+            post.updateValue(title, content,LocalDateTime.now());
+            return PostUpdateDto.of(post);
+        } else {
+            throw new NoSufficientPermissionException();
+        }
+    }
 }
