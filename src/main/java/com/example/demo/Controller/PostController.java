@@ -31,7 +31,7 @@ public class PostController {
     @PostMapping("/add")
     @ApiOperation(value = "글 쓰기 요청")
     public ResponseEntity<PostResponseDto> NewPost(@RequestBody PostRequestDto request) {
-        return ResponseEntity.ok(postService.newpost(request.getTitle(), request.getContent()));
+        return ResponseEntity.ok(postService.newpost(request.getTitle(), request.getContent(), request.getCategory()));
     }
 
     @PostMapping("/update/{id}")
