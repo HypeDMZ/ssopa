@@ -3,6 +3,8 @@ package com.example.demo.entity;
 import javax.persistence.*;
 import lombok.*;
 
+import java.util.stream.Collectors;
+
 @Getter
 @Setter
 @Entity
@@ -16,8 +18,11 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true)
     private String email;
+
+    @Column(nullable = false,unique = true)
+    private String phonenumber;
 
     @Column(nullable = false)
     private String password;
@@ -35,11 +40,14 @@ public class Member {
     public void setPassword(String password) { this.password = password; }
 
     @Builder
-    public Member(Long id, String email, String password, String nickname, Authority authority) {
+    public Member(Long id, String email, String phonenumber, String password, String nickname, Authority authority) {
         this.id = id;
         this.email = email;
+        this.phonenumber = phonenumber;
         this.password = password;
         this.nickname = nickname;
         this.authority = authority;
     }
+
+
 }

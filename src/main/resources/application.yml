@@ -1,6 +1,10 @@
 
 
 spring:
+    redis:
+        host: localhost
+        port: 6379
+
     profiles:
       active: local
 
@@ -12,6 +16,7 @@ spring:
         driver-class-name: com.mysql.cj.jdbc.Driver
 
     jpa:
+        database: mysql
         hibernate:
             ddl-auto: update
         properties:
@@ -23,5 +28,11 @@ logging:
     level:
         com.tutorial: debug
 
+
 jwt:
     secret: c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXR1dG9yaWFsLWppd29vbi1zcHJpbmctYm9vdC1zZWN1cml0eS1qd3QtdHV0b3JpYWwK
+    refresh-secret: 7c7b4608afe05880d2cdbed9edb5c81ef8eac5271568253cbaa29ad06ed80009b319916fa1a5449dfbc679847669cd42f72599cf5c87c4f538f1feb4858e2eb3
+
+coolsms:
+    api-key: NCSWUXEY6GVEX4US
+    secret-key : OAEENSHT7XUHYHJLPHUIAWVWVJSE3XC7
