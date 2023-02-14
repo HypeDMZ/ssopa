@@ -1,0 +1,40 @@
+.layout{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    text-align: center;
+    margin: 0;
+    width:100%;
+}
+
+.main{
+    min-height: 1024px;
+    width: 100%;
+    /*height: 100%; /* 이렇게 해야 footer가 하단 고정 */
+    background-color: white;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'NotoSansKR-400';
+}
+
+.nav{
+    background : #FF9933;
+    width : 100%;
+    display : flex;
+    color : white;
+    padding : 10px;
+
+}
+
+.logo{
+    width: 10.34%;
+    height: 11.42%;
+    left: 2.4%;
+    top: 1.4%;
+
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    border-radius: 40px;
+}

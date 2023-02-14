@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {Link} from "react-router-dom";
 import axios, {get} from 'axios';
+import Layout from "./layout/Layout";
 import {setCookie,getCookie,removeCookie} from "../function/cookie";
 
 function Login(props){
@@ -15,8 +16,39 @@ function Login(props){
         loginDataJSONChange(JSON.stringify(loginData));
     },[아이디,비밀번호]);
 
+    const onLogin = () => {
+        console.log(loginDataJSON);
+        axios.post("http://localhost:8080/auth/login",
+            loginDataJSON,
+            {
+                withCredentials : true,
+                headers : {"Content-Type": 'application/json'}
+            })
+            .then((response) => {
+                console.log(response.data);
+                axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.accessToken}`;
+                console.log(axios.defaults.headers.common["Authorization"]);
+                console.log(`Bearer ${response.data.refreshToken}`);
+
+                setCookie('token',
+                    {accessToken: `Bearer ${response.data.accessToken}`
+                        ,refreshToken: `Bearer ${response.data.refreshToken}`},
+                    {
+                        path: "/"
+                    });
+
+                console.log(getCookie('token'));
+
+                removeCookie('token')
+
+                console.log(getCookie('token'));
+
+                alert("로그인 완료");
+            })
+            .catch((response) => { console.log('Error!') });
+    }
     return (
-        <div>
+        <Layout>
             <h4>홈</h4>
             <input type={"text"} onChange={ (e)=>{
                 아이디변경(e.target.value);
@@ -25,33 +57,9 @@ function Login(props){
                 비밀번호변경(e.target.value);
             }}></input><br/>
             <button onClick={ ()=>{
-                console.log(loginDataJSON);
-                axios.post("http://localhost:8080/auth/login",
-                    loginDataJSON,
-                    {
-                        withCredentials : true,
-                        headers : {"Content-Type": 'application/json'}
-                    })
-                    .then((response) => {
-                        console.log(response.data);
-                        axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.accessToken}`;
-                        console.log(axios.defaults.headers.common["Authorization"]);
-
-                        setCookie('token', axios.defaults.headers.common["Authorization"],
-                            {
-                                path: "/"
-                            });
-
-                        console.log(getCookie('token'));
-
-                        removeCookie('token')
-
-                        console.log(getCookie('token'));
-                    })
-                    .catch((response) => { console.log('Error!') });
-
+                onLogin();
             }}>로그인</button>
-        </div>
+        </Layout>
     )
 }
 
