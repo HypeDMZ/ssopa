@@ -1,7 +1,13 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Service.AuthService;
-import com.example.demo.dto.*;
+import com.example.demo.dto.auth.FindIdResponseDto;
+import com.example.demo.dto.auth.LoginDto;
+import com.example.demo.dto.auth.SmsDto;
+import com.example.demo.dto.jwt.TokenDto;
+import com.example.demo.dto.jwt.TokenReqDto;
+import com.example.demo.dto.member.MemberRequestDto;
+import com.example.demo.dto.member.MemberResponseDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -9,7 +15,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("/auth")
@@ -52,7 +57,7 @@ public class AuthController {
     }
 
     @GetMapping("/findId/veritfySMS")
-    public @ResponseBody ResponseEntity<FindIdResponseDto> findID(@RequestParam(value="to") String to,@RequestParam(value="code") String code){
+    public @ResponseBody ResponseEntity<FindIdResponseDto> findID(@RequestParam(value="to") String to, @RequestParam(value="code") String code){
         return ResponseEntity.ok(authService.findIdverifySms(code,to));
     }
 }

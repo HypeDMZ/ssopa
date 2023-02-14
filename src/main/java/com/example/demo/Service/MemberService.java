@@ -1,7 +1,7 @@
 package com.example.demo.Service;
 
 import com.example.demo.config.SecurityUtil;
-import com.example.demo.dto.MemberResponseDto;
+import com.example.demo.dto.member.MemberResponseDto;
 import com.example.demo.entity.Member;
 import com.example.demo.repository.MemberRepository;
 import javax.transaction.Transactional;
