@@ -30,7 +30,9 @@ function Login(props){
                 console.log(axios.defaults.headers.common["Authorization"]);
                 console.log(`Bearer ${response.data.refreshToken}`);
 
-                setCookie('token', `Bearer ${response.data.refreshToken}`,
+                setCookie('token',
+                    {accessToken: `Bearer ${response.data.accessToken}`
+                        ,refreshToken: `Bearer ${response.data.refreshToken}`},
                     {
                         path: "/"
                     });

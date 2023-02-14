@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../css/Singup.css';
+import Layout from '../component/layout/Layout';
 import axios from "axios";
 
 function Signup(props){
@@ -50,9 +51,7 @@ function Signup(props){
 
 
     return (
-        <div>
-            <Nav></Nav>
-
+        <Layout>
             <div className='join' style={{ 
             display: 'flex', justifyContent: 'center', alignItems: 'center', 
             width: '100%', height: '100vh'
@@ -105,7 +104,7 @@ function Signup(props){
                 </button>
             </form>
         </div>
-        </div>
+        </Layout>
     )
 }
 
@@ -129,12 +128,5 @@ function OnPhoneCheck(props){
         </>
     )
 }
-function Nav(){
-    return(
-        <div className="nav">
-            <h2>DMZ - Join</h2>
-        </div>
-    )
-  }
 
 export {Signup};

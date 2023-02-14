@@ -6,13 +6,6 @@
     border-right: none;
     border-bottom: 3px solid black;
 }
-.nav{
-    background : #FF9933;
-    width : 100%;
-    display : flex;
-    color : white;
-    padding : 10px;
-}
 .joinB{
     background-color: black;
     color: aliceblue;
