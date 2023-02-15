@@ -8,13 +8,21 @@ import com.example.demo.dto.jwt.TokenDto;
 import com.example.demo.dto.jwt.TokenReqDto;
 import com.example.demo.dto.member.MemberRequestDto;
 import com.example.demo.dto.member.MemberResponseDto;
+import io.micrometer.core.instrument.util.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/auth")
@@ -35,6 +43,15 @@ public class AuthController {
     public ResponseEntity<TokenDto> login(@RequestBody LoginDto loginrequest) {
         return ResponseEntity.ok(authService.login(loginrequest));
     }
+
+    @Operation(summary = "로그아웃")
+    @GetMapping("/logout")
+    @ApiResponse(code = 200 ,message = "로그아웃")
+    public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
+        new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder.getContext().getAuthentication());
+        return "redirect:/";
+    }
+
     @PostMapping("/reissue")
     public ResponseEntity<TokenDto> reissue(@RequestBody TokenReqDto tokenRequestDto) {
         return ResponseEntity.ok(authService.reissue(tokenRequestDto));
