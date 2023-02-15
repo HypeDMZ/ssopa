@@ -1,8 +1,11 @@
 package com.example.demo.handler;
 
 import com.example.demo.Service.ChatService;
+import com.example.demo.config.SecurityUtil;
 import com.example.demo.dto.chat.ChatMessage;
 import com.example.demo.dto.chat.ChatRoom;
+import com.example.demo.entity.Member;
+import com.example.demo.repository.MemberRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,12 +21,12 @@ public class WebSocketHandler extends TextWebSocketHandler {
     private final ObjectMapper objectMapper;
     private final ChatService chatService;
 
+
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         String payload = message.getPayload();
         log.info("{}", payload);
         ChatMessage chatMessage = objectMapper.readValue(payload, ChatMessage.class);
-        
         ChatRoom chatRoom = chatService.findRoomById(chatMessage.getRoomId());
         chatRoom.handlerActions(session, chatMessage, chatService);
     }

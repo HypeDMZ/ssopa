@@ -2,6 +2,8 @@ package com.example.demo.Controller;
 
 import com.example.demo.Service.ChatService;
 import com.example.demo.dto.chat.ChatRoom;
+import com.example.demo.dto.chat.ChatRoomCreateRequest;
+import com.example.demo.dto.member.MemberRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,12 +14,12 @@ import java.util.List;
 @RequestMapping("/chat")
 public class ChatController {
     private final ChatService chatService;
-    @PostMapping("/room")
-    public ChatRoom createRoom(@RequestBody String name) {
-        return chatService.createRoom(name);
+    @PostMapping
+    public ChatRoom createRoom(@RequestBody ChatRoomCreateRequest request) {
+        return chatService.createRoom(request);
     }
 
-    @GetMapping("/rooms")
+    @GetMapping
     public List<ChatRoom> findAllRoom() {
         return chatService.findAllRoom();
     }

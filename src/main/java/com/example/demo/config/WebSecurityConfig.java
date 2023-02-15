@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,21 +29,23 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 
 @RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity(debug = true)
 @Component
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig{
 
     private final TokenProvider tokenProvider;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/v2/api-docs",  "/configuration/ui",
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer (){
+        return (web)-> web.ignoring().antMatchers("/v2/api-docs",  "/configuration/ui",
                 "/swagger-resources", "/configuration/security",
                 "/swagger-ui.html", "/webjars/**","/swagger/**");
     }
@@ -54,43 +57,39 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
         http
-                .httpBasic().disable()
-                .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests()
-                .antMatchers("/auth/**","/api/**","/v3/api-docs","/swagger-ui/**").permitAll()
-                .antMatchers("/v2/api-docs/**").permitAll()
-                .antMatchers("/v2/api-docs").permitAll()
-                .antMatchers("/member/**").permitAll()
-                .antMatchers("/index").permitAll()
-                .antMatchers("/swagger-resources/**").permitAll()
-                .antMatchers("/swagger-resources/configuration/ui").permitAll()
-                .antMatchers("/swagger-ui/index.html").permitAll()
-                .antMatchers("/actuator/**").permitAll()
-                .antMatchers("/chat/**").permitAll()
-                .antMatchers("/chat").permitAll()
-                .antMatchers("/profile").permitAll()
-                .antMatchers("/greeting").permitAll()
-                .anyRequest().authenticated()
-
-                .and()
+                .csrf().disable()
+                .addFilterBefore(new JwtFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling()
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .accessDeniedHandler(jwtAccessDeniedHandler)
-
                 .and()
-                .addFilterBefore(new JwtFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class);
+                .authorizeHttpRequests((authz) -> authz
+                        .antMatchers("/auth/**","/api/**","/v3/api-docs","/swagger-ui/**").permitAll()
+                        .antMatchers("/v2/api-docs/**").permitAll()
+                        .antMatchers("/v2/api-docs").permitAll()
+                        .antMatchers("/member/**").permitAll()
+                        .antMatchers("/index").permitAll()
+                        .antMatchers("/swagger-resources/**").permitAll()
+                        .antMatchers("/swagger-resources/configuration/ui").permitAll()
+                        .antMatchers("/swagger-ui/index.html").permitAll()
+                        .antMatchers("/actuator/**").permitAll()
+                        .antMatchers("/chat/**").permitAll()
+                        .antMatchers("/chat").permitAll()
+                        .antMatchers("/ws/chat").permitAll()
+                        .antMatchers("/profile").permitAll()
+                        .antMatchers("/greeting").permitAll()
+                        .anyRequest().authenticated()
 
+                )
+                .httpBasic().disable();
 
-
-
-
-
-
+        return http.build();
 
 
     }
