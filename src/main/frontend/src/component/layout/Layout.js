@@ -5,7 +5,7 @@ import Header from "./Header";
 function Layout(props) {
     return (
         <div className={"layout"}>
-            <Header/>
+            <Header component= {props.component}/>
             <main className={"main"}> {props.children} </main>
             {/*<Footer />       */}
         </div>

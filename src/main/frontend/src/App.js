@@ -18,6 +18,8 @@ function App() {
                     <Route path="/auth/login" element={<Login />}></Route>
                     <Route path="/auth/signup" element={<Signup />}></Route>
                     <Route path="/Post" element={<Post/>}></Route>
+
+                    <Route path="*" element={<div>여기 아이다</div>}></Route>
                 </Routes>
             </div>
         </BrowserRouter>

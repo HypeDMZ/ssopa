@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import axios, {get} from 'axios';
 import Layout from "./layout/Layout";
 import {setCookie,getCookie,removeCookie} from "../function/cookie";
@@ -7,6 +7,8 @@ import "../css/Login.css";
 import {useMediaQuery} from "react-responsive";
 
 function Login(props){
+    const navigate = useNavigate();
+
     let [아이디, 아이디변경] = useState('');
     let [비밀번호, 비밀번호변경] = useState('');
     let [loginDataJSON, loginDataJSONChange] = useState({});
@@ -77,8 +79,18 @@ function Login(props){
         )
     }
 
+    const TopButton = () => {
+        return(
+            <div>
+                <button className={"login-nav-button"} style={{left:"67.56%", top:"3.7%"}}
+                        onClick={()=>{navigate("/auth/findId")}}>아이디 찾기</button>
+                <button className={"login-nav-button"} style={{left:"84.23%", top:"3.7%"}}
+                        onClick={()=>{navigate("/auth/findPassword")}}>비밀번호 찾기</button>
+            </div>
+        )
+    }
     return (
-        <Layout>
+        <Layout component={<TopButton/>}>
             <Min/>
         </Layout>
     )
