@@ -1,0 +1,119 @@
+.login-main{
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 68.47%;
+    height: 50%;
+    left: 16.87%;
+    top: 26.36%;
+
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 40px;
+
+    z-index: 2;
+}
+
+.login-dark{
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 68.47%;
+    height: 50%;
+    left: 18.9%;
+    top: 29.5%;
+
+    background: #000000;
+    border: 1px solid #000000;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 40px;
+
+    z-index: 1;
+}
+
+.login-title{
+    position: absolute;
+    width: 19%;
+    height: 5%;
+    left: 42%;
+    top: 29.5%;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 39px;
+    text-align: center;
+
+    color: #000000;
+
+    z-index: 3;
+}
+
+.login-option{
+    position: absolute;
+    width: 9%;
+    height: 6%;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 29px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: #000000;
+
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+    z-index: 3;
+}
+
+.login-input{
+    position: absolute;
+    width: 31.6%;
+    height: 4.78%;
+
+    background: #D9D9D9;
+    border: none;
+    z-index: 3;
+}
+
+.login-button{
+    position: absolute;
+    width: 33.54%;
+    height: 10%;
+    left: 35.62%;
+    top: 56.54%;
+
+    background: #D9D9D9;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 40px;
+
+    border: none;
+    z-index: 3;
+}
+
+.login-signup-nav{
+    position: absolute;
+    width: 23.89%;
+    height: 4%;
+    left: 42%;
+    top: 70%;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 29px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: #000000;
+    border: none;
+    z-index: 3;
+}
