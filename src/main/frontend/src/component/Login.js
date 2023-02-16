@@ -49,11 +49,6 @@ function Login(props){
                     });
 
                 console.log(getCookie('token'));
-
-                removeCookie('token')
-
-                console.log(getCookie('token'));
-
                 alert("로그인 완료");
             })
             .catch((response) => { console.log('Error!') });
@@ -89,6 +84,7 @@ function Login(props){
             </div>
         )
     }
+
     return (
         <Layout component={<TopButton/>}>
             <Min/>
