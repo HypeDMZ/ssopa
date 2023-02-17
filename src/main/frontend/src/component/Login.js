@@ -50,6 +50,8 @@ function Login(props){
 
                 console.log(getCookie('token'));
                 alert("로그인 완료");
+
+                navigate("/Post");
             })
             .catch((response) => { console.log('Error!') });
     }
@@ -80,7 +82,7 @@ function Login(props){
                 <button className={"login-nav-button"} style={{left:"67.56%", top:"3.7%"}}
                         onClick={()=>{navigate("/auth/findId")}}>아이디 찾기</button>
                 <button className={"login-nav-button"} style={{left:"84.23%", top:"3.7%"}}
-                        onClick={()=>{navigate("/auth/findPassword")}}>비밀번호 찾기</button>
+                        onClick={()=>{navigate("/auth/findpw")}}>비밀번호 찾기</button>
             </div>
         )
     }
