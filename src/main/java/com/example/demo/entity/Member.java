@@ -34,11 +34,6 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public void setPassword(String password) { this.password = password; }
 
     @Builder
     public Member(Long id, String email, String phonenumber, String password, String nickname, Authority authority) {

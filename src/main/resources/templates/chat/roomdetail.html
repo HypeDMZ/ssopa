@@ -46,19 +46,21 @@
     var sock = new SockJS("/ws/chat");
     var ws = Stomp.over(sock);
     var reconnect = 0;
+    var headers = {
+        Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2IiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjY1MjgwM30.Q84Hk6kaQSWR_dWc2Iyb8RA1YY8K-derYF2ix-JrzEOXcY9sdWTJTmLfN7vdhl_CeD6La0soijD--JbX0rp_tw'
+    }
     // vue.js
     var vm = new Vue({
         el: '#app',
         data: {
             roomId: '',
             room: {},
-            sender: '',
+            sender: '1',
             message: '',
             messages: []
         },
         created() {
             this.roomId = localStorage.getItem('wschat.roomId');
-            this.sender = localStorage.getItem('wschat.sender');
             this.findRoom();
         },
         methods: {
@@ -66,7 +68,7 @@
                 axios.get('/chat/room/'+this.roomId).then(response => { this.room = response.data; });
             },
             sendMessage: function() {
-                ws.send("/app/chat/message", {}, JSON.stringify({type:'TALK', roomId:this.roomId, sender:this.sender, message:this.message}));
+                ws.send("/app/chat/message", headers, JSON.stringify({type:'TALK', roomId:this.roomId, sender:this.sender, message:this.message}));
                 this.message = '';
             },
             recvMessage: function(recv) {
@@ -77,24 +79,24 @@
 
     function connect() {
         // pub/sub event
-        ws.connect({}, function(frame) {
-            ws.subscribe("/topic/chat/room/"+vm.$data.roomId, function(message) {
+        ws.connect(headers, function(frame) {
+            ws.subscribe("/topic/chat/room/"+vm.$data.roomId,function(message) {
                 var recv = JSON.parse(message.body);
                 vm.recvMessage(recv);
-            });
-            ws.send("/app/chat/message", {}, JSON.stringify({type:'ENTER', roomId:vm.$data.roomId, sender:vm.$data.sender}));
+            },headers);
+            ws.send("/app/chat/message",headers, JSON.stringify({type:'ENTER', roomId:vm.$data.roomId, sender:vm.$data.sender}));
         }, function(error) {
             if(reconnect++ <= 5) {
                 setTimeout(function() {
                     console.log("connection reconnect");
                     sock = new SockJS("/ws/chat");
                     ws = Stomp.over(sock);
-                    connect();
+                    connect(headers);
                 },10*1000);
             }
         });
     }
-    connect();
+    connect(headers);
 </script>
 </body>
 </html>

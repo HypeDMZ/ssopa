@@ -5,20 +5,39 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
+import lombok.*;
+
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "chat_message")
 public class ChatMessage {
+
     public enum MessageType {
         ENTER, TALK
     }
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long message_id;
+
+    @Enumerated(EnumType.STRING)
     private MessageType type;
-    //채팅방 ID
+
+    @Column(name = "room_id")
     private String roomId;
-    //보내는 사람
+
     private String sender;
-    //내용
+
     private String message;
+
+    public ChatMessage(MessageType type, String roomId, String sender, String message) {
+        this.type = type;
+        this.roomId = roomId;
+        this.sender = sender;
+        this.message = message;
+    }
 }
