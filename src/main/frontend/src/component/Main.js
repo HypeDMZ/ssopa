@@ -4,6 +4,8 @@ import {Container, Row, Col} from 'react-bootstrap';
 import "../css/Main.css";
 import logo from"../img/logo.png";
 import { useBootstrapBreakpoints } from "react-bootstrap/esm/ThemeProvider";
+import {Post_Lunch} from "./Post_Menu/Post_Lunch";
+import {Post} from "./Post";
 
 function Main(props){
 
@@ -12,18 +14,16 @@ function Main(props){
         <div className="container">
             <div className ="leftPage">
                 <div className ="video">
-                    <iframe className ="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3167.4238737627243!2d127.12666081524173!3d37.45071277981981!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca8a401f3127b%3A0x39d64e7ee201cd15!2z6rCA7LKc64yA7ZWZ6rWQ!5e0!3m2!1sko!2skr!4v1676188840683!5m2!1sko!2skr"></iframe>
-
                 </div>
             </div>
 
             <div className ="rightPage">
                 <div className ="icon"> </div>
 
-                <div className="Login">
+                <div className="Login">호
                     <button> <Link to ="/auth/login" >  <p>로그인</p> </Link> </button>
                     <button> <Link to= "/auth/signup"> <p>DMZ 회원가입</p> </Link></button>
-                    <Link to ="/auth/find" className ="find"> 아이디/비밀번호 찾기</Link>
+                    <Link to ="/auth/findid" className ="findid"> 아이디/비밀번호 찾기</Link>
                 </div>
 
                 <div className ="area">

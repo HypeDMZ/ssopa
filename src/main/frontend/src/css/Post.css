@@ -1,29 +1,64 @@
 .post-container{
     width: 100vw;
-    height: 100vh;
-    background-color: #eeeeee;
+    height: 100vw;
+    display: inline-block;
+    float: top;
+    background-color: #FF9933;
 }
 
 .post-nav{
-    float: left;
-    width: 80%;
+    width: 100%;
     height: 30%;
-    background-color: tomato;
-}
-
-.post-mainContainer
-{
-    float: top;
-    display: inline-block;
-    width: 80%;
-    height: 70%;
-    background-color: yellow;
-}
-
-.post-mypage{
     float: right;
-    display: inline-block;
-    width: 20%;
+    background-color: #FF9933;
+    display: flex;
+}
+
+.post-buttons{
+    font-size: 20px;
+    text-align: center;
+
+}
+
+.post-nav div{
+    margin-left: 10px;
+    color: black;
+}
+
+.post-contents{
+    width: 100%;
+    height: 100vh;
+    background-color: wheat;
+}
+
+.post-post{
+    width: 100%;
     height: 100%;
-    background-color: blue;
+    background-color: white;
+}
+
+.post-post tr,td,table{
+    border : 1px solid black;
+    border-collapse: collapse;
+    font-size: 20px;
+}
+
+.post-update{
+    font-size: 20px;
+    background-color: bisque;
+    border-radius: 15px;
+    float : right;
+}
+
+.post-custom{
+    height: 20%;
+    width: 100%;
+    display: flex;
+}
+
+.post-custom div{
+    overflow-y: scroll;
+    background-color: white;
+    width: 25%;
+    height: 100%;
 }
