@@ -62,12 +62,15 @@ function Login(props){
                 <div className={"login-main"}/>
                 <div className={"login-dark"}/>
                 <div className={"login-title"}>행복해지는 길</div>
+
                 <div className={"login-option"} style={{top:"38.37%" , left:"30%"}}>email</div>
                 <div className={"login-option"} style={{top:"46.87%" , left:"28%"}}>password</div>
-                <input type={"text"} className={"login-input"} style={{left: "39.1%", top: "38.28%"}}
+                <input type='text' value = {아이디} className={"login-input"} style={{left: "39.1%", top: "38.28%"}}
                        onChange={ (e)=>{아이디변경(e.target.value);}}/>
-                <input type={"password"} className={"login-input"} style={{left: "39.1%", top: "47.55%"}}
+
+                <input type='password' value = {비밀번호} className={"login-input"} style={{left: "39.1%", top: "47.55%"}}
                        onChange={ (e)=>{비밀번호변경(e.target.value);}}/>
+
                 <button className={"login-button"} onClick={ ()=>{
                     onLogin();
                 }}>로그인</button>
