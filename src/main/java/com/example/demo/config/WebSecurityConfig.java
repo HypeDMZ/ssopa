@@ -81,10 +81,12 @@ public class WebSecurityConfig{
                         .antMatchers("/actuator/**").permitAll()
                         .antMatchers("/chat/**").permitAll()
                         .antMatchers("/chat").permitAll()
+                        .antMatchers("/chat/room").permitAll()
                         .antMatchers("/ws/chat").permitAll()
                         .antMatchers("/profile").permitAll()
                         .antMatchers("/greeting").permitAll()
-                        .anyRequest().authenticated()
+                        .antMatchers("/webjars/**").permitAll()
+                        .anyRequest().permitAll()
 
                 )
                 .httpBasic().disable();

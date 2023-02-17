@@ -1,77 +1,42 @@
 package com.example.demo.Service;
 
-import com.example.demo.config.SecurityUtil;
 import com.example.demo.dto.chat.ChatRoom;
-import com.example.demo.dto.chat.ChatRoomCreateRequest;
-import com.example.demo.entity.ChatRoomEntity;
-import com.example.demo.entity.Member;
-import com.example.demo.repository.ChatRoomEntityRepository;
-import com.example.demo.repository.ChatRoomListRepository;
-import com.example.demo.repository.MemberRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.socket.TextMessage;
-import org.springframework.web.socket.WebSocketSession;
 
 import javax.annotation.PostConstruct;
-import java.io.IOException;
 import java.util.*;
 
-@Slf4j
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class ChatService {
-    private final ObjectMapper objectMapper;
+
     private Map<String, ChatRoom> chatRooms;
 
-    private final ChatRoomListRepository chatRoomListRepository;
-
-    private final ChatRoomEntityRepository chatRoomEntityRepository;
-
-    private final MemberRepository memberRepository;
-
-
     @PostConstruct
+    //의존관게 주입완료되면 실행되는 코드
     private void init() {
-        chatRooms = new LinkedHashMap<>(); //ChatService가 시작되고  채팅방 목록을 초기화 해준다.
-        // 채팅방 목록을 DB에서 가져와서 채팅방 목록에 추가해준다.
-        chatRoomListRepository.findAll().forEach(chatRoomList -> {
-            ChatRoom chatRoom = ChatRoom.builder()
-                    .roomId(chatRoomList.getRandomId())
-                    .name(chatRoomList.getRoomName())
-                    .build();
-            chatRooms.put(chatRoomList.getRandomId(), chatRoom);
-        });
+        chatRooms = new LinkedHashMap<>();
     }
 
+    //채팅방 불러오기
     public List<ChatRoom> findAllRoom() {
-        return new ArrayList<>(chatRooms.values());
+        //채팅방 최근 생성 순으로 반환
+        List<ChatRoom> result = new ArrayList<>(chatRooms.values());
+        Collections.reverse(result);
+
+        return result;
     }
 
-    public ChatRoom findRoomById(String roomId) {
+    //채팅방 하나 불러오기
+    public ChatRoom findById(String roomId) {
         return chatRooms.get(roomId);
     }
 
-    public ChatRoom createRoom(ChatRoomCreateRequest request) {
-        String randomId = UUID.randomUUID().toString();
-        ChatRoom chatRoom = ChatRoom.builder()
-                .roomId(randomId)
-                .founder_id(0l)
-                .name(request.getTitle())
-                .build();
-        chatRooms.put(randomId, chatRoom);
-        // 채팅방을 DB에 저장한다.
-        chatRoomListRepository.save(chatRoom.toEntity());
+    //채팅방 생성
+    public ChatRoom createRoom(String name) {
+        ChatRoom chatRoom = ChatRoom.create(name);
+        chatRooms.put(chatRoom.getRoomId(), chatRoom);
         return chatRoom;
-    }
-
-    public <T> void sendMessage(WebSocketSession session, T message) {
-        try{
-            session.sendMessage(new TextMessage(objectMapper.writeValueAsString(message)));
-        } catch (IOException e) {
-            log.error(e.getMessage(), e);
-        }
     }
 }
