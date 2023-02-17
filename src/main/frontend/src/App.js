@@ -8,13 +8,14 @@ import { Signup } from "./component/Signup";
 import { Post } from "./component/Post";
 
 
+
 function App() {
 
     return (
         <BrowserRouter>
             <div>
                 <Routes>
-                    <Route path="/" element={<Main />}></Route>
+                    <Route path="/" element={<Main />}> </Route>
                     <Route path="/auth/login" element={<Login />}></Route>
                     <Route path="/auth/signup" element={<Signup />}></Route>
                     <Route path="/Post" element={<Post/>}></Route>
