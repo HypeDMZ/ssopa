@@ -86,6 +86,7 @@ public class WebSecurityConfig{
                         .antMatchers("/profile").permitAll()
                         .antMatchers("/greeting").permitAll()
                         .antMatchers("/webjars/**").permitAll()
+                        .antMatchers( "/comment/**").permitAll()
                         .anyRequest().authenticated()
 
                 )
@@ -95,9 +96,6 @@ public class WebSecurityConfig{
 
 
     }
-
-
-
 
 
 
