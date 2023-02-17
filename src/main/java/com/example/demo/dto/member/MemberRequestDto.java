@@ -1,4 +1,4 @@
-package com.example.demo.dto;
+package com.example.demo.dto.member;
 
 import com.example.demo.entity.Authority;
 import com.example.demo.entity.Member;
@@ -14,12 +14,26 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class LoginDto {
+public class MemberRequestDto {
     @ApiModelProperty(value="이메일", example="ssohye@icloud.com",required = true)
     private String email;
     @ApiModelProperty(value="비밀번호", example="12345678",required = true)
     private String password;
+    @ApiModelProperty(value="닉네임", example="조태완바보",required = true)
+    private String nickname;
 
+    @ApiModelProperty(value="전화번호", example="01028686435",required = true)
+    private String phonenumber;
+
+    public Member toMember(PasswordEncoder passwordEncoder) {
+        return Member.builder()
+                .email(email)
+                .password(passwordEncoder.encode(password))
+                .nickname(nickname)
+                .phonenumber(phonenumber)
+                .authority(Authority.ROLE_USER)
+                .build();
+    }
 
     public UsernamePasswordAuthenticationToken toAuthentication() {
         return new UsernamePasswordAuthenticationToken(email, password);

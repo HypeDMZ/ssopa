@@ -1,6 +1,5 @@
-package com.example.demo.dto;
+package com.example.demo.dto.post;
 
-import com.example.demo.entity.Member;
 import com.example.demo.entity.Post;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
