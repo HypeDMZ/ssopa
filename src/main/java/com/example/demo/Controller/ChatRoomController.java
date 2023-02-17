@@ -44,4 +44,4 @@ public class ChatRoomController {
     public ChatRoom roomInfo(@PathVariable String roomId) {
         return chatService.findById(roomId);
     }
-}//
+}///
