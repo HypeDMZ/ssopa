@@ -11,7 +11,6 @@ import { FindPw } from "./component/FindPw";
 import { ShowId } from "./component/ShowId";
 import { ShowPw } from "./component/ShowPw";
 
-
 function App() {
 
     return (
@@ -22,12 +21,12 @@ function App() {
                     <Route path="/auth/login" element={<Login />}></Route>
                     <Route path="/auth/signup" element={<Signup />}></Route>
                     <Route path="/Post" element={<Post/>}></Route>
-
-                    <Route path="*" element={<div>여기 아이다</div>}></Route>
                     <Route path="/auth/findid" element={<FindId/>}></Route>
                     <Route path="/auth/findpw" element={<FindPw/>}></Route>
                     <Route path="/auth/showid" element={<ShowId/>}></Route>
                     <Route path="/auth/showpw" element={<ShowPw/>}></Route>
+
+                    <Route path="*" element={<div>여기 아이다</div>}></Route>
                 </Routes>
             </div>
         </BrowserRouter>

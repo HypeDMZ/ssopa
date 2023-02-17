@@ -1,4 +1,4 @@
-package com.example.demo.dto;
+package com.example.demo.dto.auth;
 
 
 import io.swagger.annotations.ApiModelProperty;

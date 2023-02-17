@@ -1,4 +1,4 @@
-package com.example.demo.dto;
+package com.example.demo.dto.post;
 
 import com.example.demo.entity.Post;
 import io.swagger.annotations.ApiModelProperty;

@@ -8,7 +8,7 @@ import java.time.Duration;
 
 @RequiredArgsConstructor
 @Repository
-public class SmsDao {
+public class SmsService {
 
     private final String PREFIX = "sms:";  // (1)
     private final int LIMIT_TIME = 3 * 60;  // (2)

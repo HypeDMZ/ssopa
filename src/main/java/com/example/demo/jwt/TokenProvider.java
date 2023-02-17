@@ -1,7 +1,6 @@
 package com.example.demo.jwt;
 
-import com.example.demo.dto.TokenDto;
-import com.example.demo.entity.RefreshToken;
+import com.example.demo.dto.jwt.TokenDto;
 import com.example.demo.repository.RefreshTokenRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
