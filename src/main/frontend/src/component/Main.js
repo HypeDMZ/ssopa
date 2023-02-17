@@ -20,10 +20,10 @@ function Main(props){
             <div className ="rightPage">
                 <div className ="icon"> </div>
 
-                <div className="Login">
+                <div className="Login">호
                     <button> <Link to ="/auth/login" >  <p>로그인</p> </Link> </button>
                     <button> <Link to= "/auth/signup"> <p>DMZ 회원가입</p> </Link></button>
-                    <Link to ="/auth/find" className ="find"> 아이디/비밀번호 찾기</Link>
+                    <Link to ="/auth/findid" className ="findid"> 아이디/비밀번호 찾기</Link>
                 </div>
 
                 <div className ="area">
