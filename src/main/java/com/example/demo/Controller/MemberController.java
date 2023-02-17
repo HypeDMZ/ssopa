@@ -1,20 +1,13 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Service.MemberService;
-import com.example.demo.config.SecurityUtil;
-import com.example.demo.dto.ChangeNicknameRequestDto;
-import com.example.demo.dto.ChangePasswordRequestDto;
-import com.example.demo.dto.MemberRequestDto;
-import com.example.demo.dto.MemberResponseDto;
-import com.example.demo.entity.Member;
-import com.example.demo.repository.MemberRepository;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import com.example.demo.dto.member.ChangeNicknameRequestDto;
+import com.example.demo.dto.member.ChangePasswordRequestDto;
+import com.example.demo.dto.member.MemberResponseDto;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

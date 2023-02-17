@@ -1,7 +1,7 @@
-package com.example.demo.dto;
+package com.example.demo.dto.auth;
+
 import com.example.demo.entity.Authority;
 import com.example.demo.entity.Member;
-import com.example.demo.entity.Post;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,10 +11,17 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Getter
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class FindIdResponseDto {
+@Builder
+public class LoginDto {
+    @ApiModelProperty(value="이메일", example="ssohye@icloud.com",required = true)
     private String email;
+    @ApiModelProperty(value="비밀번호", example="12345678",required = true)
+    private String password;
 
+
+    public UsernamePasswordAuthenticationToken toAuthentication() {
+        return new UsernamePasswordAuthenticationToken(email, password);
+    }
 }
