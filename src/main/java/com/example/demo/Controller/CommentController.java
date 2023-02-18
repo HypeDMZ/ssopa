@@ -32,7 +32,7 @@ public class CommentController {
 
     @Operation(summary = "댓글 달기")
     @ApiResponse(code = 200, message = "댓글 달기 성공")
-    @PostMapping("/success")
+    @PostMapping("/writecomment")
     public ResponseEntity<CommentResponseDto> postComment(@RequestBody CommentRequestDto request) {
         return ResponseEntity.ok(commentService.createComment(request.getId(), request.getBody()));
     }

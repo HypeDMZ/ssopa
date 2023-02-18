@@ -32,8 +32,8 @@ public class CommentService {
 
 
     public List<CommentResponseDto> getComment(Long id) {
-        Post post = postRepository.findById(id).orElseThrow(() -> new RuntimeException("댓글이 없습니다."));
-        List<Comment> comments = commentRepository.findAllByArticle(post);
+
+        List<Comment> comments = commentRepository.findAllByPostsId(id);
         if (comments.isEmpty()) {
             return Collections.emptyList();
         }
