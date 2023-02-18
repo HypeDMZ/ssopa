@@ -111,6 +111,7 @@ public class PostService {
         if(heartRepository.existsHeartByPostIdAndUserId(post_id, member.getId())){
             Heart heart = heartRepository.findByPostIdAndUserId(post_id, member.getId());
             heartRepository.delete(heart);
+            return HeartDto.of(heart);
         }
         else{
             Heart heart = Heart.builder()
@@ -118,7 +119,7 @@ public class PostService {
                     .userId(member.getId())
                     .build();
             heartRepository.save(heart);
+            return HeartDto.of(heart);
         }
-        return HeartDto.of(heartRepository.findByPostIdAndUserId(post_id, member.getId()));
     }
 }
