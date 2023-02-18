@@ -39,7 +39,7 @@ We welcome contributions to the project! To contribute, please follow these step
 - [Sungmin Chung](https://github.com/jione-park)
 
 #### Designer
-- [Suhyun Lim](hyunn1912@gmail.com)
+- Suhyun Lim(hyunn1912@gmail.com)
 
 ## Design tools
 - [Figma](https://www.figma.com/file/zCOEwkoaO4Ffh150D6VnBx/DMZ%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8?node-id=0%3A1&t=eaxh9W1MtBV9mL0b-0)
