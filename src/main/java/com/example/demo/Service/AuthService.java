@@ -41,9 +41,7 @@ public class AuthService {
     private final TokenProvider tokenProvider;
     private final VerifySmsRepository verifySmsRepository;
     private final CustomUserDetailsService customUserDetailsService;
-    @Value("${coolsms.api-key}")
-    private String apiKey = "NCS5XZQXZJZJZJZJ";
-    @Value("${coolsms.secret-key}")
+    private String apiKey = "NCSWUXEY6GVEX4US";
     private String apiSecret = "OAEENSHT7XUHYHJLPHUIAWVWVJSE3XC7";
     private final DefaultMessageService messageService = NurigoApp.INSTANCE.initialize(apiKey, apiSecret, "https://api.coolsms.co.kr");
 
