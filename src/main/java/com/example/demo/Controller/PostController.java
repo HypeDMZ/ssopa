@@ -18,12 +18,10 @@ import java.util.List;
 @RequestMapping("/post")
 @Api(tags = "PostController : 글 관련 요청 관련 컨트롤러")
 public class PostController {
-
     private final PostService postService;
-
-
     @PostMapping("/add")
     @ApiOperation(value = "글 쓰기 요청")
+    // ssopa02.com/post/add
     public ResponseEntity<PostResponseDto> NewPost(@RequestBody PostRequestDto request) {
         return ResponseEntity.ok(postService.newpost(request.getTitle(), request.getContent(), request.getCategory()));
     }
@@ -34,6 +32,7 @@ public class PostController {
             code = 403
             , message = "게시글 수정 권한이 없습니다."
     )
+    // ssopa02.com/post/update/{id}
     public ResponseEntity<PostUpdateDto> updatepost(@RequestBody PostUpdateDto request, @PathVariable(name = "id") Long id) {
         try{
             return ResponseEntity.ok(postService.updatepost(request.getTitle(), request.getContent(), id));
@@ -80,5 +79,11 @@ public class PostController {
     )
     public ResponseEntity<List<LoadDto>> LoadPost(@PathVariable(name = "category") String category) {
         return ResponseEntity.ok(postService.loadpost(category));
+    }
+
+    @PostMapping("/heart/{id}")
+    @ApiOperation(value = "게시글 좋아요 누르기")
+    public ResponseEntity<HeartDto> HeartPost(@PathVariable(name = "id") Long id) {
+        return ResponseEntity.ok(postService.heartpost(id));
     }
 }

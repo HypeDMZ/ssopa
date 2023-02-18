@@ -18,9 +18,6 @@ spring:
     serialization:
       fail-on-empty-beans: false
 
-
-
-
   datasource:
     url: jdbc:mysql://swiftsjh.tplinkdns.com:3306/test
     username: dmz

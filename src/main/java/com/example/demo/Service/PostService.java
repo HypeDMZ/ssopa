@@ -3,9 +3,11 @@ package com.example.demo.Service;
 import com.example.demo.Exception.Post.NoSufficientPermissionException;
 import com.example.demo.config.SecurityUtil;
 import com.example.demo.dto.post.*;
+import com.example.demo.entity.Heart;
 import com.example.demo.entity.Member;
 import com.example.demo.entity.Post;
 import com.example.demo.jwt.TokenProvider;
+import com.example.demo.repository.HeartRepository;
 import com.example.demo.repository.LoadPostRepository;
 import com.example.demo.repository.MemberRepository;
 import com.example.demo.repository.PostRepository;
@@ -23,16 +25,13 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional
 public class PostService {
-
     private final AuthenticationManagerBuilder managerBuilder;
     private final MemberRepository memberRepository;
-
     private final PostRepository postRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
-
     private final LoadPostRepository loadPostRepository;
-
+    private final HeartRepository heartRepository;
 
     @Transactional
     public PostResponseDto newpost(String title, String content, String category) {
@@ -104,5 +103,23 @@ public class PostService {
             throw new NoSufficientPermissionException();
         }
         return loadDtoList;
+    }
+
+    @Transactional
+    public HeartDto heartpost(Long post_id){
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
+        if(heartRepository.existsHeartByPostIdAndUserId(post_id, member.getId())){
+            Heart heart = heartRepository.findByPostIdAndUserId(post_id, member.getId());
+            heartRepository.delete(heart);
+            return HeartDto.of(heart);
+        }
+        else{
+            Heart heart = Heart.builder()
+                    .postId(post_id)
+                    .userId(member.getId())
+                    .build();
+            heartRepository.save(heart);
+            return HeartDto.of(heart);
+        }
     }
 }

@@ -13,7 +13,7 @@ ________________________________________________________________________________
 4. 급식, 학사일정은 글쓰기가 금지되게 한다 -> 학생들이 마음대로 바꿀상황 대비.
  */
 
-import "../css/Post.css";
+import Styled from "../css/Post.module.css";
 import {Nav, Table} from 'react-bootstrap';
 import React, {useState} from "react";
 import Logo from "../img/logo.png";
@@ -37,13 +37,13 @@ function Post()
 
     let nav = useNavigate();
     return(
-        <div className="post-Container">
-            <div className="post-nav">
+        <div className= {Styled.post_Container}>
+            <div className= {Styled.post_nav}>
 
-                <img src={Logo} width='6%' height='6%' className={"logo"} style ={{display : "inline", float : "left"}}/>
+                <img src={Logo} width='6%' height='6%' className={"Styled.logo"} style ={{display : "inline", float : "left"}}/>
 
-                <Nav variant="tabs"  defaultActiveKey="school" style={{padding : "10px", marginLeft :"20px", textDecoration : "none"}} className="post-buttons">
-                    <Nav.Item className ="post-Menu">
+                <Nav variant="tabs"  defaultActiveKey="school" style={{padding : "10px", marginLeft :"20px", textDecoration : "none"}} className={Styled.post_buttons}>
+                    <Nav.Item className = {Styled.post_Menu}>
                         <Nav.Link eventKey="school" style={{padding : "10px", marginLeft :"20px", textDecoration : "none"}}
                                   onClick={()=> {changePost("school")}}> <div>학교 게시판</div> </Nav.Link>
                     </Nav.Item>
@@ -67,14 +67,14 @@ function Post()
                                   onClick={()=> {changePost("plan")}}> <div>학교 일정</div> </Nav.Link>
                     </Nav.Item>
                 </Nav>
-                <button className="post-logout" style={{fontSize : "15px", width : "100px", color : "black", borderRadius : "15px"}}
+                <button className={Styled.post_logout} style={{fontSize : "15px", width : "100px", color : "black", borderRadius : "15px"}}
                 onClick={()=>{
                     nav('/');
                 }
                 }>로그아웃</button>
             </div>
 
-            <div className ="post-contents">
+            <div className ={Styled.post_contents}>
                 <TabContent post ={post} lunchContents={lunchContents} school ={school} changecontents={changecontents}/>
             </div>
         </div>
