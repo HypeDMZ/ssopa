@@ -30,4 +30,4 @@ public class MessageController {
         }
         sendingOperations.convertAndSend("/topic/chat/room/" + message.getRoomId(), message);
     }
-}
+}/
