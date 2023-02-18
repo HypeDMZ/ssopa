@@ -23,16 +23,12 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional
 public class PostService {
-
     private final AuthenticationManagerBuilder managerBuilder;
     private final MemberRepository memberRepository;
-
     private final PostRepository postRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
-
     private final LoadPostRepository loadPostRepository;
-
 
     @Transactional
     public PostResponseDto newpost(String title, String content, String category) {

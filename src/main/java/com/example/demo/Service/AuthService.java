@@ -19,6 +19,7 @@ import net.nurigo.sdk.message.model.Message;
 import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
 import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 import net.nurigo.sdk.message.service.DefaultMessageService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -35,25 +36,26 @@ public class AuthService {
     private final AuthenticationManagerBuilder managerBuilder;
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
-
     private final SmsService smsCertificationDao;
-
     private final RefreshTokenRepository refreshTokenRepository;
     private final TokenProvider tokenProvider;
-
     private final VerifySmsRepository verifySmsRepository;
-
     private final CustomUserDetailsService customUserDetailsService;
-
-    final DefaultMessageService messageService = NurigoApp.INSTANCE.initialize("NCSWUXEY6GVEX4US", "OAEENSHT7XUHYHJLPHUIAWVWVJSE3XC7", "https://api.coolsms.co.kr");
+    @Value("${sms.api.key}")
+    private String apiKey;
+    @Value("${sms.api.secret}")
+    private String apiSecret;
+    private final DefaultMessageService messageService = NurigoApp.INSTANCE.initialize(apiKey, apiSecret, "https://api.coolsms.co.kr");
 
     public MemberResponseDto signup(MemberRequestDto requestDto) {
         if (memberRepository.existsByEmail(requestDto.getEmail())) {
+            // validation
             throw new RuntimeException("이미 가입되어 있는 유저입니다");
         }
 
         Member member = requestDto.toMember(passwordEncoder);
         if(smsCertificationDao.hasKey(member.getPhonenumber())) {
+            // 번호인증이 완료됐는지 확인하는 로직
             String Origincert = smsCertificationDao.getSmsCertification(member.getPhonenumber());
             String[] split = Origincert.split(":");
             if(split[1].equals("01")){
@@ -68,17 +70,13 @@ public class AuthService {
 
     public TokenDto login(LoginDto loginrequest) {
         UsernamePasswordAuthenticationToken authenticationToken = loginrequest.toAuthentication();
-
         Authentication authentication = managerBuilder.getObject().authenticate(authenticationToken);
-
         TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
         RefreshToken refreshToken = RefreshToken.builder()
                 .email(loginrequest.getEmail())
                 .value(tokenDto.getRefreshToken())
                 .build();
-
         refreshTokenRepository.save(refreshToken);
-
         return tokenDto;
     }
 
@@ -92,21 +90,17 @@ public class AuthService {
 
         // refreshToken 검증
         Boolean refreshTokenFlag = tokenProvider.validateRefreshToken(originRefreshToken);
-
         if (refreshTokenFlag == false) {
             throw new RuntimeException("refreshToken 이 만료되었습니다");
         }
-
 
         // 2. Access Token 에서 Member Email 가져오기
         Authentication authentication = tokenProvider.getAuthentication(originAccessToken);
         Member authMember = memberRepository.findById(Long.parseLong(authentication.getName())).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
 
-
         // 3. 저장소에서 Member Email 를 기반으로 Refresh Token 값 가져옴
         RefreshToken refreshToken = refreshTokenRepository.findByEmail(authMember.getEmail())
                 .orElseThrow(() -> new RuntimeException("로그아웃된 사용자 입니다"));
-
 
         // 4. Refresh Token 일치하는지 검사
         if (!refreshToken.getValue().equals(originRefreshToken)) {
@@ -114,10 +108,7 @@ public class AuthService {
         }
 
         Authentication newAuthentication = tokenProvider.getAuthentication(originAccessToken);
-
         TokenDto tokenDto= tokenProvider.generateTokenDto(newAuthentication);
-
-
 
         // 6. 저장소 정보 업데이트 (dirtyChecking으로 업데이트)
         refreshToken.updateValue(tokenDto.getRefreshToken());
@@ -127,7 +118,6 @@ public class AuthService {
     }
 
     public SmsDto PhoneNumberCheck(String phoneNumber) {
-
         Random rand  = new Random();
         String numStr = "";
         for(int i=0; i<4; i++) {
@@ -138,18 +128,14 @@ public class AuthService {
         coolsms.setFrom("01046306320");
         coolsms.setTo(phoneNumber);
         coolsms.setText("[dmztime]인증번호는 [" + numStr + "] 입니다.");
-
         SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(coolsms));
         System.out.println(response);
-
         smsCertificationDao.createSmsCertification(phoneNumber,numStr+":0"); //저장
-
 
         return new SmsDto().builder()
                 .success(true)
                 .build();
     }
-
 
     //사용자가 입력한 인증번호가 Redis에 저장된 인증번호와 동일한지 확인
     public SmsDto verifySms(String certNumber,String phoneNumber) {
@@ -159,7 +145,6 @@ public class AuthService {
             System.out.println("인증번호 일치");
             smsCertificationDao.check_as_verfied(phoneNumber);
         }
-
         return new SmsDto().builder()
                 .success(true)
                 .build();
@@ -171,12 +156,11 @@ public class AuthService {
                         .equals(certNumber));
     }
 
-
     public boolean findID(String phonenumber) {
         PhoneNumberCheck(phonenumber);
         return true;
         // 사용자가 보낸 인증 코드 receive
-       // return FindIdResponseDto.of(memberRepository.);
+        // return FindIdResponseDto.of(memberRepository.);
     }
 
     public FindIdResponseDto findIdverifySms(String certNumber, String phoneNumber) {
@@ -194,5 +178,4 @@ public class AuthService {
                     .build();
         }
     }
-
 }
