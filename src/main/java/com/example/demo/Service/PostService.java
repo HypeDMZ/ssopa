@@ -2,7 +2,7 @@ package com.example.demo.Service;
 
 import com.example.demo.Exception.Post.NoSufficientPermissionException;
 import com.example.demo.config.SecurityUtil;
-import com.example.demo.dto.*;
+import com.example.demo.dto.post.*;
 import com.example.demo.entity.Member;
 import com.example.demo.entity.Post;
 import com.example.demo.jwt.TokenProvider;
@@ -10,16 +10,12 @@ import com.example.demo.repository.LoadPostRepository;
 import com.example.demo.repository.MemberRepository;
 import com.example.demo.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 

@@ -1,12 +1,14 @@
 package com.example.demo.Service;
 
-import antlr.Token;
-import com.example.demo.config.SecurityUtil;
-import com.example.demo.dto.*;
+import com.example.demo.dto.auth.FindIdResponseDto;
+import com.example.demo.dto.auth.LoginDto;
+import com.example.demo.dto.auth.SmsDto;
+import com.example.demo.dto.jwt.TokenDto;
+import com.example.demo.dto.jwt.TokenReqDto;
+import com.example.demo.dto.member.MemberRequestDto;
+import com.example.demo.dto.member.MemberResponseDto;
 import com.example.demo.entity.Member;
-import com.example.demo.entity.Post;
 import com.example.demo.entity.RefreshToken;
-import com.example.demo.entity.verifySms;
 import com.example.demo.jwt.TokenProvider;
 import com.example.demo.repository.MemberRepository;
 import com.example.demo.repository.RefreshTokenRepository;
@@ -17,7 +19,6 @@ import net.nurigo.sdk.message.model.Message;
 import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
 import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 import net.nurigo.sdk.message.service.DefaultMessageService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -25,11 +26,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Ref;
-import java.util.HashMap;
-import java.util.Optional;
 import java.util.Random;
-import com.example.demo.Service.SmsDao;
 
 @Service
 @RequiredArgsConstructor
@@ -39,7 +36,7 @@ public class AuthService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
-    private final SmsDao smsCertificationDao;
+    private final SmsService smsCertificationDao;
 
     private final RefreshTokenRepository refreshTokenRepository;
     private final TokenProvider tokenProvider;
@@ -131,13 +128,6 @@ public class AuthService {
 
     public SmsDto PhoneNumberCheck(String phoneNumber) {
 
-        Member member = memberRepository.findByPhonenumber(phoneNumber).orElse(null);
-        if(member != null){
-            return new SmsDto().builder()
-                    .success(false)
-                    .build();
-        }
-
         Random rand  = new Random();
         String numStr = "";
         for(int i=0; i<4; i++) {
@@ -189,7 +179,7 @@ public class AuthService {
        // return FindIdResponseDto.of(memberRepository.);
     }
 
-    public FindIdResponseDto findIdverifySms(String certNumber,String phoneNumber) {
+    public FindIdResponseDto findIdverifySms(String certNumber, String phoneNumber) {
         if (isVerify(certNumber+":0",phoneNumber)) {
             throw new RuntimeException("인증번호가 일치하지 않습니다.");
         }else{
