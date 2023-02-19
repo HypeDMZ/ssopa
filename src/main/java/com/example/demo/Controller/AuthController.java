@@ -1,9 +1,7 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Service.AuthService;
-import com.example.demo.dto.auth.FindIdResponseDto;
-import com.example.demo.dto.auth.LoginDto;
-import com.example.demo.dto.auth.SmsDto;
+import com.example.demo.dto.auth.*;
 import com.example.demo.dto.jwt.TokenDto;
 import com.example.demo.dto.jwt.TokenReqDto;
 import com.example.demo.dto.member.MemberRequestDto;
@@ -53,14 +51,14 @@ public class AuthController {
         return ResponseEntity.ok(authService.verifySms(code,to)); // Returns an HTTP OK response with the result of the verifySms() method
     }
 
-    @GetMapping("/findId") // Maps HTTP GET requests for the "/findId" endpoint to the findID() method
+    @PostMapping("/findId") // Maps HTTP GET requests for the "/findId" endpoint to the findID() method
     @ApiOperation(value = "아이디 찾기") // Provides metadata for the Swagger documentation
-    public @ResponseBody ResponseEntity<Boolean> findID(@RequestParam(value="to") String phonenumber) {
-        return ResponseEntity.ok((authService.findID(phonenumber))); // Returns an HTTP OK response with the result of the findID() method
+    public @ResponseBody ResponseEntity<Boolean> findID(@RequestBody FindIdDto dto) {
+        return ResponseEntity.ok((authService.findID(dto.getPhonenumber()))); // Returns an HTTP OK response with the result of the findID() method
     }
 
-    @GetMapping("/findId/veritfySMS") // Maps HTTP GET requests for the "/findId/veritfySMS" endpoint to the findID() method
-    public @ResponseBody ResponseEntity<FindIdResponseDto> findID(@RequestParam(value="to") String to, @RequestParam(value="code") String code){
-        return ResponseEntity.ok(authService.findIdverifySms(code,to)); // Returns an HTTP OK response with the result of the findIdverifySms() method
+    @PostMapping("/findId/veritfySMS") // Maps HTTP GET requests for the "/findId/veritfySMS" endpoint to the findID() method
+    public @ResponseBody ResponseEntity<FindIdResponseDto> findVerifyedID(@RequestBody FindVerifyedDto dto){
+        return ResponseEntity.ok(authService.findIdverifySms(dto.getCode(),dto.getPhonenumber())); // Returns an HTTP OK response with the result of the findIdverifySms() method
     }
 }

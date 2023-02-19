@@ -160,8 +160,6 @@ public class AuthService {
     public boolean findID(String phonenumber) {
         PhoneNumberCheck(phonenumber);
         return true;
-        // 사용자가 보낸 인증 코드 receive
-        // return FindIdResponseDto.of(memberRepository.);
     }
 
     public FindIdResponseDto findIdverifySms(String certNumber, String phoneNumber) {
