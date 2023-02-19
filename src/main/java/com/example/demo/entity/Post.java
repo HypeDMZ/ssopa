@@ -12,8 +12,6 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-
-
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,7 +39,7 @@ public class Post {
     @Column()
     private LocalDateTime modified_date;
     @Column()
-    private Long user_id;
+    private Long userId;
 
     public void updateValue(String title, String content, LocalDateTime modified_date) {
         this.title = title;

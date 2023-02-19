@@ -1,5 +1,5 @@
 import React from "react";
-
+import Styled from "../../css/Post.module.css"
 function Post_Lunch({lunchContents}){
     return(
         <div>

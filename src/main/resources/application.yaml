@@ -18,9 +18,6 @@ spring:
     serialization:
       fail-on-empty-beans: false
 
-
-
-
   datasource:
     url: jdbc:mysql://swiftsjh.tplinkdns.com:3306/test
     username: dmz
@@ -53,6 +50,6 @@ jwt:
   secret: c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXR1dG9yaWFsLWppd29vbi1zcHJpbmctYm9vdC1zZWN1cml0eS1qd3QtdHV0b3JpYWwK
   refresh-secret: 7c7b4608afe05880d2cdbed9edb5c81ef8eac5271568253cbaa29ad06ed80009b319916fa1a5449dfbc679847669cd42f72599cf5c87c4f538f1feb4858e2eb3
 
-coolsms:
-  api-key: NCSWUXEY6GVEX4US
+sms:
+  api-key : "NCSWUXEY6GVEX4US"
   secret-key : OAEENSHT7XUHYHJLPHUIAWVWVJSE3XC7
