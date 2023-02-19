@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Table(name = "comments")
 @Entity
 public class Comment {
 
@@ -25,16 +24,8 @@ public class Comment {
     @CreatedDate
     private String createdDate;
 
-    @Column(name = "modified_date")
-    @LastModifiedDate
-    private String modifiedDate;
-
-
-  //  @ManyToOne // 댓글의 입장에서는 게시글과 사용자는 다대일 관계
     @Column()
     private Long userId;
     @Column()
     private Long postId;
-
-//    private Long post_id;
 }
