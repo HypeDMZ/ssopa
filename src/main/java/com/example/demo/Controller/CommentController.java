@@ -33,7 +33,7 @@ public class CommentController {
 
     @Operation(summary = "댓글 리스트")
     @ApiResponse(code = 200, message = "댓글 목록 불러오기")
-    @GetMapping("/CommentList")
+    @GetMapping("/list")
     public ResponseEntity<List<LoadDto>> getComments(@RequestParam(name = "id") Long id) {
         return ResponseEntity.ok(commentService.getComment(id));
    }
@@ -47,7 +47,7 @@ public class CommentController {
     }
 
  */
-    @PostMapping("/add")
+    @PostMapping("/write")
     @ApiOperation(value = "댓글 달기 요청")
     // ssopa02.com/post/add
     public ResponseEntity<CommentResponseDto> createComment(@RequestBody CommentRequestDto request) {
