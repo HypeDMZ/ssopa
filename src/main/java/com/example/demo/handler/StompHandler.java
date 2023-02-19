@@ -53,9 +53,9 @@ public class StompHandler implements ChannelInterceptor {
 
         String token = authorizationHeader.substring(BEARER_PREFIX.length());
         // 토큰 검증  테스트 용으로 꺼둠
-//        if(jwtService.validateToken(token)==false){
-//            throw new RuntimeException("토큰 검증 실패");
-//        }
+        if(jwtService.validateToken(token)==false){
+            throw new RuntimeException("토큰 검증 실패");
+        }
 
 
 

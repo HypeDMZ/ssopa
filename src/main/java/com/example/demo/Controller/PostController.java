@@ -81,6 +81,21 @@ public class PostController {
         return ResponseEntity.ok(postService.loadpost(category));
     }
 
+    @GetMapping("/writed/load")
+    @ApiOperation(value = "내가 쓴 게시글 불러오기")
+    public ResponseEntity<List<LoadDto>> LoadMyPost() {
+        return ResponseEntity.ok(postService.myWritePost());
+    }
+
+    /**
+    @GetMapping("/load/comment")
+    @ApiOperation(value = "내가 쓴 댓글의 게시글 불러오기")
+    public ResponseEntity<List<LoadDto>> LoadMyComment() {
+        // TODO : 내가 쓴 댓글의 게시글 불러오기
+        return ResponseEntity.ok(null);
+    }
+     */
+
     @PostMapping("/heart/{id}")
     @ApiOperation(value = "게시글 좋아요 누르기")
     public ResponseEntity<HeartDto> HeartPost(@PathVariable(name = "id") Long id) {
