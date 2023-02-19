@@ -29,11 +29,12 @@ public class Comment {
     @LastModifiedDate
     private String modifiedDate;
 
-    @ManyToOne // 댓글의 입장에서는 게시글과 사용자는 다대일 관계
-    @JoinColumn(name = "posts_id")
-    private Post posts;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private Member member; // 작성자
+  //  @ManyToOne // 댓글의 입장에서는 게시글과 사용자는 다대일 관계
+    @Column()
+    private Long userId;
+    @Column()
+    private Long postId;
+
+//    private Long post_id;
 }
