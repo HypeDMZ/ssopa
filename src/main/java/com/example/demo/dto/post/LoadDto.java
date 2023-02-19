@@ -21,7 +21,6 @@ public class LoadDto {
     private boolean noticeYn;
     private LocalDateTime modified_date;
 
-
     public static LoadDto of(Post post) {
         return LoadDto.builder()
                 .id(post.getId())
