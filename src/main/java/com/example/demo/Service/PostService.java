@@ -39,7 +39,7 @@ public class PostService {
         System.out.println("로그인 정보 : "+member.getEmail());
         Post post = Post.builder()
                 .title(title)
-                .writer(member.getNickname())
+                .writer(member.getName())
                 .content(content)
                 .category(category)
                 .created_date(LocalDateTime.now())
@@ -47,7 +47,7 @@ public class PostService {
                 .deleteYn(Boolean.FALSE)
                 .noticeYn(Boolean.FALSE)
                 .view_cnt(0)
-                .user_id(member.getId())
+                .userId(member.getId())
                 .build();
         return PostResponseDto.of(postRepository.save(post));
     }
@@ -67,7 +67,7 @@ public class PostService {
         System.out.println("로그인 정보 : "+member.getEmail());
         Post post = postRepository.findById(id).orElseThrow(() -> new RuntimeException("게시글 정보가 없습니다"));
         // post 데이터베이스 지우기
-        if (post.getUser_id() == member.getId()) {
+        if (post.getUserId() == member.getId()) {
             postRepository.delete(post);
             return PostDeleteDto.of(post);
         } else {
@@ -82,7 +82,7 @@ public class PostService {
         Post post = postRepository.findById(id).orElseThrow(() -> new RuntimeException("게시글 정보가 없습니다"));
         // 저자 일치 확인 -> 아니면 error
 
-        if (post.getUser_id() == member.getId()) {
+        if (post.getUserId() == member.getId()) {
             post.updateValue(title, content,LocalDateTime.now());
             return PostUpdateDto.of(post);
         } else {
@@ -95,7 +95,7 @@ public class PostService {
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
         System.out.println("로그인 정보 : "+member.getEmail());
 
-        List<LoadDto> loadDtoList = Collections.emptyList();
+        List<LoadDto> loadDtoList;
         if (loadPostRepository.existsPostByCategory(category)) {
             loadDtoList = loadPostRepository.findAllByCategory(category);
         }
@@ -121,5 +121,20 @@ public class PostService {
             heartRepository.save(heart);
             return HeartDto.of(heart);
         }
+    }
+
+    @Transactional
+    public List<LoadDto> myWritePost () {
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
+        System.out.println("로그인 정보 : "+member.getEmail());
+
+        List<LoadDto> loadDtoList;
+        if (loadPostRepository.findAllByUserId(member.getId()) != null) {
+            loadDtoList = loadPostRepository.findAllByUserId(member.getId());
+        }
+        else {
+            throw new NoSufficientPermissionException();
+        }
+        return loadDtoList;
     }
 }

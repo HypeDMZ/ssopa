@@ -12,7 +12,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     Optional<Member> findByPhonenumber(String phonenumber);
 
-
+    Optional<Member> findByNameAndPhonenumber(String name, String phonenumber);
 
 }
 

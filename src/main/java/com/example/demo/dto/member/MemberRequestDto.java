@@ -19,9 +19,8 @@ public class MemberRequestDto {
     private String email;
     @ApiModelProperty(value="비밀번호", example="12345678",required = true)
     private String password;
-    @ApiModelProperty(value="닉네임", example="조태완바보",required = true)
-    private String nickname;
-
+    @ApiModelProperty(value="이름", example="조태완바보",required = true)
+    private String name;
     @ApiModelProperty(value="전화번호", example="01028686435",required = true)
     private String phonenumber;
 
@@ -29,7 +28,7 @@ public class MemberRequestDto {
         return Member.builder()
                 .email(email)
                 .password(passwordEncoder.encode(password))
-                .nickname(nickname)
+                .name(name)
                 .phonenumber(phonenumber)
                 .authority(Authority.ROLE_USER)
                 .build();

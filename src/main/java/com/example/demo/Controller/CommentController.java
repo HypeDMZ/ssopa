@@ -1,12 +1,20 @@
 package com.example.demo.Controller;
 
 import java.util.*;
+
+import com.example.demo.Exception.Post.NoSufficientPermissionException;
 import com.example.demo.Service.CommentService;
+import com.example.demo.dto.Comment.CommentDeleteDto;
 import com.example.demo.dto.Comment.CommentRequestDto;
 import com.example.demo.dto.Comment.CommentResponseDto;
 
 import com.example.demo.dto.Message.MessageDto;
+import com.example.demo.dto.Comment.LoadCommentDto;
+import com.example.demo.dto.post.PostDeleteDto;
+import com.example.demo.dto.post.PostRequestDto;
+import com.example.demo.dto.post.PostResponseDto;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -23,25 +31,36 @@ import org.springframework.web.bind.annotation.*;
 public class CommentController {
     private final CommentService commentService;
 
-    @Operation(summary = "댓글 리스트")
-    @ApiResponse(code = 200, message = "댓글 목록 불러오기")
-    @GetMapping("/list")
-    public ResponseEntity<List<CommentResponseDto>> getComments(@RequestParam(name = "id") Long id) {
-        return ResponseEntity.ok(commentService.getComment(id));
+    @GetMapping("/list/{postId}")
+    @ApiOperation(value = "댓글 불러오기")
+    public ResponseEntity<List<LoadCommentDto>> LoadComment(@PathVariable(name = "postId") Long postId) {
+        return ResponseEntity.ok(commentService.loadComment(postId));
     }
-
-    @Operation(summary = "댓글 달기")
-    @ApiResponse(code = 200, message = "댓글 달기 성공")
-    @PostMapping("/writecomment")
-    public ResponseEntity<CommentResponseDto> postComment(@RequestBody CommentRequestDto request) {
-        return ResponseEntity.ok(commentService.createComment(request.getId(), request.getBody()));
+    @PostMapping("/write")
+    @ApiOperation(value = "댓글 달기 요청")
+    // ssopa02.com/post/add
+    public ResponseEntity<CommentResponseDto> createComment(@RequestBody CommentRequestDto request) {
+        return ResponseEntity.ok(commentService.createComment(request.getId(), request.getComment()));
     }
 
     @Operation(summary = "댓글 삭제")
-    @ApiResponse(code = 200, message = "댓글 삭제 성공")
-    @PostMapping("/one")
-    public ResponseEntity<MessageDto> deleteComment(@RequestParam(name = "id") Long id) {
-        commentService.removeComment(id);
-        return ResponseEntity.ok(new MessageDto("Success"));
+    @GetMapping("/delete/{id}")
+    @ApiOperation(value = "게시글 지우기 불러오기")
+    @ApiResponse(
+            code = 403
+            , message = "게시글 삭제 권한이 없습니다."
+    )
+    public ResponseEntity<CommentDeleteDto> removeComment(@PathVariable(name = "id") Long id) {
+        try{
+            return ResponseEntity.ok(commentService.removeComment(id));
+        }catch (NoSufficientPermissionException e){
+            return ResponseEntity.status(403).build();
+        }catch (RuntimeException e){
+            return ResponseEntity.badRequest().build();
+        }catch (Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+
     }
+
 }

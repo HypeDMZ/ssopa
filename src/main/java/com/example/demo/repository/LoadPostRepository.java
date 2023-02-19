@@ -10,11 +10,14 @@ import java.util.List;
 
 @Service
 @Transactional
-public interface LoadPostRepository extends JpaRepository<Post, String> {
+public interface LoadPostRepository extends JpaRepository<Post, Long> {
 
     // 게시글 목록
     List<LoadDto> findAllByCategory(String category);
 
     // 게시글 총 갯수
     boolean existsPostByCategory(String category);
+
+    // 내가 쓴 글
+    List<LoadDto> findAllByUserId(Long user_id);
 }

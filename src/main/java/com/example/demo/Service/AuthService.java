@@ -3,6 +3,7 @@ package com.example.demo.Service;
 import com.example.demo.dto.auth.FindIdResponseDto;
 import com.example.demo.dto.auth.LoginDto;
 import com.example.demo.dto.auth.SmsDto;
+import com.example.demo.dto.auth.SuccessDto;
 import com.example.demo.dto.jwt.TokenDto;
 import com.example.demo.dto.jwt.TokenReqDto;
 import com.example.demo.dto.member.MemberRequestDto;
@@ -24,11 +25,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Random;
 
+@Component
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -41,6 +44,7 @@ public class AuthService {
     private final TokenProvider tokenProvider;
     private final VerifySmsRepository verifySmsRepository;
     private final CustomUserDetailsService customUserDetailsService;
+
     private String apiKey = "NCSWUXEY6GVEX4US";
     private String apiSecret = "OAEENSHT7XUHYHJLPHUIAWVWVJSE3XC7";
     private final DefaultMessageService messageService = NurigoApp.INSTANCE.initialize(apiKey, apiSecret, "https://api.coolsms.co.kr");
@@ -154,11 +158,13 @@ public class AuthService {
                         .equals(certNumber));
     }
 
-    public boolean findID(String phonenumber) {
-        PhoneNumberCheck(phonenumber);
-        return true;
-        // 사용자가 보낸 인증 코드 receive
-        // return FindIdResponseDto.of(memberRepository.);
+    public boolean findID(String name, String phonenumber) {
+        if(memberRepository.findByNameAndPhonenumber(name,phonenumber) != null) {
+            PhoneNumberCheck(phonenumber);
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public FindIdResponseDto findIdverifySms(String certNumber, String phoneNumber) {
@@ -175,5 +181,17 @@ public class AuthService {
                     .email(member.getEmail())
                     .build();
         }
+    }
+    public SuccessDto resetPassword(String email, String password, String passwordConfirm) {
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
+
+        if(!password.equals(passwordConfirm)){
+            throw new RuntimeException("비밀번호가 일치하지 않습니다.");
+        }
+        member.setPassword(passwordEncoder.encode(password));
+        memberRepository.save(member);
+        return new SuccessDto().builder()
+                .success(true)
+                .build();
     }
 }

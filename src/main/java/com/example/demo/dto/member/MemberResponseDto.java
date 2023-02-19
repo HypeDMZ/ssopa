@@ -20,7 +20,7 @@ public class MemberResponseDto {
     public static MemberResponseDto of(Member member) {
         return MemberResponseDto.builder()
                 .email(member.getEmail())
-                .nickname(member.getNickname())
+                .nickname(member.getName())
                 .build();
     }
 }

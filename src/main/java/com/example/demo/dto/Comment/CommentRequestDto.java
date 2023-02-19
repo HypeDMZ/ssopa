@@ -14,6 +14,6 @@ import java.time.format.DateTimeFormatter;
 @Builder
 @Getter
 public class CommentRequestDto {
-    private Long Id;
-    private String body;
+    private Long id;
+    private String comment;
 }

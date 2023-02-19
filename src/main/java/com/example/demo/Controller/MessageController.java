@@ -22,7 +22,7 @@ public class MessageController {
     @MessageMapping("/chat/message")
     public void enter(ChatMessage message, @Header("sender") String sender) {
         Optional<Member> member = memberRepository.findById(Long.parseLong(sender));
-        sender = member.get().getNickname();
+        sender = member.get().getName();
 
         message.setSender(sender);
         if (ChatMessage.MessageType.ENTER.equals(message.getType())) {
