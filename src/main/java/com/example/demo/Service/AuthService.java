@@ -24,11 +24,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Random;
 
+@Component
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -41,6 +43,7 @@ public class AuthService {
     private final TokenProvider tokenProvider;
     private final VerifySmsRepository verifySmsRepository;
     private final CustomUserDetailsService customUserDetailsService;
+
     private String apiKey = "NCSWUXEY6GVEX4US";
     private String apiSecret = "OAEENSHT7XUHYHJLPHUIAWVWVJSE3XC7";
     private final DefaultMessageService messageService = NurigoApp.INSTANCE.initialize(apiKey, apiSecret, "https://api.coolsms.co.kr");
