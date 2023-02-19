@@ -16,7 +16,6 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/post")
-@CrossOrigin(origins = "http://localhost:3000")
 @Api(tags = "PostController : 글 관련 요청 관련 컨트롤러")
 public class PostController {
     private final PostService postService;
