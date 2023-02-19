@@ -3,6 +3,7 @@ package com.example.demo.Service;
 import com.example.demo.dto.auth.FindIdResponseDto;
 import com.example.demo.dto.auth.LoginDto;
 import com.example.demo.dto.auth.SmsDto;
+import com.example.demo.dto.auth.SuccessDto;
 import com.example.demo.dto.jwt.TokenDto;
 import com.example.demo.dto.jwt.TokenReqDto;
 import com.example.demo.dto.member.MemberRequestDto;
@@ -180,5 +181,17 @@ public class AuthService {
                     .email(member.getEmail())
                     .build();
         }
+    }
+    public SuccessDto resetPassword(String email, String password, String passwordConfirm) {
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
+
+        if(!password.equals(passwordConfirm)){
+            throw new RuntimeException("비밀번호가 일치하지 않습니다.");
+        }
+        member.setPassword(passwordEncoder.encode(password));
+        memberRepository.save(member);
+        return new SuccessDto().builder()
+                .success(true)
+                .build();
     }
 }
