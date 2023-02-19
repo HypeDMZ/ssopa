@@ -1,4 +1,5 @@
 import React from "react";
+import Styled from "../../css/Post.module.css";
 
 function Post_Active(){
     return (

@@ -1,18 +1,18 @@
 import React from "react";
-
+import Styled from "../../css/Post.module.css"
 function Post_School({school, changecontents})
 {
-    return (<div className="post-post">
-        <div className="post-custom">
-            <div className="post-custom1"> <a href ="#">게시판1</a> </div>
+    return (<div className={Styled.post_post}>
+        <div className={Styled.post_custom}>
+            <div className={Styled.post_custom1}> <a href ="#">게시판1</a> </div>
 
-            <div className="post-custom2"> <a href ="#">게시판2</a> </div>
+            <div className={Styled.post_custom2}> <a href ="#">게시판2</a> </div>
 
-            <div className="post-custom3"> <a href ="#">게시판3</a> </div>
+            <div className={Styled.post_custom3}> <a href ="#">게시판3</a> </div>
 
-            <div className="post-custom4"> <a href ="#">게시판4</a> </div>
+            <div className={Styled.post_custom4}> <a href ="#">게시판4</a> </div>
         </div>
-        <button className="post-update">글쓰기</button>
+        <button className={Styled.post_update}>글쓰기</button>
         <table style={{border: "2px solid", width: "100%", scrollbarWidth : "5px"}}>
             <tr>
                 <td>#</td>
