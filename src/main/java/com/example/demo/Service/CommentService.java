@@ -2,6 +2,7 @@ package com.example.demo.Service;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import com.example.demo.Exception.Post.NoSufficientPermissionException;
 import com.example.demo.config.SecurityUtil;
@@ -17,6 +18,8 @@ import com.example.demo.repository.LoadCommentRepository;
 import com.example.demo.repository.MemberRepository;
 import com.example.demo.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -46,6 +49,7 @@ public class CommentService {
         }
     }
 
+/*
     // 댓글 load
     @Transactional
     public List<LoadDto> getComment (Long id){
@@ -56,6 +60,25 @@ public class CommentService {
 
         if (loadCommentRepository.existsById(id)) {
             loadDtoList = loadCommentRepository.findAllById(id);
+        }
+        else {
+            throw new NoSufficientPermissionException();
+        }
+        return loadDtoList;
+    }
+
+ */
+
+    @Transactional
+    public List<LoadDto> loadComment(Long id){
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
+        System.out.println("로그인 정보 : "+member.getEmail());
+
+        Post post = postRepository.findById(id).orElseThrow(() -> new RuntimeException("게시글 정보가 없습니다"));
+
+        List<LoadDto> loadDtoList;
+        if (loadCommentRepository.existsById(post.getId())) {
+            loadDtoList = loadCommentRepository.findAllById(post.getId());
         }
         else {
             throw new NoSufficientPermissionException();
@@ -77,4 +100,5 @@ public class CommentService {
                 .build();
         return CommentResponseDto.of(commentRepository.save(comment));
     }
+
 }

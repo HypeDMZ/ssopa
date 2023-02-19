@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.*;
 public class CommentController {
     private final CommentService commentService;
 
+/*
     @Operation(summary = "댓글 리스트")
     @ApiResponse(code = 200, message = "댓글 목록 불러오기")
     @GetMapping("/list")
@@ -38,6 +39,16 @@ public class CommentController {
         return ResponseEntity.ok(commentService.getComment(id));
    }
 
+ */
+    @GetMapping("/list")
+    @ApiOperation(value = "댓글 불러오기")
+    @ApiResponse(
+            code = 403
+            , message = "댓글 권한이 없습니다."
+    )
+    public ResponseEntity<List<LoadDto>> LoadPost(@RequestParam(name = "id") Long id) {
+        return ResponseEntity.ok(commentService.loadComment(id));
+    }
     @PostMapping("/write")
     @ApiOperation(value = "댓글 달기 요청")
     // ssopa02.com/post/add
