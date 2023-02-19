@@ -61,4 +61,9 @@ public class AuthController {
     public @ResponseBody ResponseEntity<FindIdResponseDto> findVerifyedID(@RequestBody FindVerifyedDto dto){
         return ResponseEntity.ok(authService.findIdverifySms(dto.getCode(),dto.getPhonenumber())); // Returns an HTTP OK response with the result of the findIdverifySms() method
     }
+
+    @PostMapping("/resetpassword") // Maps HTTP GET requests for the "/findId/veritfySMS" endpoint to the findID() method
+    public @ResponseBody ResponseEntity<SuccessDto> resetPassword(@RequestBody ResetPasswordDto dto){
+        return ResponseEntity.ok(authService.resetPassword(dto.getEmail(),dto.getPassword(), dto.getPasswordConfirm())); // Returns an HTTP OK response with the result of the findIdverifySms() method
+    }
 }
