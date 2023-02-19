@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/comment")
 @Api(tags = "CommentController : 댓글 관리 컨트롤러")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 
 public class CommentController {
     private final CommentService commentService;
