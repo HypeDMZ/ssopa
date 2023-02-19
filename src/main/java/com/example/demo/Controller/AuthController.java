@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController // Indicates that this class defines a RESTful controller
 @RequestMapping("/auth") // Maps HTTP requests to specific handler methods
 @RequiredArgsConstructor // Generates a constructor with required fields
-@CrossOrigin(origins = "http://localhost:3000")
 @Api(tags = "AuthController : 로그인/회원가입 관련 컨트롤러") // Provides metadata for the Swagger documentation
 public class AuthController {
     private final AuthService authService; // Injects the AuthService dependency into the constructor

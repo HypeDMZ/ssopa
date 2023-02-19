@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/member")
-@CrossOrigin(origins = "http://localhost:3000")
 @Api(tags = "MemberController : 회원 정보 요청 관련 컨트롤러")
 public class MemberController {
 
