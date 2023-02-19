@@ -10,5 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FindIdDto {
+
+    private String name;
     private String phonenumber;
 }

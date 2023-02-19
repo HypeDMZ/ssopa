@@ -157,9 +157,13 @@ public class AuthService {
                         .equals(certNumber));
     }
 
-    public boolean findID(String phonenumber) {
-        PhoneNumberCheck(phonenumber);
-        return true;
+    public boolean findID(String name, String phonenumber) {
+        if(memberRepository.findByNameAndPhonenumber(name,phonenumber) != null) {
+            PhoneNumberCheck(phonenumber);
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public FindIdResponseDto findIdverifySms(String certNumber, String phoneNumber) {

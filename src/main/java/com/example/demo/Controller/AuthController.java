@@ -54,7 +54,7 @@ public class AuthController {
     @PostMapping("/findId") // Maps HTTP GET requests for the "/findId" endpoint to the findID() method
     @ApiOperation(value = "아이디 찾기") // Provides metadata for the Swagger documentation
     public @ResponseBody ResponseEntity<Boolean> findID(@RequestBody FindIdDto dto) {
-        return ResponseEntity.ok((authService.findID(dto.getPhonenumber()))); // Returns an HTTP OK response with the result of the findID() method
+        return ResponseEntity.ok((authService.findID(dto.getName(), dto.getPhonenumber()))); // Returns an HTTP OK response with the result of the findID() method
     }
 
     @PostMapping("/findId/veritfySMS") // Maps HTTP GET requests for the "/findId/veritfySMS" endpoint to the findID() method

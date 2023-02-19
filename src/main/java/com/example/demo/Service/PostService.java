@@ -39,7 +39,7 @@ public class PostService {
         System.out.println("로그인 정보 : "+member.getEmail());
         Post post = Post.builder()
                 .title(title)
-                .writer(member.getNickname())
+                .writer(member.getName())
                 .content(content)
                 .category(category)
                 .created_date(LocalDateTime.now())

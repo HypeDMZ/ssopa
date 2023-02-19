@@ -29,7 +29,7 @@ public class MemberRequestDto {
         return Member.builder()
                 .email(email)
                 .password(passwordEncoder.encode(password))
-                .nickname(nickname)
+                .name(nickname)
                 .phonenumber(phonenumber)
                 .authority(Authority.ROLE_USER)
                 .build();

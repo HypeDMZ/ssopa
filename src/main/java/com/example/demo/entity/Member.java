@@ -28,19 +28,19 @@ public class Member {
     private String password;
 
     @Column(nullable = false)
-    private String nickname;
+    private String name;
 
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
 
     @Builder
-    public Member(Long id, String email, String phonenumber, String password, String nickname, Authority authority) {
+    public Member(Long id, String email, String phonenumber, String password, String name, Authority authority) {
         this.id = id;
         this.email = email;
         this.phonenumber = phonenumber;
         this.password = password;
-        this.nickname = nickname;
+        this.name = name;
         this.authority = authority;
     }
 
