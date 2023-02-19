@@ -15,16 +15,16 @@ public class CommentResponseDto {
     private String nickname;
     private String comment;
     private String createdAt;
-    private boolean isWritten;
+  //  private boolean isWritten;
 
     //댓글의 id, 작성자 이름, 댓글 내용, 생성일, 작성여부가 포함되어 있다.
-    public static CommentResponseDto of(Comment comment, boolean bool) {
+    public static CommentResponseDto of(Comment comment) {
         return CommentResponseDto.builder()
                 .Id(comment.getId())
-                .nickname(comment.getMember().getNickname())
+              //  .nickname(comment.getMember().getNickname())
                 .comment(comment.getComment())
                 .createdAt(comment.getCreatedDate())
-                .isWritten(bool)
+              //  .isWritten(bool)
                 .build();
     }
 }
