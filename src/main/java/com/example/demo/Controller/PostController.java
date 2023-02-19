@@ -81,7 +81,7 @@ public class PostController {
         return ResponseEntity.ok(postService.loadpost(category));
     }
 
-    @GetMapping("/load/write")
+    @GetMapping("/writed/load")
     @ApiOperation(value = "내가 쓴 게시글 불러오기")
     public ResponseEntity<List<LoadDto>> LoadMyPost() {
         return ResponseEntity.ok(postService.myWritePost());
