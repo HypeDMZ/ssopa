@@ -52,8 +52,8 @@ public class PostController {
         return ResponseEntity.ok(postService.readpost(id));
     }
 
-    @GetMapping("/delete/{id}")
-    @ApiOperation(value = "게시글 지우기 불러오기")
+    @DeleteMapping("/delete/{id}")
+    @ApiOperation(value = "게시글 지우기")
     @ApiResponse(
             code = 403
             , message = "게시글 삭제 권한이 없습니다."
@@ -81,7 +81,7 @@ public class PostController {
         return ResponseEntity.ok(postService.loadpost(category));
     }
 
-    @GetMapping("/writed/load")
+    @GetMapping("/load/my")
     @ApiOperation(value = "내가 쓴 게시글 불러오기")
     public ResponseEntity<List<LoadDto>> LoadMyPost() {
         return ResponseEntity.ok(postService.myWritePost());

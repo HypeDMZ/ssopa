@@ -38,31 +38,13 @@ public class CommentController {
         return ResponseEntity.ok(commentService.getComment(id));
    }
 
-/*
-    @Operation(summary = "댓글 달기")
-    @ApiResponse(code = 200, message = "댓글 달기 성공")
-    @PostMapping("/writeComment")
-    public ResponseEntity<CommentResponseDto> createComment(@RequestBody CommentRequestDto request) {
-        return ResponseEntity.ok(commentService.createComment(request.getId(), request.getComment()));
-    }
-
- */
     @PostMapping("/write")
     @ApiOperation(value = "댓글 달기 요청")
     // ssopa02.com/post/add
     public ResponseEntity<CommentResponseDto> createComment(@RequestBody CommentRequestDto request) {
         return ResponseEntity.ok(commentService.createComment(request.getId(), request.getComment()));
     }
-/*
-    @ApiResponse(code = 200, message = "댓글 삭제 성공")
-    @PostMapping("/deleteComment")
-    public ResponseEntity<MessageDto> removeComment(@RequestParam(name = "id") Long id) {
-        commentService.removeComment(id);
-        return ResponseEntity.ok(new MessageDto("Success"));
-    }
 
-
- */
     @Operation(summary = "댓글 삭제")
     @GetMapping("/delete/{id}")
     @ApiOperation(value = "게시글 지우기 불러오기")
