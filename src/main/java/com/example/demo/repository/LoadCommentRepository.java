@@ -15,4 +15,9 @@ public interface LoadCommentRepository extends JpaRepository<Comment, Long> {
     List<LoadCommentDto> findAllByPostId(Long post_id);
 
     boolean existsByPostId(Long post_id);
+
+    List<LoadCommentDto> findAllByUserId(Long user_id);
+
+    boolean existsByUserId(Long user_id);
+
 }

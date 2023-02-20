@@ -61,4 +61,13 @@ public class CommentController {
             return httpResponseUtil.createInternalServerErrorHttpResponse("댓글 삭제 실패: " + e.getMessage());
         }
     }
+    @GetMapping("/loadMy")
+    @Operation(summary = "내가 쓴 댓글 목록 불러오기")
+    public ResponseEntity<?> LoadMyComments() {
+        try {
+            return httpResponseUtil.createOKHttpResponse(commentService.myWriteComment(), "내가 쓴 댓글 목록 불러오기 성공");
+        } catch (Exception e) {
+            return httpResponseUtil.createInternalServerErrorHttpResponse("내가 쓴 댓글 목록 불러오기 실패: " + e.getMessage());
+        }
+    }
 }

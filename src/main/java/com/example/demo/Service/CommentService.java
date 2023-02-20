@@ -9,6 +9,7 @@ import com.example.demo.config.SecurityUtil;
 import com.example.demo.dto.Comment.CommentDeleteDto;
 import com.example.demo.dto.Comment.CommentResponseDto;
 import com.example.demo.dto.Comment.LoadCommentDto;
+import com.example.demo.dto.post.LoadDto;
 import com.example.demo.dto.post.PostResponseDto;
 import com.example.demo.entity.Comment;
 import com.example.demo.entity.Member;
@@ -80,5 +81,18 @@ public class CommentService {
                 .build();
         return CommentResponseDto.of(commentRepository.save(comment));
     }
+    @Transactional
+    public List<LoadCommentDto> myWriteComment () {
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
+        System.out.println("로그인 정보 : "+member.getEmail());
 
+        List<LoadCommentDto> loadDtoList;
+        if (loadCommentRepository.existsByUserId(member.getId()) != false) {
+            loadDtoList = loadCommentRepository.findAllByUserId(member.getId());
+        }
+        else {
+            throw new NoSufficientPermissionException();
+        }
+        return loadDtoList;
+    }
 }
