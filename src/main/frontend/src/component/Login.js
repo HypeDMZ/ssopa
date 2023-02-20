@@ -32,13 +32,13 @@ function Login(props){
             })
             .then((response) => {
                 console.log(response.data);
-                axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.accessToken}`;
+                axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.data.accessToken}`;
                 console.log(axios.defaults.headers.common["Authorization"]);
-                console.log(`Bearer ${response.data.refreshToken}`);
+                console.log(`Bearer ${response.data.data.refreshToken}`);
 
                 setCookie('token',
-                    {accessToken: `Bearer ${response.data.accessToken}`
-                        ,refreshToken: `Bearer ${response.data.refreshToken}`},
+                    {accessToken: `Bearer ${response.data.data.accessToken}`
+                        ,refreshToken: `Bearer ${response.data.data.refreshToken}`},
                     {
                         path: "/"
                     });

@@ -73,7 +73,7 @@ function FindId(props) {
                 else{//인증번호 맞음->아이디 알려주는 창으로 ㄱ
                     console.log('인증번호 일치');
                     //<Link to={'/auth/showid/${Phone}'}></Link>
-                    navigate('/auth/showid/'+result.data.email);
+                    navigate('/auth/showid/'+result.data.data.email);
                 }
             })
 
