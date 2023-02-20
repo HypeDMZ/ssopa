@@ -1,5 +1,6 @@
 package com.example.demo.Controller;
 
+import com.example.demo.Exception.Auth.alreadyRegisteredException;
 import com.example.demo.Service.AuthService;
 import com.example.demo.common.HttpResponseUtil;
 import com.example.demo.dto.auth.*;
@@ -14,6 +15,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +25,8 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @Api(tags = "AuthController : 로그인/회원가입 관련 컨트롤러")
 public class AuthController {
+
+
     private final AuthService authService;
     private final HttpResponseUtil httpResponseUtil;
 
@@ -63,7 +67,10 @@ public class AuthController {
     public ResponseEntity<?> sendSMS(@RequestParam(value="to") String to){
         try {
             return httpResponseUtil.createOKHttpResponse(authService.PhoneNumberCheck(to), "인증문자 보내기 성공");
-        } catch (Exception e) {
+        }catch (alreadyRegisteredException e) {
+            return httpResponseUtil.createBadRequestHttpResponse("이미 가입된 회원입니다.");
+        }
+        catch (Exception e) {
             return httpResponseUtil.createInternalServerErrorHttpResponse("인증문자 보내기 실패: " + e.getMessage());
         }
     }
