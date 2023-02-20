@@ -1,6 +1,7 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Service.AuthService;
+import com.example.demo.common.HttpResponseUtil;
 import com.example.demo.dto.auth.*;
 import com.example.demo.dto.jwt.TokenDto;
 import com.example.demo.dto.jwt.TokenReqDto;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @Api(tags = "AuthController : 로그인/회원가입 관련 컨트롤러") // Provides metadata for the Swagger documentation
 public class AuthController {
     private final AuthService authService; // Injects the AuthService dependency into the constructor
+    private final HttpResponseUtil httpResponseUtil;
 
     @Operation(summary = "회원가입") // Provides metadata for the Swagger documentation
     @ApiResponse(code = 200, message = "회원가입 성공") // Provides metadata for the Swagger documentation
@@ -32,8 +34,8 @@ public class AuthController {
     @Operation(summary = "로그인") // Provides metadata for the Swagger documentation
     @ApiResponse(code = 200, message = "로그인 성공") // Provides metadata for the Swagger documentation
     @PostMapping("/login") // Maps HTTP POST requests for the "/login" endpoint to the login() method
-    public ResponseEntity<TokenDto> login(@RequestBody LoginDto loginrequest) {
-        return ResponseEntity.ok(authService.login(loginrequest)); // Returns an HTTP OK response with the result of the login() method
+    public ResponseEntity<?> login(@RequestBody LoginDto loginrequest) {
+        return httpResponseUtil.createOKHttpResponse(authService.login(loginrequest), "로그인 성공"); // Returns an HTTP OK response with the result of the login() method
     }
 
     @PostMapping("/reissue") // Maps HTTP POST requests for the "/reissue" endpoint to the reissue() method
