@@ -8,6 +8,7 @@ import com.example.demo.dto.post.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -90,5 +91,10 @@ public class PostController {
         } catch (Exception e) {
             return httpResponseUtil.createInternalServerErrorHttpResponse("게시글 좋아요 누르기 실패: " + e.getMessage());
         }
+    }
+    @ApiOperation(value = "인기 게시글 불러오기")
+    @GetMapping("/hot")
+    public ResponseEntity<?> HotDiary() {
+        return httpResponseUtil.createOKHttpResponse(postService.getHotList(), "인기 게시글 불러오기 성공");
     }
 }
