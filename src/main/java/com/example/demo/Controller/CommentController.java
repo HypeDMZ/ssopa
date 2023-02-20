@@ -4,6 +4,7 @@ import java.util.*;
 
 import com.example.demo.Exception.Post.NoSufficientPermissionException;
 import com.example.demo.Service.CommentService;
+import com.example.demo.common.HttpResponseUtil;
 import com.example.demo.dto.Comment.CommentDeleteDto;
 import com.example.demo.dto.Comment.CommentRequestDto;
 import com.example.demo.dto.Comment.CommentResponseDto;
@@ -30,37 +31,22 @@ import org.springframework.web.bind.annotation.*;
 
 public class CommentController {
     private final CommentService commentService;
+    private final HttpResponseUtil httpResponseUtil;
 
     @GetMapping("/list/{postId}")
-    @ApiOperation(value = "댓글 불러오기")
-    public ResponseEntity<List<LoadCommentDto>> LoadComment(@PathVariable(name = "postId") Long postId) {
-        return ResponseEntity.ok(commentService.loadComment(postId));
+    @Operation(summary = "댓글 목록 불러오기")
+    public ResponseEntity<?> LoadComment(@PathVariable(name = "postId") Long postId) {
+        return httpResponseUtil.createOKHttpResponse(commentService.loadComment(postId), "댓글 불러오기 성공");
     }
     @PostMapping("/write")
-    @ApiOperation(value = "댓글 달기 요청")
-    // ssopa02.com/post/add
-    public ResponseEntity<CommentResponseDto> createComment(@RequestBody CommentRequestDto request) {
-        return ResponseEntity.ok(commentService.createComment(request.getId(), request.getComment()));
+    @Operation(summary = "댓글 작성")
+    public ResponseEntity<?> createComment(@RequestBody CommentRequestDto request) {
+        return httpResponseUtil.createOKHttpResponse(commentService.createComment(request.getId(), request.getComment()), "댓글 작성 성공");
     }
 
     @Operation(summary = "댓글 삭제")
     @GetMapping("/delete/{id}")
-    @ApiOperation(value = "게시글 지우기 불러오기")
-    @ApiResponse(
-            code = 403
-            , message = "게시글 삭제 권한이 없습니다."
-    )
-    public ResponseEntity<CommentDeleteDto> removeComment(@PathVariable(name = "id") Long id) {
-        try{
-            return ResponseEntity.ok(commentService.removeComment(id));
-        }catch (NoSufficientPermissionException e){
-            return ResponseEntity.status(403).build();
-        }catch (RuntimeException e){
-            return ResponseEntity.badRequest().build();
-        }catch (Exception e){
-            return ResponseEntity.badRequest().build();
-        }
-
+    public ResponseEntity<?> removeComment(@PathVariable(name = "id") Long id) {
+        return httpResponseUtil.createOKHttpResponse(commentService.removeComment(id), "댓글 삭제 성공");
     }
-
 }

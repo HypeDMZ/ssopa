@@ -1,6 +1,7 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Service.MemberService;
+import com.example.demo.common.HttpResponseUtil;
 import com.example.demo.dto.member.ChangeNicknameRequestDto;
 import com.example.demo.dto.member.ChangePasswordRequestDto;
 import com.example.demo.dto.member.MemberResponseDto;
@@ -18,26 +19,26 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
 
     private final MemberService memberService;
+    private final HttpResponseUtil httpResponseUtil;
 
     @GetMapping("/me")
     @ApiOperation(value = "내 정보 조회")
-    public ResponseEntity<MemberResponseDto> getMyMemberInfo() {
+    public ResponseEntity<?> getMyMemberInfo() {
         MemberResponseDto myInfoBySecurity = memberService.getMyInfoBySecurity();
-        System.out.println(myInfoBySecurity.getNickname());
-        return ResponseEntity.ok((myInfoBySecurity));
-        // return ResponseEntity.ok(memberService.getMyInfoBySecurity());
+        return httpResponseUtil.createOKHttpResponse(myInfoBySecurity, "내 정보 조회 성공");
     }
 
     @PostMapping("/nickname")
     @ApiOperation(value = "닉네임 변경 요청")
-    public ResponseEntity<MemberResponseDto> setMemberNickname(@RequestBody ChangeNicknameRequestDto request) {
-        return ResponseEntity.ok(memberService.changeMemberNickname(request.getEmail(), request.getNickname()));
+    public ResponseEntity<?> setMemberNickname(@RequestBody ChangeNicknameRequestDto request) {
+        // TODO : 닉네임 기능 추가 후 구현
+        return httpResponseUtil.createOKHttpResponse(memberService.changeMemberNickname(request.getEmail(), request.getNickname()), "닉네임 변경 성공");
     }
 
     @ApiOperation(value = "비밀번호 변경 요청")
     @PostMapping("/password")
-    public ResponseEntity<MemberResponseDto> setMemberPassword(@RequestBody ChangePasswordRequestDto request) {
-        return ResponseEntity.ok(memberService.changeMemberPassword(request.getEmail(),request.getExPassword(), request.getNewPassword()));
+    public ResponseEntity<?> setMemberPassword(@RequestBody ChangePasswordRequestDto request) {
+        return httpResponseUtil.createOKHttpResponse(memberService.changeMemberPassword(request.getEmail(),request.getExPassword(), request.getNewPassword()), "비밀번호 변경 성공");
     }
 
 }
