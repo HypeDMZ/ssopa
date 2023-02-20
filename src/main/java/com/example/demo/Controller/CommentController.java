@@ -36,17 +36,29 @@ public class CommentController {
     @GetMapping("/list/{postId}")
     @Operation(summary = "댓글 목록 불러오기")
     public ResponseEntity<?> LoadComment(@PathVariable(name = "postId") Long postId) {
-        return httpResponseUtil.createOKHttpResponse(commentService.loadComment(postId), "댓글 불러오기 성공");
+        try {
+            return httpResponseUtil.createOKHttpResponse(commentService.loadComment(postId), "댓글 목록 불러오기 성공");
+        } catch (Exception e) {
+            return httpResponseUtil.createInternalServerErrorHttpResponse("댓글 목록 불러오기 실패: " + e.getMessage());
+        }
     }
     @PostMapping("/write")
     @Operation(summary = "댓글 작성")
     public ResponseEntity<?> createComment(@RequestBody CommentRequestDto request) {
-        return httpResponseUtil.createOKHttpResponse(commentService.createComment(request.getId(), request.getComment()), "댓글 작성 성공");
+        try {
+            return httpResponseUtil.createOKHttpResponse(commentService.createComment(request.getId(), request.getComment()), "댓글 작성 성공");
+        } catch (Exception e) {
+            return httpResponseUtil.createInternalServerErrorHttpResponse("댓글 작성 실패: " + e.getMessage());
+        }
     }
 
     @Operation(summary = "댓글 삭제")
     @GetMapping("/delete/{id}")
     public ResponseEntity<?> removeComment(@PathVariable(name = "id") Long id) {
-        return httpResponseUtil.createOKHttpResponse(commentService.removeComment(id), "댓글 삭제 성공");
+        try {
+            return httpResponseUtil.createOKHttpResponse(commentService.removeComment(id), "댓글 삭제 성공");
+        } catch (Exception e) {
+            return httpResponseUtil.createInternalServerErrorHttpResponse("댓글 삭제 실패: " + e.getMessage());
+        }
     }
 }
