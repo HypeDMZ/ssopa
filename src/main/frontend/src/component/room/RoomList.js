@@ -42,10 +42,6 @@ function RoomList(){
         }
     }
 
-    const enterRoom = (room) => {
-        Navigate("/chat/room/enter/?roomId"+room);
-    }
-
 
 
     return(
