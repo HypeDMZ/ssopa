@@ -130,7 +130,7 @@ public class AuthService {
         Message coolsms = new Message();
         coolsms.setFrom("01046306320");
         coolsms.setTo(phoneNumber);
-        coolsms.setText("[dmztime]인증번호는 [" + numStr + "] 입니다.");
+        coolsms.setText("[ssopa]인증번호는 [" + numStr + "] 입니다.");
         SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(coolsms));
         System.out.println(response);
         smsCertificationDao.createSmsCertification(phoneNumber,numStr+":0"); //저장
