@@ -120,9 +120,11 @@ public class AuthService {
         return tokenDto;
     }
 
-    public SmsDto PhoneNumberCheck(String phoneNumber) {
-        if(memberRepository.existsByPhonenumber(phoneNumber)){
-            throw new alreadyRegisteredException("이미 가입되어 있는 번호입니다");
+    public SmsDto PhoneNumberCheck(String phoneNumber,Boolean isFindID) {
+        if(isFindID){
+            if(!memberRepository.existsByPhonenumber(phoneNumber)){
+                throw new alreadyRegisteredException("가입되어 있지 않은 번호입니다");
+            }
         }
         Random rand  = new Random();
         String numStr = "";
@@ -164,7 +166,7 @@ public class AuthService {
 
     public boolean findID(String name, String phonenumber) {
         if(memberRepository.findByNameAndPhonenumber(name,phonenumber) != null) {
-            PhoneNumberCheck(phonenumber);
+            PhoneNumberCheck(phonenumber,true);
             return true;
         }else{
             return false;

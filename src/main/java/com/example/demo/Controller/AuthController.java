@@ -66,7 +66,7 @@ public class AuthController {
     @GetMapping("/check/sendSMS")
     public ResponseEntity<?> sendSMS(@RequestParam(value="to") String to){
         try {
-            return httpResponseUtil.createOKHttpResponse(authService.PhoneNumberCheck(to), "인증문자 보내기 성공");
+            return httpResponseUtil.createOKHttpResponse(authService.PhoneNumberCheck(to,false), "인증문자 보내기 성공");
         }catch (alreadyRegisteredException e) {
             return httpResponseUtil.createBadRequestHttpResponse("이미 가입된 회원입니다.");
         }
