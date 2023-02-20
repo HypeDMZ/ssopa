@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +28,13 @@ public class AuthController {
     @Operation(summary = "회원가입")
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody MemberRequestDto requestDto) {
-        return httpResponseUtil.createOKHttpResponse(authService.signup(requestDto), "회원가입 성공");
+        try {
+            return httpResponseUtil.createOKHttpResponse(authService.signup(requestDto), "회원가입 성공");
+        } catch (DuplicateKeyException e) {
+            return httpResponseUtil.createBadRequestHttpResponse("이미 존재하는 데이터로 회원가입할 수 없습니다.");
+        } catch (Exception e) {
+            return httpResponseUtil.createInternalServerErrorHttpResponse("회원가입 실패: " + e.getMessage());
+        }
     }
 
     @Operation(summary = "로그인")
