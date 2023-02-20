@@ -1,9 +1,13 @@
-import {Link} from "react-router-dom";
-import React from "react";
+import {Link, useNavigate, useParams} from "react-router-dom";
+import React, {useState} from "react";
 import "../css/FindId.css"
 import Layout from "./layout/Layout";
 
 function ShowId(props){
+    const {phoneNumber} = useParams();
+    let [id] = useState();
+    const navigate = useNavigate();
+
     return(
         <Layout>
             <div style={{width: "100%", height: "100%"}}>
@@ -17,8 +21,14 @@ function ShowId(props){
                     <div className="findId" style={{height: "30%" ,display: 'flex', flexDirection: 'column',  padding: "10%"}}>
                         <h3>고객님의 정보와 일치하는 아이디입니다</h3>
                         <br/><br/>
-                        <h3 style={{borderBottom: "2px solid black"}}>아이디 여기에</h3>
+                        <h3 style={{borderBottom: "2px solid black"}}>{phoneNumber}</h3>
                     </div>
+
+                    <button onClick={()=>{
+                        navigate('/auth/login');
+                    }}>
+                        로그인하기
+                    </button>
                 </div>
             </div>
         </Layout>

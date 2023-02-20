@@ -20,7 +20,6 @@ public class LoginDto {
     @ApiModelProperty(value="비밀번호", example="12345678",required = true)
     private String password;
 
-
     public UsernamePasswordAuthenticationToken toAuthentication() {
         return new UsernamePasswordAuthenticationToken(email, password);
     }

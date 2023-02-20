@@ -24,7 +24,7 @@ function App() {
                     <Route path="/auth/signup" element={<Signup />}></Route>
                     <Route path="/auth/findid" element={<FindId/>}></Route>
                     <Route path="/auth/findpw" element={<FindPw/>}></Route>
-                    <Route path="/auth/showid" element={<ShowId/>}></Route>
+                    <Route path="/auth/showid/:phoneNumber" element={<ShowId/>}></Route>
                     <Route path="/auth/showpw" element={<ShowPw/>}></Route>
 
                     <Route path="/Post" element={<Post/>}></Route>

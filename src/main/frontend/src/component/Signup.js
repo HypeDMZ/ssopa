@@ -97,7 +97,7 @@ function Signup(props){
                             withCredentials : true,
                             headers : {"Content-Type": 'application/json'}
                         })
-                        .then((response) => { console.log(response.data); })
+                        .then((response) => { console.log(response.data.data); })
                         .catch((response) => { console.log('Error!') });
                 }}>
                     회원가입
