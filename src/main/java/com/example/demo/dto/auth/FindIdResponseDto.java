@@ -16,5 +16,4 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @NoArgsConstructor
 public class FindIdResponseDto {
     private String email;
-
 }

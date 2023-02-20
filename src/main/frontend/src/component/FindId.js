@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {useMediaQuery} from "react-responsive";
-import { Link } from 'react-router-dom';
+import { Link , useNavigate} from 'react-router-dom';
 import '../css/FindId.css';
 import  './layout/Layout'
 import axios from "axios";
@@ -22,9 +22,9 @@ export const Pc = ({ children }) => {
 
 function FindId(props) {
 
+    const navigate = useNavigate();
     const [Name, setName] = useState("");
     const [Phone, setPhone] = useState("");
-    const [SendNum, setSendNum] = useState("");       //서버가 보낸 인증번비
     const [ConfirmNum, setConfirmNum] = useState(""); //사용자가 입력한 인증번호
 
     const onNameHandler = (event) => {
@@ -32,14 +32,24 @@ function FindId(props) {
     }
     const onPhoneHandler = (event) => {
         setPhone(event.currentTarget.value);
+
+
     }
     const onSendHandler = (event) => {
-        //1. 먼저 회원인지 아닌 지 체크
+        //1. 먼저 회원인지 아닌 지 체크(=데베에 데이터 있는 지 체크)
         //2-1. 회원이 아니라면, 경고창 띄우기
+        axios.post("http://localhost:8080/auth/findId", {phonenumber : Phone},
+            {
+            withCredentials : true,
+            headers : {"Content-Type": 'application/json'}
+            })
+            .then((result)=>{
+                console.log(result);
+            })
+            .catch((response)=>{console.log('이상하다')})
         //2-2. 회원이라면, 위에서 입력된 이름, 휴대폰 번호에 해당하는 사람한테 인증번호 보내줘야함
 
         //인증번호 설정 어케할 지?
-        setSendNum(1);
 
         //보내는 부분
 
@@ -50,6 +60,24 @@ function FindId(props) {
     }
     const onCheckHandler = (event) => {
         //보낸 인증번호와 입력된 인증 번호가 일치하는 지 확인
+        axios.post("http://localhost:8080/auth/findId/veritfySMS",
+            {code : ConfirmNum, phonenumber : Phone},
+            {
+                withCredentials : true,
+                headers : {"Content-Type": 'application/json'}
+            })
+            .then((result)=> {
+                console.log(result);
+
+                if(result == false) alert('인증번호 틀림');
+                else{//인증번호 맞음->아이디 알려주는 창으로 ㄱ
+                    console.log('인증번호 일치');
+                    //<Link to={'/auth/showid/${Phone}'}></Link>
+                    navigate('/auth/showid/'+result.data.email);
+                }
+            })
+
+
     }
 
     return(

@@ -23,16 +23,10 @@ import javax.transaction.Transactional;
 @RequiredArgsConstructor
 @Service
 public class CommentService {
-
     private final PostRepository postRepository;
-
     private final MemberRepository memberRepository;
-
     private final CommentRepository commentRepository;
-
-
     public List<CommentResponseDto> getComment(Long id) {
-
         List<Comment> comments = commentRepository.findAllByPostsId(id);
         if (comments.isEmpty()) {
             return Collections.emptyList();

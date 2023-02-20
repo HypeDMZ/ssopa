@@ -32,14 +32,14 @@ public class CommentController {
 
     @Operation(summary = "댓글 달기")
     @ApiResponse(code = 200, message = "댓글 달기 성공")
-    @PostMapping("/writecomment")
+    @PostMapping("/write")
     public ResponseEntity<CommentResponseDto> postComment(@RequestBody CommentRequestDto request) {
         return ResponseEntity.ok(commentService.createComment(request.getId(), request.getBody()));
     }
 
     @Operation(summary = "댓글 삭제")
     @ApiResponse(code = 200, message = "댓글 삭제 성공")
-    @PostMapping("/one")
+    @DeleteMapping("/delete")
     public ResponseEntity<MessageDto> deleteComment(@RequestParam(name = "id") Long id) {
         commentService.removeComment(id);
         return ResponseEntity.ok(new MessageDto("Success"));
