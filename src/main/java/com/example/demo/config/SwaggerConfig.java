@@ -23,7 +23,6 @@ import java.util.List;
 @EnableSwagger2
 @EnableAsync
 @EnableWebMvc
-
 public class SwaggerConfig{
     private String version = "V1.0";
 
@@ -46,7 +45,7 @@ public class SwaggerConfig{
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("dmz_time 백엔드 API 명세")
+                .title("ssopa 백엔드 API 명세")
                 .description("백엔드 API 사용 방법 등을 정리한 페이지 입니다")
                 .version(version)
                 .contact(new Contact("서지호", "홈페이지 URL", "ksdk6145@gachon.ac.kr"))

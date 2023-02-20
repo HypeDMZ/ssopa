@@ -4,22 +4,20 @@ import com.example.demo.Exception.Post.NoSufficientPermissionException;
 import com.example.demo.config.SecurityUtil;
 import com.example.demo.dto.post.*;
 import com.example.demo.entity.Heart;
+import com.example.demo.entity.Hot;
 import com.example.demo.entity.Member;
 import com.example.demo.entity.Post;
 import com.example.demo.jwt.TokenProvider;
-import com.example.demo.repository.HeartRepository;
-import com.example.demo.repository.LoadPostRepository;
-import com.example.demo.repository.MemberRepository;
-import com.example.demo.repository.PostRepository;
+import com.example.demo.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +30,8 @@ public class PostService {
     private final TokenProvider tokenProvider;
     private final LoadPostRepository loadPostRepository;
     private final HeartRepository heartRepository;
+
+    private final HotRepository hotRepository;
 
     @Transactional
     public PostResponseDto newpost(String title, String content, String category) {
@@ -136,5 +136,20 @@ public class PostService {
             throw new NoSufficientPermissionException();
         }
         return loadDtoList;
+    }
+
+    public List<HotDto> getHotList() {
+        List<Hot> getList = hotRepository.findAll(Sort.by(Sort.Direction.DESC, "weight"));
+        Map<Long, HotDto> hotMap = new LinkedHashMap<>();
+        for (Hot hot : getList) {
+            Long postId = hot.getPostId();
+            HotDto hotDTO = hotMap.get(postId);
+            if (hotDTO == null) {
+                hotMap.put(postId, new HotDto(hot));
+            } else {
+                hotDTO.setWeight(hotDTO.getWeight() + hot.getWeight());
+            }
+        }
+        return new ArrayList<>(hotMap.values());
     }
 }

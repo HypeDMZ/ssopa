@@ -20,7 +20,8 @@ import net.nurigo.sdk.message.model.Message;
 import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
 import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 import net.nurigo.sdk.message.service.DefaultMessageService;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -31,6 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Random;
 
+@Configuration
 @Component
 @Service
 @RequiredArgsConstructor
@@ -44,15 +46,13 @@ public class AuthService {
     private final TokenProvider tokenProvider;
     private final VerifySmsRepository verifySmsRepository;
     private final CustomUserDetailsService customUserDetailsService;
-
     private String apiKey = "NCSWUXEY6GVEX4US";
     private String apiSecret = "OAEENSHT7XUHYHJLPHUIAWVWVJSE3XC7";
     private final DefaultMessageService messageService = NurigoApp.INSTANCE.initialize(apiKey, apiSecret, "https://api.coolsms.co.kr");
 
     public MemberResponseDto signup(MemberRequestDto requestDto) {
         if (memberRepository.existsByEmail(requestDto.getEmail())) {
-            // validation
-            throw new RuntimeException("이미 가입되어 있는 유저입니다");
+            throw new DuplicateKeyException("이미 가입되어 있는 유저입니다");
         }
 
         Member member = requestDto.toMember(passwordEncoder);
@@ -129,7 +129,7 @@ public class AuthService {
         Message coolsms = new Message();
         coolsms.setFrom("01046306320");
         coolsms.setTo(phoneNumber);
-        coolsms.setText("[dmztime]인증번호는 [" + numStr + "] 입니다.");
+        coolsms.setText("[ssopa]인증번호는 [" + numStr + "] 입니다.");
         SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(coolsms));
         System.out.println(response);
         smsCertificationDao.createSmsCertification(phoneNumber,numStr+":0"); //저장

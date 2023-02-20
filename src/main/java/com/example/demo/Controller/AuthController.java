@@ -12,60 +12,99 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController // Indicates that this class defines a RESTful controller
-@RequestMapping("/auth") // Maps HTTP requests to specific handler methods
-@RequiredArgsConstructor // Generates a constructor with required fields
-@Api(tags = "AuthController : 로그인/회원가입 관련 컨트롤러") // Provides metadata for the Swagger documentation
+@RestController
+@RequestMapping("/auth")
+@RequiredArgsConstructor
+@Api(tags = "AuthController : 로그인/회원가입 관련 컨트롤러")
 public class AuthController {
-    private final AuthService authService; // Injects the AuthService dependency into the constructor
+    private final AuthService authService;
     private final HttpResponseUtil httpResponseUtil;
 
-    @Operation(summary = "회원가입") // Provides metadata for the Swagger documentation
-    @ApiResponse(code = 200, message = "회원가입 성공") // Provides metadata for the Swagger documentation
-    @PostMapping("/signup") // Maps HTTP POST requests for the "/signup" endpoint to the signup() method
-    public ResponseEntity<MemberResponseDto> signup(@RequestBody MemberRequestDto requestDto) {
-        return ResponseEntity.ok(authService.signup(requestDto)); // Returns an HTTP OK response with the result of the signup() method
+    @Operation(summary = "회원가입")
+    @PostMapping("/signup")
+    public ResponseEntity<?> signup(@RequestBody MemberRequestDto requestDto) {
+        try {
+            return httpResponseUtil.createOKHttpResponse(authService.signup(requestDto), "회원가입 성공");
+        } catch (DuplicateKeyException e) {
+            return httpResponseUtil.createBadRequestHttpResponse("이미 존재하는 데이터로 회원가입할 수 없습니다.");
+        } catch (Exception e) {
+            return httpResponseUtil.createInternalServerErrorHttpResponse("회원가입 실패: " + e.getMessage());
+        }
     }
 
-    @Operation(summary = "로그인") // Provides metadata for the Swagger documentation
-    @ApiResponse(code = 200, message = "로그인 성공") // Provides metadata for the Swagger documentation
-    @PostMapping("/login") // Maps HTTP POST requests for the "/login" endpoint to the login() method
+    @Operation(summary = "로그인")
+    @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDto loginrequest) {
-        return httpResponseUtil.createOKHttpResponse(authService.login(loginrequest), "로그인 성공"); // Returns an HTTP OK response with the result of the login() method
+        try {
+            return httpResponseUtil.createOKHttpResponse(authService.login(loginrequest), "로그인 성공");
+        } catch (Exception e) {
+            return httpResponseUtil.createInternalServerErrorHttpResponse("로그인 실패: " + e.getMessage());
+        }
     }
 
-    @PostMapping("/reissue") // Maps HTTP POST requests for the "/reissue" endpoint to the reissue() method
-    public ResponseEntity<TokenDto> reissue(@RequestBody TokenReqDto tokenRequestDto) {
-        return ResponseEntity.ok(authService.reissue(tokenRequestDto)); // Returns an HTTP OK response with the result of the reissue() method
+    @Operation(summary = "토큰 재발급")
+    @PostMapping("/reissue")
+    public ResponseEntity<?> reissue(@RequestBody TokenReqDto tokenRequestDto) {
+        try {
+            return httpResponseUtil.createOKHttpResponse(authService.reissue(tokenRequestDto), "토큰 재발급 성공");
+        } catch (Exception e) {
+            return httpResponseUtil.createInternalServerErrorHttpResponse("토큰 재발급 실패: " + e.getMessage());
+        }
     }
 
-    @GetMapping("/check/sendSMS") // Maps HTTP GET requests for the "/check/sendSMS" endpoint to the sendSMS() method
-    public @ResponseBody ResponseEntity<SmsDto> sendSMS(@RequestParam(value="to") String to){
-        return ResponseEntity.ok(authService.PhoneNumberCheck(to)); // Returns an HTTP OK response with the result of the PhoneNumberCheck() method
+    @Operation(summary = "인증문자 보내기")
+    @GetMapping("/check/sendSMS")
+    public ResponseEntity<?> sendSMS(@RequestParam(value="to") String to){
+        try {
+            return httpResponseUtil.createOKHttpResponse(authService.PhoneNumberCheck(to), "인증문자 보내기 성공");
+        } catch (Exception e) {
+            return httpResponseUtil.createInternalServerErrorHttpResponse("인증문자 보내기 실패: " + e.getMessage());
+        }
     }
 
-    @GetMapping("/check/verifySMS") // Maps HTTP GET requests for the "/check/verifySMS" endpoint to the verifySMS() method
-    public @ResponseBody ResponseEntity<SmsDto> verifySMS(@RequestParam(value="to") String to,@RequestParam(value="code") String code){
-        return ResponseEntity.ok(authService.verifySms(code,to)); // Returns an HTTP OK response with the result of the verifySms() method
+    @GetMapping("/check/verifySMS")
+    @Operation(summary = "인증문자 확인")
+    public ResponseEntity<?> verifySMS(@RequestParam(value="to") String to,@RequestParam(value="code") String code){
+        try {
+            return httpResponseUtil.createOKHttpResponse(authService.verifySms(to,code), "인증문자 확인 성공");
+        } catch (Exception e) {
+            return httpResponseUtil.createInternalServerErrorHttpResponse("인증문자 확인 실패: " + e.getMessage());
+        }
     }
 
-    @PostMapping("/findId") // Maps HTTP GET requests for the "/findId" endpoint to the findID() method
-    @ApiOperation(value = "아이디 찾기") // Provides metadata for the Swagger documentation
-    public @ResponseBody ResponseEntity<Boolean> findID(@RequestBody FindIdDto dto) {
-        return ResponseEntity.ok((authService.findID(dto.getName(), dto.getPhonenumber()))); // Returns an HTTP OK response with the result of the findID() method
+    @PostMapping("/findId")
+    @Operation(summary = "아이디 찾기")
+    public ResponseEntity<?> findID(@RequestBody FindIdDto dto) {
+        try {
+            return httpResponseUtil.createOKHttpResponse((authService.findID(dto.getName(), dto.getPhonenumber())), "아이디 찾기 성공");
+        } catch (Exception e) {
+            return httpResponseUtil.createInternalServerErrorHttpResponse("아이디 찾기 실패: " + e.getMessage());
+        }
     }
 
-    @PostMapping("/findId/veritfySMS") // Maps HTTP GET requests for the "/findId/veritfySMS" endpoint to the findID() method
-    public @ResponseBody ResponseEntity<FindIdResponseDto> findVerifyedID(@RequestBody FindVerifyedDto dto){
-        return ResponseEntity.ok(authService.findIdverifySms(dto.getCode(),dto.getPhonenumber())); // Returns an HTTP OK response with the result of the findIdverifySms() method
+    @PostMapping("/findId/veritfySMS")
+    @Operation(summary = "아이디 찾기 인증문자 확인")
+    public ResponseEntity<?> findVerifyedID(@RequestBody FindVerifyedDto dto){
+        try {
+            return httpResponseUtil.createOKHttpResponse(authService.findIdverifySms(dto.getCode(),dto.getPhonenumber()), "아이디 찾기 인증문자 확인 성공");
+        } catch (Exception e) {
+            return httpResponseUtil.createInternalServerErrorHttpResponse("아이디 찾기 인증문자 확인 실패: " + e.getMessage());
+        }
     }
 
-    @PostMapping("/resetpassword") // Maps HTTP GET requests for the "/findId/veritfySMS" endpoint to the findID() method
-    public @ResponseBody ResponseEntity<SuccessDto> resetPassword(@RequestBody ResetPasswordDto dto){
-        return ResponseEntity.ok(authService.resetPassword(dto.getEmail(),dto.getPassword(), dto.getPasswordConfirm())); // Returns an HTTP OK response with the result of the findIdverifySms() method
+    @PostMapping("/resetpassword")
+    @Operation(summary = "비밀번호 재설정")
+    public ResponseEntity<?> resetPassword(@RequestBody ResetPasswordDto dto){
+        try {
+            return httpResponseUtil.createOKHttpResponse(authService.resetPassword(dto.getEmail(),dto.getPassword(), dto.getPasswordConfirm()), "비밀번호 재설정 성공");
+        } catch (Exception e) {
+            return httpResponseUtil.createInternalServerErrorHttpResponse("비밀번호 재설정 실패: " + e.getMessage());
+        }
     }
 }
