@@ -1,5 +1,6 @@
 package com.example.demo.Service;
 
+import com.example.demo.Exception.Auth.alreadyRegisteredException;
 import com.example.demo.dto.auth.FindIdResponseDto;
 import com.example.demo.dto.auth.LoginDto;
 import com.example.demo.dto.auth.SmsDto;
@@ -120,6 +121,9 @@ public class AuthService {
     }
 
     public SmsDto PhoneNumberCheck(String phoneNumber) {
+        if(memberRepository.existsByPhonenumber(phoneNumber)){
+            throw new alreadyRegisteredException("이미 가입되어 있는 번호입니다");
+        }
         Random rand  = new Random();
         String numStr = "";
         for(int i=0; i<4; i++) {
