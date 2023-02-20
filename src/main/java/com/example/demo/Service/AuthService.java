@@ -166,7 +166,7 @@ public class AuthService {
 
     public boolean findID(String name, String phonenumber) {
         if(memberRepository.findByNameAndPhonenumber(name,phonenumber) != null) {
-            PhoneNumberCheck(phonenumber);
+            PhoneNumberCheck(phonenumber,true);
             return true;
         }else{
             return false;
