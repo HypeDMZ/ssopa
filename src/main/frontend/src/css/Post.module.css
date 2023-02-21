@@ -160,14 +160,14 @@ div{
 
 .post_scoreGraph{
     width: 80%;
-    height: 35%;
+    height: 30%;
     margin: auto;
     padding: 5px;
 }
 
 .post_score{
     width: 90%;
-    height: 80%;
+    height: 70%;
     display: block;
     margin-left: auto;
     margin-right: auto;
