@@ -10,6 +10,7 @@ import { FindId } from "./component/FindId";
 import { FindPw } from "./component/FindPw";
 import { ShowId } from "./component/ShowId";
 import { ShowPw } from "./component/ShowPw";
+import { ChoosePost } from "./component/ChoosePost";
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
                     <Route path="/auth/findpw" element={<FindPw/>}></Route>
                     <Route path="/auth/showid" element={<ShowId/>}></Route>
                     <Route path="/auth/showpw" element={<ShowPw/>}></Route>
+                    <Route path="/auth/choosePost" element={<ChoosePost/>}></Route>
 
                     <Route path="*" element={<div>여기 아이다</div>}></Route>
                 </Routes>

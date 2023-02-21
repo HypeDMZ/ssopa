@@ -45,7 +45,6 @@ function Post()
                         <div className={styled.post_hotTopic_nav}>Hot Topic</div>
                     </div>
 
-
                     <div className={styled.post_main_lunch}>
                         <div className={styled.post_Lunch_nav}>급식 게시판</div>
                     </div>
