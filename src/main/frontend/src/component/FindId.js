@@ -68,13 +68,11 @@ function FindId(props) {
             .then((result)=> {
                 console.log(result);
 
-                if(result == false) alert('인증번호 틀림');
-                else{//인증번호 맞음->아이디 알려주는 창으로 ㄱ
-                    console.log('인증번호 일치');
-                    //<Link to={'/auth/showid/${Phone}'}></Link>
-                    navigate('/auth/showid/'+result.data.data.email);
-                }
+                console.log('인증번호 일치');
+                //<Link to={'/auth/showid/${Phone}'}></Link>
+                navigate('/auth/showid/'+result.data.data.email);
             })
+            .catch((response)=>{ })
 
 
     }

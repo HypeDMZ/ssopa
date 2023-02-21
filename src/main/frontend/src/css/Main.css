@@ -39,7 +39,8 @@
 }
 
 .icon
-{   height: 40%;
+{
+    height: 40%;
     width: 50%;
     float : top;
     background-color: white;
@@ -76,7 +77,6 @@
     margin-right: auto;
     margin-top: 20px;
     border-radius: 25px;
-
 }
 
 .area

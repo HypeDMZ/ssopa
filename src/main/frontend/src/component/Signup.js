@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import {useNavigate} from "react-router-dom";
 import '../css/Singup.module.css';
 import Layout from '../component/layout/Layout';
 import axios from "axios";
@@ -6,6 +7,7 @@ import styled from '../css/Singup.module.css'
 
 function Signup(props){
 
+    const navigate = useNavigate();
     const [Email, setEmail] = useState("");
     const [Name, setName] = useState("");
     const [Password, setPassword] = useState("");
@@ -19,7 +21,7 @@ function Signup(props){
     useEffect(()=>{
 
         object.email = Email;
-        object.nickname = Name;
+        object.name = Name;
         object.password = Password;
         object.phonenumber = phoneNumber;
         JSONObjectChange(JSON.stringify(object));
@@ -82,13 +84,13 @@ function Signup(props){
                                     withCredentials: true,
                                 })
                                 .then((response)=>{
-                                    setBool(!bool);
-                                    alert("전화번호로 인증키를 보냈습니다. 확인해주세요.");
+                                    setBool(true);
+                                    alert("전화번호로 인증키를 보냈습니다. 확인해주세요. 다시 받을려면 '인증번호 받기' 버튼을 다시 눌러주세요.");
                                 })
                                 .catch((response)=>{ alert("인증~~~~ 실패~~~~ 다시~~~~ 시작~~~~"); })
                         }
                     }
-                }}>인증번호 받기</button><button onClick={()=>{setBool(!bool);}}>활성화</button> </span>
+                }}>인증번호 받기</button></span>
                 {bool ? <OnPhoneCheck phoneNumber={phoneNumber} phoneNumberCheck={phoneNumberCheck} setPhoneNumberCheck={setPhoneNumberCheck}/> : null}
                 <br />
                 <button className={styled.joinB}  formAction='' onClick={()=>{
@@ -98,7 +100,10 @@ function Signup(props){
                             withCredentials : true,
                             headers : {"Content-Type": 'application/json'}
                         })
-                        .then((response) => { console.log(response.data.data); })
+                        .then((response) => {
+                            console.log(response.data.data);
+                            navigate("/auth/login");
+                        })
                         .catch((response) => { console.log('Error!') });
                 }}>
                     회원가입
@@ -118,7 +123,7 @@ function OnPhoneCheck(props){
             <span><button onClick={()=>{
                 {
                     axios.get("http://localhost:8080/auth/check/verifySMS",
-                        {params: {code: props.phoneNumberCheck,to : props.phoneNumber}},
+                        {params: {code: props.phoneNumberCheck, to : props.phoneNumber}},
                         {
                             withCredentials: true,
                         })
