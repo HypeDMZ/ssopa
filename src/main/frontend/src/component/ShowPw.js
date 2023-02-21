@@ -23,9 +23,9 @@ function ShowPw(props){
         확인설정(event.currentTarget.value);
     }
     const onChangePwHandler = (event) => {
-        //console.log(email,새비밀번호, 비밀번호확인);
-        axios.post("http://localhost:8080/auth/resetpassword"
-            , {email: email, password: 새비밀번호, passwordConfirm: 비밀번호확인},
+        console.log(email,기존비밀번호,새비밀번호);
+        axios.post("https://ssopa02.com/api/member/password"
+            , {email: email, exPassword: 기존비밀번호,newPassword: 새비밀번호},
             {
                 withCredentials : true,
                 headers : {"Content-Type": 'application/json'}

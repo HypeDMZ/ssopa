@@ -13,7 +13,7 @@ function RoomList(){
     },[])
 
     const findAllRooms = () => {
-        axios.get("http://localhost:8080/chat/rooms").then((response)=>{
+        axios.get("http://ssopa02.com/api/chat/rooms").then((response)=>{
             console.log(response.data)
             chatRoomsChange(response.data);
         })
@@ -29,7 +29,7 @@ function RoomList(){
 
             console.log(axios.defaults.headers.common['Authorization']);
 
-            axios.post("http://localhost:8080/chat/room",
+            axios.post("http://ssopa02.com/api/chat/room",
                 InputRoomName)
                 .then((response)=>{
                     alert(response.data.roomName + "방 개설에 성공하였습니다.");

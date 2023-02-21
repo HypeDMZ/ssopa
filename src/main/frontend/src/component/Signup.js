@@ -78,7 +78,7 @@ function Signup(props){
                             alert("전화번호 입력이 잘못되었습니다.");
                         }
                         else{
-                            axios.get("http://localhost:8080/auth/check/sendSMS",
+                            axios.get("https://ssopa02.com/api/auth/check/sendSMS",
                                 {params: {to : phoneNumber}},
                                 {
                                     withCredentials: true,
@@ -94,7 +94,7 @@ function Signup(props){
                 {bool ? <OnPhoneCheck phoneNumber={phoneNumber} phoneNumberCheck={phoneNumberCheck} setPhoneNumberCheck={setPhoneNumberCheck}/> : null}
                 <br />
                 <button className={styled.joinB}  formAction='' onClick={()=>{
-                    axios.post("http://localhost:8080/auth/signup",
+                    axios.post("https://ssopa02.com/api/auth/signup",
                         JSONObject,
                         {
                             withCredentials : true,
@@ -122,7 +122,7 @@ function OnPhoneCheck(props){
             }}/>
             <span><button onClick={()=>{
                 {
-                    axios.get("http://localhost:8080/auth/check/verifySMS",
+                    axios.get("https://ssopa02.com/api/auth/check/verifySMS",
                         {params: {code: props.phoneNumberCheck, to : props.phoneNumber}},
                         {
                             withCredentials: true,
