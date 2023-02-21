@@ -19,7 +19,7 @@ function InRoom(){
     const reconnect = useRef(0);
 
     const findRoom = async () => {
-        const response = await axios.get(`/chat/room/${roomId}`);
+        const response = await axios.get(`https://ssopa02.com/api/chat/room/${roomId}`);
         setRoom(response.data);
     };
 
