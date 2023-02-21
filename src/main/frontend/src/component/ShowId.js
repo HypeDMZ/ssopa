@@ -4,7 +4,7 @@ import styled from "../css/FindId.module.css"
 import Layout from "./layout/Layout";
 
 function ShowId(props){
-    const {phoneNumber} = useParams();
+    const {email} = useParams();
     let [id] = useState();
     const navigate = useNavigate();
 
@@ -18,17 +18,16 @@ function ShowId(props){
                     display: 'flex', justifyContent: 'center', alignItems: 'center',
                     width: '100%', height: '100vh'
                 }}>
-                    <div className={styled.findId} style={{height: "30%" ,display: 'flex', flexDirection: 'column',  padding: "10%"}}>
+                    <div className={styled.findId} style={{height: "50%" ,display: 'flex', flexDirection: 'column',  padding: "10%"}}>
                         <h3>고객님의 정보와 일치하는 아이디입니다</h3>
                         <br/><br/>
-                        <h3 style={{borderBottom: "2px solid black"}}>{phoneNumber}</h3>
+                        <h3 style={{borderBottom: "2px solid black"}}>{email}</h3>
+
+                        <button className={styled.btn} onClick={()=>{navigate('/auth/login');}}>
+                            로그인하기
+                        </button>
                     </div>
 
-                    <button onClick={()=>{
-                        navigate('/auth/login');
-                    }}>
-                        로그인하기
-                    </button>
                 </div>
             </div>
         </Layout>

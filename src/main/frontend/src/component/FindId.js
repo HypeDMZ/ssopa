@@ -36,21 +36,16 @@ function FindId(props) {
     const onSendHandler = (event) => {
         //1. 먼저 회원인지 아닌 지 체크(=데베에 데이터 있는 지 체크)
         //2-1. 회원이 아니라면, 경고창 띄우기
-        axios.post("http://localhost:8080/auth/findId", {phonenumber : Phone},
+        alert('인증번호 전송!');
+        axios.post("http://localhost:8080/auth/findId", {name: Name, phonenumber : Phone},
             {
             withCredentials : true,
             headers : {"Content-Type": 'application/json'}
             })
             .then((result)=>{
-                console.log(result);
+                console.log(result.data);
             })
             .catch((response)=>{console.log('이상하다')})
-        //2-2. 회원이라면, 위에서 입력된 이름, 휴대폰 번호에 해당하는 사람한테 인증번호 보내줘야함
-
-        //인증번호 설정 어케할 지?
-        setSendNum(1);
-
-        //보내는 부분
 
     }
     const onConfirmNumHandler = (event) => {
@@ -66,14 +61,18 @@ function FindId(props) {
                 headers : {"Content-Type": 'application/json'}
             })
             .then((result)=> {
-                console.log(result);
+                alert('인증번호 인증 성공!');
+                console.log(result.data);
+                console.log('인증번호 일치');
+                //<Link to={'/auth/showid/${Phone}'}></Link>
+                navigate('/auth/showid/'+result.data.data.email);
 
-                if(result == false) alert('인증번호 틀림');
+                /*if(result == false) alert('인증번호 틀림');
                 else{//인증번호 맞음->아이디 알려주는 창으로 ㄱ
                     console.log('인증번호 일치');
                     //<Link to={'/auth/showid/${Phone}'}></Link>
                     navigate('/auth/showid/'+result.data.data.email);
-                }
+                }*/
             })
 
 
