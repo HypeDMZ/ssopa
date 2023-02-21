@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {useMediaQuery} from "react-responsive";
-import '../css/FindId.css';
+import '../css/FindId.module.css';
 import axios from "axios";
 import {Link} from "react-router-dom";
 import Layout from "./layout/Layout";
