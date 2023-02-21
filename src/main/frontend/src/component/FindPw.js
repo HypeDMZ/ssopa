@@ -9,14 +9,14 @@ function FindPw(props){
 
     const navigate = useNavigate();
 
-    const [Id, setId] = useState("");
+    const [Email, setEmail] = useState("");
     const [Name, setName] = useState("");
     const [Phone, setPhone] = useState("");
     const [SendNum, setSendNum] = useState("");      //서버가 보낸 인증번호
     const [ConfirmNum, setConfirmNum] = useState(""); //사용자가 입력한 인증번호
 
-    const onIdHandler = (event) => {
-        setId(event.currentTarget.value);
+    const onEmailHandler = (event) => {
+        setEmail(event.currentTarget.value);
     }
     const onNameHandler = (event) => {
         setName(event.currentTarget.value);
@@ -27,13 +27,14 @@ function FindPw(props){
     const onSendHandler = (event) => {
         //1. 먼저 회원인지 아닌 지 체크(=데베에 데이터 있는 지 체크)
         //2-1. 회원이 아니라면, 경고창 띄우기
-        axios.post("http://localhost:8080/auth/findId", {phonenumber : Phone},
+        alert('인증번호 전송!');
+        axios.post("http://localhost:8080/auth/findId", {name : Name, phonenumber : Phone},
             {
                 withCredentials : true,
                 headers : {"Content-Type": 'application/json'}
             })
             .then((result)=>{
-                console.log(result);
+                console.log(result.data);
             })
             .catch((response)=>{console.log('이상하다')})
 
@@ -50,14 +51,17 @@ function FindPw(props){
                 headers : {"Content-Type": 'application/json'}
             })
             .then((result)=> {
-                console.log(result);
-
-                if(result == false) alert('인증번호 틀림');
+                alert('인증번호 인증 성공!');
+                console.log(result.data);
+                console.log('인증번호 일치');
+                //<Link to={'/auth/showid/${Phone}'}></Link>
+                navigate('/auth/showpw/'+result.data.data.email);
+                /*if(result == false) alert('인증번호 틀림');
                 else{//인증번호 맞음->아이디 알려주는 창으로 ㄱ
                     console.log('인증번호 일치');
                     //<Link to={'/auth/showid/${Phone}'}></Link>
                     navigate('/auth/showpw/'+result.data.email);
-                }
+                }*/
             })
 
     }
@@ -74,7 +78,7 @@ function FindPw(props){
                     <div className={styled.findId} style={{ height: "90%" ,display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: "3%"}}>
                         <div>
                             <h4>이메일</h4>
-                            <input className={styled.inputBox} type='id' value={Id} placeholder = '입력해주세요' onChange={onIdHandler}/>
+                            <input className={styled.inputBox} type='id' value={Email} placeholder = '입력해주세요' onChange={onEmailHandler}/>
                         </div>
                         <div>
                             <h4>이름</h4>
