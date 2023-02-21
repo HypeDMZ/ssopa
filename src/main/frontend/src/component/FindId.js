@@ -32,8 +32,6 @@ function FindId(props) {
     }
     const onPhoneHandler = (event) => {
         setPhone(event.currentTarget.value);
-
-
     }
     const onSendHandler = (event) => {
         //1. 먼저 회원인지 아닌 지 체크(=데베에 데이터 있는 지 체크)
