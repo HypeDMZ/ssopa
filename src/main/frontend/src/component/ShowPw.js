@@ -1,6 +1,6 @@
 import {Link} from "react-router-dom";
 import React from "react";
-import "../css/FindId.css";
+import "../css/FindId.module.css";
 import Layout from "./layout/Layout";
 
 
