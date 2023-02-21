@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import '../css/Singup.css';
+import '../css/Singup.module.css';
 import Layout from '../component/layout/Layout';
 import axios from "axios";
+import styled from '../css/Singup.module.css'
 
 function Signup(props){
 
@@ -52,23 +53,23 @@ function Signup(props){
 
     return (
         <Layout>
-            <div className='join' style={{ 
-            display: 'flex', justifyContent: 'center', alignItems: 'center', 
-            width: '100%', height: '100vh'
+            <div className={styled.join} style={{
+            display: 'flex', justifyContent: 'center', alignItems: 'center',
+            width: '100%', height: '100vh' , position : "relative", top : "-220px",
             }}>
             <form style={{ display: 'flex', flexDirection: 'column'}}
                 onSubmit={onSubmitHandler}
             >
                 <h4>Email</h4>
-                <input className='inputBox' type='email' value={Email} placeholder = '입력해주세요' onChange={onEmailHandler}/>
+                <input className={styled.inputBox} type='email' value={Email} placeholder = '입력해주세요' onChange={onEmailHandler}/>
                 <h4>Name</h4>
-                <input className='inputBox' type='text' value={Name} placeholder = '입력해주세요' onChange={onNameHandler}/>
+                <input className={styled.inputBox}  type='text' value={Name} placeholder = '입력해주세요' onChange={onNameHandler}/>
                 <h4>Password</h4>
-                <input className='inputBox' type='password' value={Password} placeholder = '입력해주세요' onChange={onPasswordHandler}/>
+                <input className={styled.inputBox}  type='password' value={Password} placeholder = '입력해주세요' onChange={onPasswordHandler}/>
                 <h4>Confirm Password</h4>
-                <input className='inputBox' type='password' value={ConfirmPassword} placeholder = '입력해주세요' onChange={onConfirmPasswordHandler}/>
+                <input className={styled.inputBox}  type='password' value={ConfirmPassword} placeholder = '입력해주세요' onChange={onConfirmPasswordHandler}/>
                 <h4>phoneNumber</h4>
-                <input className='inputBox' type='text' value={phoneNumber} placeholder = '입력해주세요' onChange={onPhoneNumberHandler}/>
+                <input className={styled.inputBox}  type='text' value={phoneNumber} placeholder = '입력해주세요' onChange={onPhoneNumberHandler}/>
                 <span><button onClick={()=>{
                     {
                         if(phoneNumber.length !== 11){
@@ -90,7 +91,7 @@ function Signup(props){
                 }}>인증번호 받기</button><button onClick={()=>{setBool(!bool);}}>활성화</button> </span>
                 {bool ? <OnPhoneCheck phoneNumber={phoneNumber} phoneNumberCheck={phoneNumberCheck} setPhoneNumberCheck={setPhoneNumberCheck}/> : null}
                 <br />
-                <button className='joinB' formAction='' onClick={()=>{
+                <button className={styled.joinB}  formAction='' onClick={()=>{
                     axios.post("http://localhost:8080/auth/signup",
                         JSONObject,
                         {
@@ -111,7 +112,7 @@ function Signup(props){
 function OnPhoneCheck(props){
     return(
         <>
-            <input className='inputBox' type='text' value={props.phoneNumberCheck} placeholder = '입력해주세요' onChange={(e)=> {
+            <input className={styled.inputBox} type='text' value={props.phoneNumberCheck} placeholder = '입력해주세요' onChange={(e)=> {
                 props.setPhoneNumberCheck(e.target.value);
             }}/>
             <span><button onClick={()=>{

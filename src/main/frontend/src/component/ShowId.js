@@ -1,6 +1,6 @@
 import {Link, useNavigate, useParams} from "react-router-dom";
 import React, {useState} from "react";
-import "../css/FindId.css"
+import "../css/FindId.module.css"
 import Layout from "./layout/Layout";
 
 function ShowId(props){

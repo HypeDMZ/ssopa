@@ -13,7 +13,6 @@
     width: 100%;
     /*height: 100%; /* 이렇게 해야 footer가 하단 고정 */
     background-color: white;
-
     display: flex;
     justify-content: center;
     align-items: center;
@@ -21,7 +20,7 @@
 }
 
 .nav{
-    background : #FF9933;
+    background-color : #F2B284;
     width : 100%;
     display : flex;
     color : white;
