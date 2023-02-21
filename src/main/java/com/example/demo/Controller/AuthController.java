@@ -79,7 +79,7 @@ public class AuthController {
     @Operation(summary = "인증문자 확인")
     public ResponseEntity<?> verifySMS(@RequestParam(value="to") String to,@RequestParam(value="code") String code){
         try {
-            return httpResponseUtil.createOKHttpResponse(authService.verifySms(to,code), "인증문자 확인 성공");
+            return httpResponseUtil.createOKHttpResponse(authService.verifySms(code,to), "인증문자 확인 성공");
         } catch (Exception e) {
             return httpResponseUtil.createInternalServerErrorHttpResponse("인증문자 확인 실패: " + e.getMessage());
         }

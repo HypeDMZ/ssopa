@@ -12,54 +12,84 @@
     overflow: scroll;
 }
 
+.leftPage p{
+    position: relative;
+    width: 451px;
+    height: 35px;
+    left: 50px;
+    top: -30px;
+
+    font-family: 'Kodchasan';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 75px;
+    line-height: 98px;
+
+    color: #F48E44;
+    text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.25);
+}
+
 .rightPage
 {
     width: 30vw;
     height: 100vh;
     float : left;
+    background-color: #F2B284;
+    position: relative;
 }
 
 .icon
 {
-    width: 100%;
-    height: 28%;
-    background-position: center;
-    background-image: url("../img/logo.png");
-    background-repeat: no-repeat;
+    height: 40%;
+    width: 50%;
+    float : top;
+    background-color: white;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top : 10px;
+    border-radius: 15px;
+}
+
+.SSOPA{
+    float : top;
+    margin : 0px;
+    font-family: 'Kodchasan';
+    font-style: normal;
+    text-align: center;
 }
 
 .Login
 {
     width : 100%;
-    height: 36%;
-    padding-top : 60px;
+    height: 50%;
+    padding-top : 0px;
     text-emphasis-color: black;
 }
 
 
 .Login button
 {
-    width: 60%;
-    height: 40px;
+    width: 80%;
     color: blanchedalmond;
     display: block;
     margin-left: auto;
     margin-right: auto;
     margin-top: 20px;
     border-radius: 25px;
-
 }
 
 .area
 {
-    overflow: scroll;
-    width: 100%;
-    height: 22%;
+    width: 90%;
+    height: 40%;
     float: left;
     text-align: center;
     text-decoration: none;
     padding: 10px;
-    background-color: #eee;
+    margin-left: 5px;
+    background-color: #F2B284;
+    border-radius: 10px;
 }
 
 .area li
@@ -109,10 +139,21 @@ p{
     top : 100px;
 }
 
-.video {
-    width: 50%;
-    height: 50%;
-    background-color: red;
-    overflow: visible;
-    float : top;
+
+.around{
+    position: relative;
+    background-color: #FFF3D3;
+    width: 100%;
+    height: 90%;
+    border-radius: 20px;
+}
+
+.adver{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+    height: 70%;
+    background-color: white;
+    border-radius: 20px;
 }
