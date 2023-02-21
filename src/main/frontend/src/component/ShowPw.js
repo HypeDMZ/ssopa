@@ -1,6 +1,6 @@
 import {Link, useParams} from "react-router-dom";
 import React, {useState} from "react";
-import "../css/FindId.css";
+import styled from "../css/FindId.module.css";
 import Layout from "./layout/Layout";
 import axios from "axios";
 
@@ -40,22 +40,22 @@ function ShowPw(props){
                 {/*<Nav></Nav>*/}
 
                 <h2 style={{borderBottom : '2px solid black',margin : '30px'}}>비밀번호 재설정</h2>
-                <div className="find" style={{
+                <div className={styled.find} style={{
                     display: 'flex', justifyContent: 'center', alignItems: 'center',
                     width: '100%', height: '100vh,'
                 }}>
-                    <div className="findId" style={{height: "30%" ,display: 'flex', flexDirection: 'column',  padding: "10%"}}>
+                    <div className={styled.findId} style={{height: "30%" ,display: 'flex', flexDirection: 'column',  padding: "10%"}}>
                         <div>
                             <h4>기존 비밀번호</h4>
-                            <input className='inputBox' type='password' value={기존비밀번호} placeholder = '입력해주세요' onChange={onExPwHandler}/>
+                            <input className={styled.inputBox} type='password' value={기존비밀번호} placeholder = '입력해주세요' onChange={onExPwHandler}/>
                         </div>
                         <div>
                             <h4>새로운 비밀번호</h4>
-                            <input className='inputBox' type='password' value={새비밀번호} placeholder = '입력해주세요' onChange={onPwHandler}/>
+                            <input className={styled.inputBox} type='password' value={새비밀번호} placeholder = '입력해주세요' onChange={onPwHandler}/>
                         </div>
                         <div>
                             <h4>새로운 비밀번호 확인</h4>
-                            <input className='inputBox' type='password' value={비밀번호확인} placeholder = '입력해주세요' onChange={onConfirmPwHandler}/>
+                            <input className={styled.inputBox} type='password' value={비밀번호확인} placeholder = '입력해주세요' onChange={onConfirmPwHandler}/>
                         </div>
                         <div>
                             <button style={{marginTop: "20px", width: "120px",
@@ -73,7 +73,7 @@ function ShowPw(props){
 }
 function Nav(){
     return(
-        <div className="nav">
+        <div className={styled.nav}>
             <Link to="/">
                 <h2 style={{color: "white"}}>DMZ</h2>
             </Link>

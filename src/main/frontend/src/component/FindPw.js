@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {useMediaQuery} from "react-responsive";
-import '../css/FindId.module.css';
+import styled from '../css/FindId.module.css';
 import axios from "axios";
 import {Link, useNavigate} from "react-router-dom";
 import Layout from "./layout/Layout";
@@ -67,29 +67,29 @@ function FindPw(props){
             <div style={{width: "100%", height: "100%"}}>
                 {/*<Nav></Nav>*/}
                 <h2 style={{borderBottom : '2px solid black',margin : '30px'}}>비밀번호 재설정</h2>
-                <div className="find" style={{
+                <div className={styled.find} style={{
                     display: 'flex', justifyContent: 'center', alignItems: 'center',
                     width: '100%', height: '100vh'
                 }}>
-                    <div className="findId" style={{ height: "90%" ,display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: "3%"}}>
+                    <div className={styled.findId} style={{ height: "90%" ,display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: "3%"}}>
                         <div>
                             <h4>이메일</h4>
-                            <input className='inputBox' type='id' value={Id} placeholder = '입력해주세요' onChange={onIdHandler}/>
+                            <input className={styled.inputBox} type='id' value={Id} placeholder = '입력해주세요' onChange={onIdHandler}/>
                         </div>
                         <div>
                             <h4>이름</h4>
-                            <input className='inputBox' type='name' value={Name} placeholder = '입력해주세요' onChange={onNameHandler}/>
+                            <input className={styled.inputBox} type='name' value={Name} placeholder = '입력해주세요' onChange={onNameHandler}/>
                         </div>
                         <div>
                             <h4>휴대전화</h4>
-                            <input className='inputBox' type='phone' value={Phone} placeholder = '입력해주세요' onChange={onPhoneHandler}/>
+                            <input className={styled.inputBox} type='phone' value={Phone} placeholder = '입력해주세요' onChange={onPhoneHandler}/>
                         </div>
-                        <button className='btn' onClick={onSendHandler}>인증 번호 받기</button>
+                        <button className={styled.btn} onClick={onSendHandler}>인증 번호 받기</button>
                         <div>
                             <h4>인증 번호 입력</h4>
-                            <input className='inputBox' type='confirmNum' value={ConfirmNum} placeholder = '입력해주세요' onChange={onConfirmNumHandler}/>
+                            <input className={styled.inputBox} type='confirmNum' value={ConfirmNum} placeholder = '입력해주세요' onChange={onConfirmNumHandler}/>
                         </div>
-                        <button className='btn' onClick={onCheckHandler}>인증 번호 확인</button>
+                        <button className={styled.btn} onClick={onCheckHandler}>인증 번호 확인</button>
                         {/*<div>
                             <button style={{marginTop: "20px", width: "100px",
                                 height: "30px", background: "black", color: "white", borderRadius: "30px"}}>
@@ -105,7 +105,7 @@ function FindPw(props){
 
 function Nav(){
     return(
-        <div className="nav">
+        <div className={styled.nav}>
             <Link to="/">
                 <h2 style={{color: "white"}}>DMZ - find password</h2>
             </Link>
