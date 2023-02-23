@@ -33,7 +33,7 @@ function InRoom(){
     };
 
     useEffect(() => {
-        sock.current = new SockJS('ssopa02.com/api/ws/chat');
+        sock.current = new SockJS('/api/ws/chat');
         ws.current = Stomp.over(sock.current);
         findRoom();
 
