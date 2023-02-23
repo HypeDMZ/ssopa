@@ -1,4 +1,4 @@
-package com.example.demo.dto.member;
+package com.example.demo.dto.auth;
 
 import com.example.demo.entity.Authority;
 import com.example.demo.entity.Member;

@@ -9,10 +9,7 @@ import java.util.stream.Collectors;
 @Setter
 @Entity
 @ToString
-@Builder
 @NoArgsConstructor
-
-
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +27,9 @@ public class Member {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private String nickname;
+
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
@@ -43,6 +43,4 @@ public class Member {
         this.name = name;
         this.authority = authority;
     }
-
-
 }

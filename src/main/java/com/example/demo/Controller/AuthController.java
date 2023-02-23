@@ -4,18 +4,12 @@ import com.example.demo.Exception.Auth.alreadyRegisteredException;
 import com.example.demo.Service.AuthService;
 import com.example.demo.common.HttpResponseUtil;
 import com.example.demo.dto.auth.*;
-import com.example.demo.dto.jwt.TokenDto;
 import com.example.demo.dto.jwt.TokenReqDto;
-import com.example.demo.dto.member.MemberRequestDto;
-import com.example.demo.dto.member.MemberResponseDto;
+import com.example.demo.dto.auth.MemberRequestDto;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,8 +19,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @Api(tags = "AuthController : 로그인/회원가입 관련 컨트롤러")
 public class AuthController {
-
-
     private final AuthService authService;
     private final HttpResponseUtil httpResponseUtil;
 
@@ -79,7 +71,7 @@ public class AuthController {
     @Operation(summary = "인증문자 확인")
     public ResponseEntity<?> verifySMS(@RequestParam(value="to") String to,@RequestParam(value="code") String code){
         try {
-            return httpResponseUtil.createOKHttpResponse(authService.verifySms(to,code), "인증문자 확인 성공");
+            return httpResponseUtil.createOKHttpResponse(authService.verifySms(code,to), "인증문자 확인 성공");
         } catch (Exception e) {
             return httpResponseUtil.createInternalServerErrorHttpResponse("인증문자 확인 실패: " + e.getMessage());
         }
