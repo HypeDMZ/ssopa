@@ -13,6 +13,12 @@ import { ShowPw } from "./component/ShowPw";
 import { InRoom } from "./component/room/InRoom";
 import { RoomList } from "./component/room/RoomList";
 
+import { ChoosePost } from "./component/ChoosePost";
+import { ChattingRoom } from "./component/ChattingRoom";
+import {AfterSearchingPost} from "./component/AfterSearchingPost";
+import {AfterChooseMyPost} from "./component/AfterChooseMyPost";
+import {AfterClickBookMark} from "./component/AfterClickBookMark";
+import {MyCommentPost} from "./component/MyCommentPost";
 function App() {
 
     return (
@@ -32,6 +38,12 @@ function App() {
                     {/*chat*/}
                     <Route path="/chat/list" element={<RoomList/>}></Route>
                     <Route path="/chat/room/enter/:roomId" element={<InRoom/>}></Route>
+                    <Route path="/auth/choosePost" element={<ChoosePost/>}></Route>
+                    <Route path="/auth/chattingRoom" element={<ChattingRoom/>}></Route>
+                    <Route path="/auth/AfterSearchingPost" element={<AfterSearchingPost/>}></Route>
+                    <Route path="/auth/AfterChooseMyPost" element={<AfterChooseMyPost/>}></Route>
+                    <Route path="/auth/AfterClickBookMark" element={<AfterClickBookMark/>}></Route>
+                    <Route path="/auth/MyCommentPost" element={<MyCommentPost/>}></Route>
 
                     <Route path="*" element={<div>여기 아이다</div>}></Route>
                 </Routes>
