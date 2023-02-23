@@ -11,9 +11,7 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class ChatService {
-
     private Map<String, ChatRoom> chatRooms;
-
     private final ChatRoomRepository chatRoomRepository;
 
     @PostConstruct
@@ -30,7 +28,6 @@ public class ChatService {
         //채팅방 최근 생성 순으로 반환
         List<ChatRoom> result = new ArrayList<>(chatRooms.values());
         Collections.reverse(result);
-
         return result;
     }
 

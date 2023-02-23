@@ -27,4 +27,7 @@ public class PostRequestDto {
     @ApiModelProperty(value="글내용", example="내 용",required = true)
     private String content;
 
+    @ApiModelProperty(value="작성자", example="작성자",required = true)
+    private String writer;
+
 }

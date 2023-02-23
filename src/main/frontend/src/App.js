@@ -10,6 +10,9 @@ import { FindId } from "./component/FindId";
 import { FindPw } from "./component/FindPw";
 import { ShowId } from "./component/ShowId";
 import { ShowPw } from "./component/ShowPw";
+import { InRoom } from "./component/room/InRoom";
+import { RoomList } from "./component/room/RoomList";
+
 import { ChoosePost } from "./component/ChoosePost";
 import { ChattingRoom } from "./component/ChattingRoom";
 import {AfterSearchingPost} from "./component/AfterSearchingPost";
@@ -22,14 +25,19 @@ function App() {
         <BrowserRouter>
             <div>
                 <Routes>
-                    <Route path="/" element={<Main />}> </Route>
+                    <Route path="/" element={<Main />}></Route>
                     <Route path="/auth/login" element={<Login />}></Route>
                     <Route path="/auth/signup" element={<Signup />}></Route>
-                    <Route path="/Post" element={<Post/>}></Route>
                     <Route path="/auth/findid" element={<FindId/>}></Route>
                     <Route path="/auth/findpw" element={<FindPw/>}></Route>
-                    <Route path="/auth/showid" element={<ShowId/>}></Route>
-                    <Route path="/auth/showpw" element={<ShowPw/>}></Route>
+                    <Route path="/auth/showid/:email" element={<ShowId/>}></Route>
+                    <Route path="/auth/showpw/:email" element={<ShowPw/>}></Route>
+
+                    <Route path="/Post" element={<Post/>}></Route>
+
+                    {/*chat*/}
+                    <Route path="/chat/list" element={<RoomList/>}></Route>
+                    <Route path="/chat/room/enter/:roomId" element={<InRoom/>}></Route>
                     <Route path="/auth/choosePost" element={<ChoosePost/>}></Route>
                     <Route path="/auth/chattingRoom" element={<ChattingRoom/>}></Route>
                     <Route path="/auth/AfterSearchingPost" element={<AfterSearchingPost/>}></Route>

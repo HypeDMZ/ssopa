@@ -40,8 +40,6 @@ public class StompHandler implements ChannelInterceptor {
 
 
 
-
-
         // 헤더 토큰 얻기
         String authorizationHeader = String.valueOf(headerAccessor.getNativeHeader("Authorization"));
         authorizationHeader = authorizationHeader.substring(1, authorizationHeader.length()-1);
@@ -53,12 +51,9 @@ public class StompHandler implements ChannelInterceptor {
 
         String token = authorizationHeader.substring(BEARER_PREFIX.length());
         // 토큰 검증  테스트 용으로 꺼둠
-//        if(jwtService.validateToken(token)==false){
-//            throw new RuntimeException("토큰 검증 실패");
-//        }
-
-
-
+        if(jwtService.validateToken(token)==false){
+            throw new RuntimeException("토큰 검증 실패");
+        }
 
 
         //get nickname which is stored at member table by using token

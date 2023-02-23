@@ -1,6 +1,7 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Service.MemberService;
+import com.example.demo.common.HttpResponseUtil;
 import com.example.demo.dto.member.ChangeNicknameRequestDto;
 import com.example.demo.dto.member.ChangePasswordRequestDto;
 import com.example.demo.dto.member.MemberResponseDto;
@@ -16,28 +17,37 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/member")
 @Api(tags = "MemberController : 회원 정보 요청 관련 컨트롤러")
 public class MemberController {
-
     private final MemberService memberService;
+    private final HttpResponseUtil httpResponseUtil;
 
     @GetMapping("/me")
     @ApiOperation(value = "내 정보 조회")
-    public ResponseEntity<MemberResponseDto> getMyMemberInfo() {
+    public ResponseEntity<?> getMyMemberInfo() {
         MemberResponseDto myInfoBySecurity = memberService.getMyInfoBySecurity();
-        System.out.println(myInfoBySecurity.getNickname());
-        return ResponseEntity.ok((myInfoBySecurity));
-        // return ResponseEntity.ok(memberService.getMyInfoBySecurity());
+        try {
+            return httpResponseUtil.createOKHttpResponse(myInfoBySecurity, "내 정보 조회 성공");
+        } catch (Exception e) {
+            return httpResponseUtil.createInternalServerErrorHttpResponse("내 정보 조회 실패: " + e.getMessage());
+        }
     }
 
     @PostMapping("/nickname")
     @ApiOperation(value = "닉네임 변경 요청")
-    public ResponseEntity<MemberResponseDto> setMemberNickname(@RequestBody ChangeNicknameRequestDto request) {
-        return ResponseEntity.ok(memberService.changeMemberNickname(request.getEmail(), request.getNickname()));
+    public ResponseEntity<?> setMemberNickname() {
+        try {
+            return httpResponseUtil.createOKHttpResponse(memberService.changeMemberNickname(), "닉네임 변경 성공");
+        } catch (Exception e) {
+            return httpResponseUtil.createInternalServerErrorHttpResponse("닉네임 변경 실패: " + e.getMessage());
+        }
     }
 
     @ApiOperation(value = "비밀번호 변경 요청")
     @PostMapping("/password")
-    public ResponseEntity<MemberResponseDto> setMemberPassword(@RequestBody ChangePasswordRequestDto request) {
-        return ResponseEntity.ok(memberService.changeMemberPassword(request.getEmail(),request.getExPassword(), request.getNewPassword()));
+    public ResponseEntity<?> setMemberPassword(@RequestBody ChangePasswordRequestDto request) {
+        try {
+            return httpResponseUtil.createOKHttpResponse(memberService.changeMemberPassword(request.getEmail(), request.getExPassword(), request.getNewPassword()), "비밀번호 변경 성공");
+        } catch (Exception e) {
+            return httpResponseUtil.createInternalServerErrorHttpResponse("비밀번호 변경 실패: " + e.getMessage());
+        }
     }
-
 }

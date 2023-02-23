@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {useMediaQuery} from "react-responsive";
-import { Link } from 'react-router-dom';
-import '../css/FindId.module.css';
-import  './layout/Layout'
+import { Link , useNavigate} from 'react-router-dom';
 import axios from "axios";
 import Layout from "./layout/Layout";
 import styled from '../css/FindId.module.css'
@@ -12,7 +10,6 @@ import styled from '../css/FindId.module.css'
         query: "(max-width:768px)"
     });
     return <>{isMobile && children}</>
-}
 }
 
 export const Pc = ({ children }) => {
@@ -24,6 +21,7 @@ export const Pc = ({ children }) => {
 
 function FindId(props) {
 
+    const navigate = useNavigate();
     const [Name, setName] = useState("");
     const [Phone, setPhone] = useState("");
     const [SendNum, setSendNum] = useState("");       //서버가 보낸 인증번비
@@ -36,14 +34,18 @@ function FindId(props) {
         setPhone(event.currentTarget.value);
     }
     const onSendHandler = (event) => {
-        //1. 먼저 회원인지 아닌 지 체크
+        //1. 먼저 회원인지 아닌 지 체크(=데베에 데이터 있는 지 체크)
         //2-1. 회원이 아니라면, 경고창 띄우기
-        //2-2. 회원이라면, 위에서 입력된 이름, 휴대폰 번호에 해당하는 사람한테 인증번호 보내줘야함
-
-        //인증번호 설정 어케할 지?
-        setSendNum(1);
-
-        //보내는 부분
+        alert('인증번호 전송!');
+        axios.post("http://ssopa02.com/api/auth/findId", {name: Name, phonenumber : Phone},
+            {
+            withCredentials : true,
+            headers : {"Content-Type": 'application/json'}
+            })
+            .then((result)=>{
+                console.log(result.data);
+            })
+            .catch((response)=>{console.log('이상하다')})
 
     }
     const onConfirmNumHandler = (event) => {
@@ -52,6 +54,29 @@ function FindId(props) {
     }
     const onCheckHandler = (event) => {
         //보낸 인증번호와 입력된 인증 번호가 일치하는 지 확인
+        axios.post("http://ssopa02.com/api/auth/findId/veritfySMS",
+            {code : ConfirmNum, phonenumber : Phone},
+            {
+                withCredentials : true,
+                headers : {"Content-Type": 'application/json'}
+            })
+            .then((result)=> {
+                alert('인증번호 인증 성공!');
+                console.log(result.data);
+                console.log('인증번호 일치');
+                //<Link to={'/auth/showid/${Phone}'}></Link>
+                navigate('/auth/showid/'+result.data.data.email);
+
+                /*if(result == false) alert('인증번호 틀림');
+                else{//인증번호 맞음->아이디 알려주는 창으로 ㄱ
+                    console.log('인증번호 일치');
+                    //<Link to={'/auth/showid/${Phone}'}></Link>
+                    navigate('/auth/showid/'+result.data.data.email);
+                }*/
+            })
+            .catch((response)=>{ })
+
+
     }
 
     return(

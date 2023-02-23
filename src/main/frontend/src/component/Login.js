@@ -9,6 +9,7 @@ import {useMediaQuery} from "react-responsive";
 function Login(props){
     const navigate = useNavigate();
 
+    const [saveId, setSaveId] = useState(false);
     let [아이디, 아이디변경] = useState('');
     let [비밀번호, 비밀번호변경] = useState('');
     let [loginDataJSON, loginDataJSONChange] = useState([]);
@@ -20,8 +21,11 @@ function Login(props){
         loginDataJSONChange(JSON.stringify(loginData));
     },[아이디,비밀번호]);
 
-
-
+    useEffect(()=>{
+        if(getCookie('id')!==undefined){
+            아이디변경(getCookie('id'));
+        }
+    },[]);
 
     const onLogin = () => {
         console.log(loginDataJSON);
@@ -33,17 +37,26 @@ function Login(props){
             })
             .then((response) => {
                 console.log(response.data);
-                axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.accessToken}`;
+                axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.data.accessToken}`;
                 console.log(axios.defaults.headers.common["Authorization"]);
-                console.log(`Bearer ${response.data.refreshToken}`);
+                console.log(`Bearer ${response.data.data.refreshToken}`);
 
                 setCookie('token',
-                    {accessToken: `Bearer ${response.data.accessToken}`
-                        ,refreshToken: `Bearer ${response.data.refreshToken}`},
+                    {accessToken: `Bearer ${response.data.data.accessToken}`
+                        ,refreshToken: `Bearer ${response.data.data.refreshToken}`},
                     {
                         path: "/"
                     });
 
+                console.log(saveId)
+                if(saveId == true){
+                    setCookie('id', 아이디,{path:"/auth/login"});
+                    console.log(getCookie('id'));
+                }
+                else if(saveId == false && getCookie('id') != undefined){
+                    removeCookie('id',{path:"/auth/login"});
+                    console.log(getCookie('id'));
+                }
                 console.log(getCookie('token'));
                 alert("로그인 완료");
 
@@ -55,7 +68,7 @@ function Login(props){
 
     return (
         <Layout component={<TopButton navigate={navigate}/>}>
-            <LoginMainPC 아이디={아이디} 아이디변경={아이디변경} 비밀번호={비밀번호} 비밀번호변경={비밀번호변경} onLogin={onLogin}/>
+            <LoginMainPC 아이디={아이디} 아이디변경={아이디변경} 비밀번호={비밀번호} 비밀번호변경={비밀번호변경} onLogin={onLogin} saveId={saveId} setSaveId={setSaveId}/>
         </Layout>
     )
 }
@@ -84,12 +97,17 @@ const LoginMainPC = (props) => {
                    onChange={ (e)=>{props.비밀번호변경(e.target.value);}}/>
 
             <div className={styled.login_option} style={{top:"52%" , left:"40%"}}>
-                <input type="checkbox" style={{display : "inline"}}/> <p style={{fontSize : "10px"}}>아이디 저장</p>
+                <input type="checkbox" style={{display : "inline"}}
+                checked={props.saveId} onChange={(event) => {
+                        props.setSaveId(event.target.checked);
+                    }
+                }/><p style={{fontSize:"5px"}}>아이디 저장</p>
             </div>
 
             <div className={styled.login_option} style={{top:"52%" , left:"60%"}}>
-                <Link to="#" style={{fontSize : "5px", color: "#CD5600"}}> 아이디/비밀번호찾기  </Link>
-
+                <Link to="/auth/findId" style={{fontSize : "5px", color: "#CD5600"}}> 아이디찾기  </Link>
+                <p style={{fontSize:"10px"}}>/</p>
+                <Link to="/auth/findPw" style={{fontSize : "5px", color: "#CD5600"}}> 비밀번호찾기  </Link>
             </div>
 
 
