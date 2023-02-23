@@ -12,7 +12,7 @@ function Main(props){
 
         <div className="container">
             <div className ="leftPage">
-                <p style ={{fontSize : "20px" , color : "black", marginBottom : "-60px", marginLeft : "-20px"}}>전국 고등학생들의 커뮤티니</p>
+                <p style ={{fontSize : "20px" , color : "black", marginBottom : "-60px", marginLeft : "-20px"}}>전국 고등학생들의 커뮤니티</p>
                <p >SSOPA</p>
             </div>
 
