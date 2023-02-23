@@ -69,6 +69,7 @@ function Post()
                                     )
                                 })
                             }
+e                            <button style={{float : "right"}}> 다음페이지=></button>
                         </div>
                     </div>
                 </div>
