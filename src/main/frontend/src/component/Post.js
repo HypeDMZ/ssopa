@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import Layout from '../css/layout/Layout.css'
 import styled from '../css/Post.module.css'
-
+import {Link} from 'react-router-dom';
 function Post()
 {
     return(
@@ -24,6 +24,7 @@ function Post()
                     <p>내 성적 그래프</p>
                     <div className={styled.post_score}></div>
                 </div>
+                <Link to ="/" style={{color : "black",borderRadius : "5px", textDecoration : "none", border : "none", backgroundColor : "#FBD0B2", marginTop : "25px"}} onClick={()=>{}}>로그아웃</Link>
             </div>
 
             <div className={styled.post_nav}></div>
@@ -43,7 +44,6 @@ function Post()
                     <div className={styled.post_main_hotTopic}>
                         <div className={styled.post_hotTopic_nav}>Hot Topic</div>
                     </div>
-
 
                     <div className={styled.post_main_lunch}>
                         <div className={styled.post_Lunch_nav}>급식 게시판</div>
