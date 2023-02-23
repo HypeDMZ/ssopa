@@ -1,9 +1,23 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Layout from '../css/layout/Layout.css'
 import styled from '../css/Post.module.css'
 import {Link} from 'react-router-dom';
+import axios from 'axios'
 function Post()
 {
+    let [post, changePost] = useState();
+
+
+    /*재 랜더링 할때마다 server에서 최신 post를 가져온다.*/
+    useEffect( () => {
+        let recentPost = axios.get("url")
+        .then((data)=>{
+            post = data.data.data;
+            changePost(post);
+        })
+    },[post])
+
+
     return(
         <div className={styled.post_container}>
             <div className={styled.post_my}>
@@ -18,6 +32,7 @@ function Post()
                        <div>✍️ 내가 쓴 글</div>
                         <div>📖 댓글 단 글</div>
                         <div>📋 책갈피</div>
+                        <div>📋 오픈채팅방</div>
                     </div>
                 </div>
                 <div className={styled.post_scoreGraph}>
@@ -36,8 +51,25 @@ function Post()
                         <button onClick={()=>{}}>검색</button>
                     </div>
                     <div className={styled.post_main_contents}>
-                        <div className={styled.post_main_nav}>자유게시판</div>
-                        <div className={styled.post_main_post}>여기다가 게시판 띄우면 됨</div>
+                        <div className={styled.post_main_nav}>자유게시판  <button style={{float : "right", borderRadius : "10px", backgroundColor : "#F2B284"}}
+                        onCLick>글쓰기</button></div>
+                        <div className={styled.post_main_post}>
+                            {
+                                /*[0,1,2...]말고 post를 받아와서 사용하면됨.*/
+                                [0,1,2,3,4,5,6].map((a,i)=>{
+                                    return(
+                                        <div className={styled.post_post}>
+                                            <p>Title</p>
+                                            <p>Contents</p>
+                                            <button onClick={()=>{
+
+                                            }
+                                            }>Delete</button>
+                                        </div>
+                                    )
+                                })
+                            }
+                        </div>
                     </div>
                 </div>
                 <div className={styled.post_main_right}>
