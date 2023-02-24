@@ -1,0 +1,239 @@
+div{
+    box-sizing: border-box;
+}
+.post_container{
+    width: 100vw;
+    height: 100vh;
+    min-width: 1000px;
+    min-height: 500px;
+}
+
+.post_nav{
+    width: 100%;
+    height: 10%;
+    background-color: #F2B284;
+    float : right;
+}
+
+.post_my{
+    width: 18%;
+    height: 100%;
+    background-color: #FFF3D3;
+    display: inline-block;
+    float : left;
+}
+
+.post_main_container{
+    display: inline-block;
+    float : right;
+    width: 100%;
+    height: 100%;
+    background-color: wheat;
+}
+
+.post_main_left{
+    display: inline;
+    width: 65%;
+    height: 100%;
+    float: left;
+    background-color: white;
+    z-index: 4;
+}
+
+.post_main_right{
+    display: inline;
+    width: 35%;
+    height: 100%;
+    float: right;
+    background-color: white;
+}
+
+.post_main_search{
+    width: 90%;
+    height: 10%;
+    float: top;
+    margin : auto;
+    margin-top : 20px;
+    border : solid 2.5px #F2B284;
+    border-radius: 10px;
+    z-index: 1;
+    color : #F2B284;
+}
+
+/*검색 할떄 input 누를시 태투리 없애주는 코드*/
+.post_input:focus{
+    border: none;
+    outline: none;
+}
+
+
+.post_main_search button{
+    width: 15%;
+    height: 70%;
+    border: none;
+    border-radius: 15px;
+    color : white;
+    background-color: #F2B284;
+
+}
+
+.post_main_contents{
+    width: 90%;
+    height: 90%;
+    float: bottom;
+    margin : auto;
+    margin-top : 10px;
+    border : solid 2.5px #F2B284;
+    border-radius: 10px;
+    z-index: 1;
+}
+
+.post_main_hotTopic{
+    width: 90%;
+    height: 55%;
+    float: top;
+    margin : auto;
+    margin-top : 20px;
+    border : solid 2.5px #F2B284;
+    border-radius: 10px;
+    z-index: 1;
+}
+
+.post_main_lunch{
+    width: 90%;
+    height: 35%;
+    float: bottom;
+    margin : auto;
+    margin-top : 10px;
+    border : solid 2.5px #F2B284;
+    border-radius: 10px;
+    z-index: 1;
+}
+
+.post_profile{
+    width: 90%;
+    height: 55%;
+    float : top;
+    margin: auto;
+    margin-top : 10px;
+    position: relative;
+}
+
+.post_profile_img{
+    width: 50%;
+    height: 30%;
+    align-items: center;
+    margin: auto;
+    background-color: white;
+    position: relative;
+    top : 10px;
+    border-radius: 10px;
+}
+
+.post_profile_info{
+    width: 80%;
+    height: 20%;
+    align-items: center;
+    margin: auto;
+    position: relative;
+    top : 20px;
+    border-radius: 10px;
+}
+
+.post_profile_info button{
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.post_profile_catagory{
+    width: 80%;
+    height: 40%;
+    margin : 20px;
+}
+
+.post_profile_catagory div{
+    margin-top : 20px;
+    padding: 5px;
+    border-bottom: solid 2px #F2B284;
+}
+
+.post_scoreGraph{
+    width: 80%;
+    height: 35%;
+    margin: auto;
+    padding: 5px;
+}
+
+.post_score{
+    width: 90%;
+    height: 80%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+}
+
+/*전체 게시판의 글을 입력해주세요의 색상변경*/
+::-webkit-input-placeholder {
+    color: #F2B284;;
+}
+
+.post_main_nav{
+    width: 100%;
+    height: 10%;
+
+    text-align: left;
+    padding: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    background-color: #F2B284;
+
+}
+
+.post_main_post{
+    width: 90%;
+    height: 88%;
+    margin-top : 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.post_hotTopic_nav{
+    width: 90%;
+    height: 10%;
+    margin-top : 10px;
+    margin-left: 10px;
+    border-bottom: solid 2px #F2B284;
+    text-align: left;
+    padding: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    color : #F2B284;
+}
+
+.post_Lunch_nav{
+    width: 90%;
+    height: 15%;
+    margin-top : 10px;
+    margin-left: 10px;
+    border-bottom: solid 2px #F2B284;
+    text-align: left;
+    padding: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    color : #F2B284;
+}
+.post_select{
+    width: 20%;
+    height: 80%;
+    border-radius: 10px;
+}
+input::placeholder {
+    color: black;
+    font-weight: bold;
+}
+textarea::placeholder{
+    color: black;
+}

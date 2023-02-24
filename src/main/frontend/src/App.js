@@ -12,7 +12,7 @@ import { ShowId } from "./component/ShowId";
 import { ShowPw } from "./component/ShowPw";
 import { InRoom } from "./component/room/InRoom";
 import { RoomList } from "./component/room/RoomList";
-
+import { Write } from "./component/Write";
 import { ChoosePost } from "./component/ChoosePost";
 import { ChattingRoom } from "./component/ChattingRoom";
 import {AfterSearchingPost} from "./component/AfterSearchingPost";
@@ -32,6 +32,7 @@ function App() {
                     <Route path="/auth/findpw" element={<FindPw/>}></Route>
                     <Route path="/auth/showid/:email" element={<ShowId/>}></Route>
                     <Route path="/auth/showpw/:email" element={<ShowPw/>}></Route>
+                    <Route path="/auth/write/:email" element={<Write/>}></Route>
 
                     <Route path="/Post" element={<Post/>}></Route>
 
