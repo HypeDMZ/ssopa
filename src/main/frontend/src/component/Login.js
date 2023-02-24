@@ -42,8 +42,8 @@ function Login(props){
                 console.log(`Bearer ${response.data.data.refreshToken}`);
 
                 setCookie('token',
-                    {accessToken: `Bearer ${response.data.data.accessToken}`
-                        ,refreshToken: `Bearer ${response.data.data.refreshToken}`},
+                    {accessToken: `${response.data.data.accessToken}`
+                        ,refreshToken: `${response.data.data.refreshToken}`},
                     {
                         path: "/"
                     });

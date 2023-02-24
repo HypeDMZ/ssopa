@@ -4,27 +4,31 @@ import styled from '../css/Post.module.css'
 import {Link} from 'react-router-dom';
 import axios from 'axios'
 import Form from 'react-bootstrap/Form';
+import {tokenRefreshing} from "../function/tokenRefreshing";
+import {getCookie} from "../function/cookie";
 function Post()
 {
     let [post, changePost] = useState();  //게시글을 불러올때 사용
     let[게시판종류 , 게시판변경] = useState('자유게시판'); //게시판을 선택할때 사용 select로 누르면 게시판 종류 바뀜
     let[bookMark, add] = useState();  //bookMark 버튼을 누르면 추가하는 기능 만들떄 사용
-
+    const 뜨밤 = '뜨밤'
 
     /*재 랜더링 할때마다 server에서 최신 post를 가져온다.*/
-    useEffect( () => {
-        let recentPost = axios.get("url")
-        .then((data)=>{
-            post = data.data.data;
-            changePost(post);
-        })
-    },[post])
+    useEffect(() => {
+        tokenRefreshing().then(() => {
+            let room = "뜨밤";
+            axios.get(`http://localhost:8080/post/load/${room}`,
+                { withCredentials: true})
+                .then((response) => { console.log(response) })
+                .catch((response) => { console.log(response) });
+        });
+    }, []);
 
 
     return(
         <div className={styled.post_container}>
             <div className={styled.post_my}>
-               <div style={{margin : "10px", borderBottom : "solid 1.5px #F2B284", padding : "2px", color : "#F2B284" ,display : "inline-block"}}>profile</div>
+                <div style={{margin : "10px", borderBottom : "solid 1.5px #F2B284", padding : "2px", color : "#F2B284" ,display : "inline-block"}}>profile</div>
                 <button style={{float : "right", fontSize : "20px", backgroundColor : "wheat", border : "none"}}> ⚙ </button>
                 <div className={styled.post_profile}>
                     <div className={styled.post_profile_img}></div>
@@ -33,7 +37,7 @@ function Post()
                         <button style={{width: "80%", height : "30px", borderRadius : "10px", backgroundColor : "#FBD0B2"}}>내 정보</button>
                     </div>
                     <div className={styled.post_profile_catagory}>
-                       <div>✍️ 내가 쓴 글</div>
+                        <div>✍️ 내가 쓴 글</div>
                         <div>📖 댓글 단 글</div>
                         <div>📋 책갈피</div>
                         <div>📋 오픈채팅방</div>
@@ -52,20 +56,20 @@ function Post()
                     <div className={styled.post_main_search}>
                         <div style={{display : "inline", width : "10%", height : "90%", fontSize : "30px", paddingTop : "5px"}}>🔍</div>
                         <input className={styled.post_input} style={{width : "70%", height : "70%", border : "none", marginLeft : "10px"}} placeholder= "전체 게시판의 글을 입력해보세요"/>
-                        <button onClick={()=>{}}>검색</button>
+                        <button onClick={()=>{ }}>검색</button>
                     </div>
                     <div className={styled.post_main_contents}>
                         <div className={styled.post_main_nav}>
-                                <Form.Select size="sm" onChange={(e)=>{console.log(e.target.value)}}>
-                                    <option>자유게시판</option>
-                                    <option>학급 게시판</option>
-                                    <option>시험 게시판</option>
-                                    <option>정보게시판</option>
-                                </Form.Select>
+                            <Form.Select size="sm" onChange={(e)=>{console.log(e.target.value)}}>
+                                <option>자유게시판</option>
+                                <option>학급 게시판</option>
+                                <option>시험 게시판</option>
+                                <option>정보게시판</option>
+                            </Form.Select>
 
-                                <button style={{float : "right", borderRadius : "10px", backgroundColor : "#F2B284"}}
-                        onCLick>글쓰기</button></div>
-                        
+                            <button style={{float : "right", borderRadius : "10px", backgroundColor : "#F2B284"}}
+                                    onClick>글쓰기</button></div>
+
                         <div className={styled.post_main_post}>
                             {
                                 /*[0,1,2...]말고 post를 받아와서 사용하면됨.*/
@@ -91,13 +95,13 @@ function Post()
                     <div className={styled.post_main_hotTopic}>
                         <div className={styled.post_hotTopic_nav}>Hot Topic</div>
                         <div className={styled.post_hotTopic_main}>
-                                <ol>
-                                    <li> <a href ="#"> 1위 topic </a> </li>
-                                    <li> <a href ="#">  2위 topic</a> </li>
-                                    <li> <a href ="#">  3위 topic </a> </li>
-                                    <li> <a href ="#">  4위  topic</a> </li>
-                                    <li> <a href ="#">  5위  topic</a> </li>
-                                </ol>
+                            <ol>
+                                <li> <a href ="#"> 1위 topic </a> </li>
+                                <li> <a href ="#">  2위 topic</a> </li>
+                                <li> <a href ="#">  3위 topic </a> </li>
+                                <li> <a href ="#">  4위  topic</a> </li>
+                                <li> <a href ="#">  5위  topic</a> </li>
+                            </ol>
                         </div>
                     </div>
 

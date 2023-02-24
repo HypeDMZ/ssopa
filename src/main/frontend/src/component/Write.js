@@ -1,18 +1,31 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Layout from '../css/layout/Layout.css'
 import styled from '../css/Write.module.css'
 import Form from 'react-bootstrap/Form';
 import imgUploadButton from '../img/imgUploadBtn.png';
 import axios from "axios";
 import {useParams} from "react-router-dom";
+import {tokenRefreshing} from "../function/tokenRefreshing";
+import {removeCookie} from "../function/cookie";
 
 function Write()
 {
-    const {email} = useParams();
-    const [게시판, 게시판설정] = useState('');
-    const [제목, 제목설정] = useState('');
-    const [내용, 내용설정] = useState('');
+    const [게시판, 게시판설정] = useState("");
+    const [제목, 제목설정] = useState("");
+    const [내용, 내용설정] = useState("");
+    let [postDataJSON, postDataJSONChange] = useState([]);
+    let postData = new Object();
 
+    useEffect(()=>{
+        tokenRefreshing();
+    },[])
+    useEffect( () => {
+        postData.category = "뜨밤";
+        postData.content = 내용;
+        postData.title = 제목;
+
+        postDataJSONChange(JSON.stringify(postData));
+    },[내용, 제목]);
     const selectHandler = (e) => {
         게시판설정(e.target.value);
     }
@@ -24,16 +37,11 @@ function Write()
     }
 
     const onSendHandler = (e) => {
-        console.log(게시판 + 내용 + 제목);
-        axios.post("http://localhost:8080/post/add", {
-            category: 게시판,
-            content: 내용,
-            title: 제목,
-            writer: email
-            }, {
+        console.log(axios.defaults.headers.common["Authorization"]);
+        axios.post("http://localhost:8080/post/add", postDataJSON, {
             withCredentials : true,
             headers : {"Content-Type": 'application/json'}
-            })
+        })
             .then((result)=> {
                 alert('게시물 등록 성공!');
                 console.log(result.data);
@@ -68,13 +76,13 @@ function Write()
                         </div>
                         <div className={styled.post_main_post}>
                             <input type={"text"} placeholder={"제목을 입력하세요"}
-                                style={{fontSize: "20px",height: "50px", width: "100%", border: "none", borderBottom: "solid 2.5px #F2B284"}}
-                                onChange={onTitleHandler}></input>
+                                   style={{fontSize: "20px",height: "50px", width: "100%", border: "none", borderBottom: "solid 2.5px #F2B284"}}
+                                   onChange={onTitleHandler}></input>
                             <br/>
                             <br/>
                             <textarea placeholder={"내용을 입력하세요"} style={{height: "80%", width: "100%", border: "none",
                                 resize: "none", fontSize: "20px"}}
-                                onChange={onContentHandler}></textarea>
+                                      onChange={onContentHandler}></textarea>
                             <div style={{borderTop: "solid 2.5px #F2B284",width: "100%", height: "10%"}}>
                                 <img src={imgUploadButton} style={{width: "50px", height: "50px", marginTop: "2%"}}/>
                                 <button onClick={onSendHandler} style={{ width: "100px", height: "40px" , border: "none",

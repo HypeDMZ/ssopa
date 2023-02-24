@@ -19,12 +19,12 @@ function InRoom(){
     const reconnect = useRef(0);
 
     const findRoom = async () => {
-        const response = await axios.get(`https://ssopa02.com/api/chat/room/${roomId}`);
+        const response = await axios.get(`http://localhost:8080/chat/room/${roomId}`);
         setRoom(response.data);
     };
 
     const sendMessage = () => {
-        ws.current.send('/app/chat/message', headers, JSON.stringify({ type: 'TALK', roomId, sender:"1" , message }));
+        ws.current.send('/chat/message', headers, JSON.stringify({ type: 'TALK', roomId, sender:"1" , message }));
         setMessage('');
     };
 
@@ -33,7 +33,7 @@ function InRoom(){
     };
 
     useEffect(() => {
-        sock.current = new SockJS('/api/ws/chat');
+        sock.current = new SockJS('http://localhost:8080/ws/chat');
         ws.current = Stomp.over(sock.current);
         findRoom();
 
@@ -42,7 +42,7 @@ function InRoom(){
                 const recv = JSON.parse(message.body);
                 recvMessage(recv);
             }, headers);
-            ws.current.send('/app/chat/message', headers, JSON.stringify({ type: 'ENTER', roomId, sender:"1" }));
+            ws.current.send('/chat/message', headers, JSON.stringify({ type: 'ENTER', roomId, sender:"1" }));
         }, (error) => {
             if (reconnect.current++ <= 5) {
                 setTimeout(() => {
