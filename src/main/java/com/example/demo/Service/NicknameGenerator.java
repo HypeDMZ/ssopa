@@ -5,29 +5,33 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Configuration
 @Component
 public class NicknameGenerator {
-    private static final String ADJECTIVE_FILE_PATH = "classpath:adjective.txt";
-    private static final String NOUN_FILE_PATH = "classpath:noun.txt";
+    private static final String ADJECTIVE_FILE_PATH = "/adjective.txt";
+    private static final String NOUN_FILE_PATH = "/noun.txt";
     private final List<String> adjectives;
     private final List<String> nouns;
 
     public NicknameGenerator() throws IOException {
-        // 형용사 목록을 로드
-        File adjectiveFile = ResourceUtils.getFile(ADJECTIVE_FILE_PATH);
-        adjectives = Files.readAllLines(adjectiveFile.toPath());
 
-        // 명사 목록을 로드
-        File nounFile = ResourceUtils.getFile(NOUN_FILE_PATH);
-        nouns = Files.readAllLines(nounFile.toPath());
+        try (InputStream inputStream = getClass().getResourceAsStream(ADJECTIVE_FILE_PATH);
+             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+            adjectives = reader.lines().collect(Collectors.toList());
+        }
+
+        try (InputStream inputStream = getClass().getResourceAsStream(NOUN_FILE_PATH);
+             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+            nouns = reader.lines().collect(Collectors.toList());
+        }
+
     }
 
     public String generateRandomNickname() {
