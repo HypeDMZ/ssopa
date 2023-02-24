@@ -31,23 +31,24 @@ public class Post {
     @Column()
     private int view_cnt;
     @Column()
+    private int like_cnt;
+    @Column()
     private Boolean noticeYn;
     @Column()
     private Boolean deleteYn;
     @Column()
     private LocalDateTime created_date;
     @Column()
-    private LocalDateTime modified_date;
+    private LocalDateTime modifiedDate;
     @Column()
     private Long userId;
 
     public void updateValue(String title, String content, LocalDateTime modified_date) {
         this.title = title;
         this.content = content;
-        this.modified_date=modified_date;
+        this.modifiedDate=modified_date;
     }
-
-  }
+}
 
 
 

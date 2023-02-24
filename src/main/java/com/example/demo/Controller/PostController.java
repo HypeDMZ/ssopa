@@ -63,11 +63,11 @@ public class PostController {
         }
     }
 
-    @GetMapping("/load/{category}")
+    @GetMapping("/load/{category}/{page}")
     @ApiOperation(value = "게시글 불러오기")
-    public ResponseEntity<?> LoadPost(@PathVariable(name = "category") String category) {
+    public ResponseEntity<?> LoadPost(@PathVariable(name = "category") String category, @PathVariable(name = "page") int page) {
         try {
-            return httpResponseUtil.createOKHttpResponse(postService.loadpost(category), "게시글 불러오기 성공");
+            return httpResponseUtil.createOKHttpResponse(postService.loadpost(category, page), "게시글 불러오기 성공");
         } catch (Exception e) {
             return httpResponseUtil.createInternalServerErrorHttpResponse("게시글 불러오기 실패: " + e.getMessage());
         }
