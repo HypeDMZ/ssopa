@@ -1,6 +1,7 @@
 package com.example.demo.Service;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
@@ -15,22 +16,21 @@ import java.util.stream.Collectors;
 @Configuration
 @Component
 public class NicknameGenerator {
-    private static final String ADJECTIVE_FILE_PATH = "/adjective.txt";
-    private static final String NOUN_FILE_PATH = "/noun.txt";
+    private static final String ADJECTIVE_FILE_PATH = "adjective.txt";
+    private static final String NOUN_FILE_PATH = "noun.txt";
     private final List<String> adjectives;
     private final List<String> nouns;
 
     public NicknameGenerator() throws IOException {
 
-        try (InputStream inputStream = getClass().getResourceAsStream(ADJECTIVE_FILE_PATH);
-             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
-            adjectives = reader.lines().collect(Collectors.toList());
-        }
+        InputStream is = new ClassPathResource(ADJECTIVE_FILE_PATH).getInputStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        adjectives = br.lines().collect(Collectors.toList());
 
-        try (InputStream inputStream = getClass().getResourceAsStream(NOUN_FILE_PATH);
-             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
-            nouns = reader.lines().collect(Collectors.toList());
-        }
+        is = new ClassPathResource(NOUN_FILE_PATH).getInputStream();
+        br = new BufferedReader(new InputStreamReader(is));
+        nouns = br.lines().collect(Collectors.toList());
+
 
     }
 
