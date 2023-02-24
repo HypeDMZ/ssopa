@@ -8,6 +8,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Setter
@@ -34,10 +36,13 @@ public class ChatMessage {
 
     private String message;
 
+    private LocalDateTime time;
+
     public ChatMessage(MessageType type, String roomId, String sender, String message) {
         this.type = type;
         this.roomId = roomId;
         this.sender = sender;
         this.message = message;
+        this.time = LocalDateTime.now();
     }
 }

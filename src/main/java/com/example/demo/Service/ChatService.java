@@ -1,7 +1,12 @@
 package com.example.demo.Service;
 
+import com.example.demo.config.SecurityUtil;
+import com.example.demo.dto.chat.ChatMessage;
 import com.example.demo.dto.chat.ChatRoom;
+import com.example.demo.entity.Member;
+import com.example.demo.repository.ChatMessageRepository;
 import com.example.demo.repository.ChatRoomRepository;
+import com.example.demo.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +18,10 @@ import java.util.*;
 public class ChatService {
     private Map<String, ChatRoom> chatRooms;
     private final ChatRoomRepository chatRoomRepository;
+
+    private final ChatMessageRepository chatMessageRepository;
+
+    private final MemberRepository memberRepository;
 
     @PostConstruct
     //의존관게 주입완료되면 실행되는 코드
@@ -42,5 +51,10 @@ public class ChatService {
         chatRooms.put(chatRoom.getRoomId(), chatRoom);
         chatRoomRepository.save(chatRoom);
         return chatRoom;
+    }
+
+    public List<ChatMessage> loadchat(String roomId){
+
+        return chatMessageRepository.findAllByRoomId(roomId);
     }
 }
