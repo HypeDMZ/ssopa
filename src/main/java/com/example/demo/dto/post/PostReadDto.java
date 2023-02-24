@@ -39,7 +39,7 @@ public class PostReadDto {
                 .title(post.getTitle())
                 .content(post.getContent())
                 .created_date(post.getCreated_date().toString())
-                .modified_date(post.getModified_date().toString())
+                .modified_date(post.getModifiedDate().toString())
                 .writer(post.getWriter())
                 .view_cnt(post.getView_cnt())
                 .notice_yn(post.getNoticeYn())

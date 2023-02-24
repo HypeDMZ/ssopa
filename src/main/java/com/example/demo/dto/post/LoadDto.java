@@ -28,7 +28,7 @@ public class LoadDto {
                 .writer(post.getWriter())
                 .view_cnt(post.getView_cnt())
                 .noticeYn(post.getNoticeYn())
-                .modified_date(post.getModified_date())
+                .modified_date(post.getModifiedDate())
                 .build();
     }
 }
