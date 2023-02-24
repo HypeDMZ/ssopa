@@ -18,6 +18,7 @@ function Post()
                        <div>✍️ 내가 쓴 글</div>
                         <div>📖 댓글 단 글</div>
                         <div>📋 책갈피</div>
+                        <Link to="/post/add" onClick={()=>{}}>글쓰기</Link>
                     </div>
                 </div>
                 <div className={styled.post_scoreGraph}>

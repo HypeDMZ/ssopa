@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Layout from '../css/layout/Layout.css'
 import styled from '../css/Write.module.css'
 import Form from 'react-bootstrap/Form';
@@ -8,11 +8,19 @@ import {useParams} from "react-router-dom";
 
 function Write()
 {
-    const {email} = useParams();
-    const [게시판, 게시판설정] = useState('');
-    const [제목, 제목설정] = useState('');
-    const [내용, 내용설정] = useState('');
+    const [게시판, 게시판설정] = useState("");
+    const [제목, 제목설정] = useState("");
+    const [내용, 내용설정] = useState("");
+    let [postDataJSON, postDataJSONChange] = useState([]);
+    let postData = new Object();
 
+    useEffect( () => {
+        postData.category = "뜨밤";
+        postData.content = 내용;
+        postData.title = 제목;
+
+        postDataJSONChange(JSON.stringify(postData));
+    },[내용, 제목]);
     const selectHandler = (e) => {
         게시판설정(e.target.value);
     }
@@ -25,12 +33,8 @@ function Write()
 
     const onSendHandler = (e) => {
         console.log(게시판 + 내용 + 제목);
-        axios.post("http://localhost:8080/post/add", {
-            category: 게시판,
-            content: 내용,
-            title: 제목,
-            writer: email
-            }, {
+        console.log(axios.defaults.headers.common["Authorization"]);
+        axios.post("http://localhost:8080/post/add", postDataJSON, {
             withCredentials : true,
             headers : {"Content-Type": 'application/json'}
             })

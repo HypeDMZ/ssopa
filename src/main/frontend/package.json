@@ -46,5 +46,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://ssopa02.com/api"
+  "proxy": "http://localhost:8080"
 }

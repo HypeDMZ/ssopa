@@ -4,7 +4,7 @@ module.exports = function (app) {
     app.use(
         "/api",
         createProxyMiddleware({
-            target: "https://ssopa02.com/api",
+            target: "http://localhost:8080",
             changeOrigin: true,
         })
     )
