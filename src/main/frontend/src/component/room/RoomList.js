@@ -30,7 +30,17 @@ function RoomList(){
             console.log(axios.defaults.headers.common['Authorization']);
 
             axios.post("https://ssopa02.com/api/chat/room",
-                InputRoomName)
+                {
+                    // data to sent to the server - post body
+                    // it can be an empty object
+                },
+                {
+                    // specify query parameters
+                    params: {
+                        name: InputRoomName,
+
+                    },
+                })
                 .then((response)=>{
                     alert(response.data.roomName + "방 개설에 성공하였습니다.");
                     roomNameChange('');
