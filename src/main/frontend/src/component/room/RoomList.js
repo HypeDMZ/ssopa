@@ -13,7 +13,7 @@ function RoomList(){
     },[])
 
     const findAllRooms = () => {
-        axios.get("http://ssopa02.com/api/chat/rooms").then((response)=>{
+        axios.get("https://ssopa02.com/api/chat/rooms").then((response)=>{
             console.log(response.data)
             chatRoomsChange(response.data);
         })
