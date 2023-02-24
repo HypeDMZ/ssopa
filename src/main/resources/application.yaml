@@ -40,14 +40,13 @@ spring:
           google:
             client-id: 271384889161-o9cpsam4g7f56o3fval002i5u9ng7hk6.apps.googleusercontent.com
             client-secret: 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
-            scope: <https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile>
-            redirect-uri: <http://localhost:8080/app/accounts/auth/google/rediret>
+            scope: profile,email
 logging:
   level:
     com.tutorial: debug
 
 jwt:
-  secret: c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXR1dG9yaWFsLWppd29vbi1zcHJpbmctYm9vdC1zZWN1cml0eS1qd3QtdHV0b3JpYWwK
+  secret: a3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXR1dG9yaWFsLWppd29vbi1zcHJpbmctYm9vdC1zZWN1cml0eS1qd3QtdHV0b3JpYWwK
   refresh-secret: 7c7b4608afe05880d2cdbed9edb5c81ef8eac5271568253cbaa29ad06ed80009b319916fa1a5449dfbc679847669cd42f72599cf5c87c4f538f1feb4858e2eb3
 
 sms:

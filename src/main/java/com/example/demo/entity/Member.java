@@ -33,6 +33,10 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
+    @Column(nullable = false)
+    // 신고 10번 이상 당했는 지 check 하는 변수
+    private boolean reported;
+
 
     @Builder
     public Member(Long id, String email, String phonenumber, String password, String name, Authority authority) {
@@ -42,5 +46,9 @@ public class Member {
         this.password = password;
         this.name = name;
         this.authority = authority;
+    }
+
+    public void setReported(boolean reported) {
+        this.reported=reported;
     }
 }
