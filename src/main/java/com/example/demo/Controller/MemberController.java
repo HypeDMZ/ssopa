@@ -33,10 +33,9 @@ public class MemberController {
 
     @PostMapping("/nickname")
     @ApiOperation(value = "닉네임 변경 요청")
-    public ResponseEntity<?> setMemberNickname(@RequestBody ChangeNicknameRequestDto request) {
-        // TODO : 닉네임 기능 추가 후 구현
+    public ResponseEntity<?> setMemberNickname() {
         try {
-            return httpResponseUtil.createOKHttpResponse(memberService.changeMemberNickname(request.getEmail(), request.getNickname()), "닉네임 변경 성공");
+            return httpResponseUtil.createOKHttpResponse(memberService.changeMemberNickname(), "닉네임 변경 성공");
         } catch (Exception e) {
             return httpResponseUtil.createInternalServerErrorHttpResponse("닉네임 변경 실패: " + e.getMessage());
         }

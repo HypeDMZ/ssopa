@@ -7,7 +7,7 @@ import com.example.demo.dto.auth.SmsDto;
 import com.example.demo.dto.auth.SuccessDto;
 import com.example.demo.dto.jwt.TokenDto;
 import com.example.demo.dto.jwt.TokenReqDto;
-import com.example.demo.dto.member.MemberRequestDto;
+import com.example.demo.dto.auth.MemberRequestDto;
 import com.example.demo.dto.member.MemberResponseDto;
 import com.example.demo.entity.Member;
 import com.example.demo.entity.RefreshToken;
@@ -21,6 +21,7 @@ import net.nurigo.sdk.message.model.Message;
 import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
 import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 import net.nurigo.sdk.message.service.DefaultMessageService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -31,6 +32,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
 import java.util.Random;
 
 @Configuration
@@ -47,9 +49,20 @@ public class AuthService {
     private final TokenProvider tokenProvider;
     private final VerifySmsRepository verifySmsRepository;
     private final CustomUserDetailsService customUserDetailsService;
-    private String apiKey = "NCSWUXEY6GVEX4US";
-    private String apiSecret = "OAEENSHT7XUHYHJLPHUIAWVWVJSE3XC7";
-    private final DefaultMessageService messageService = NurigoApp.INSTANCE.initialize(apiKey, apiSecret, "https://api.coolsms.co.kr");
+    private final NicknameGenerator nicknameGenerator;
+    private static DefaultMessageService messageService ;
+
+    @Value("${sms.apiKey}")
+    private String apiKey;
+    @Value("${sms.secretKey}")
+    private String apiSecret;
+
+
+
+    @PostConstruct
+    public void init() {
+        messageService = NurigoApp.INSTANCE.initialize(apiKey, apiSecret, "https://api.coolsms.co.kr");
+    }
 
     public MemberResponseDto signup(MemberRequestDto requestDto) {
         if (memberRepository.existsByEmail(requestDto.getEmail())) {
@@ -63,6 +76,7 @@ public class AuthService {
             String[] split = Origincert.split(":");
             if(split[1].equals("01")){
                 smsCertificationDao.removeSmsCertification(member.getPhonenumber());
+                member.setNickname(nicknameGenerator.generateRandomNickname());
                 return MemberResponseDto.of(memberRepository.save(member));
             }
         }else{

@@ -53,3 +53,6 @@ jwt:
 sms:
   apiKey : NCSWUXEY6GVEX4US
   secretKey : OAEENSHT7XUHYHJLPHUIAWVWVJSE3XC7
+
+neis:
+  apiKey: 5decd9d597c54dd5a7410cc48fde6709

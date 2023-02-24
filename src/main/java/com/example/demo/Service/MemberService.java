@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
-
+    private final NicknameGenerator nicknameGenerator;
     public MemberResponseDto getMyInfoBySecurity() {
         return memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .map(MemberResponseDto::of)
@@ -23,9 +23,9 @@ public class MemberService {
     }
 
     @Transactional
-    public MemberResponseDto changeMemberNickname(String email, String name) {
-        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
-        member.setName(name);
+    public MemberResponseDto changeMemberNickname() {
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
+        member.setNickname(nicknameGenerator.generateRandomNickname());
         return MemberResponseDto.of(memberRepository.save(member));
     }
 

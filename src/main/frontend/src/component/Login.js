@@ -29,7 +29,7 @@ function Login(props){
 
     const onLogin = () => {
         console.log(loginDataJSON);
-        axios.post("https://ssopa02.com/api/auth/login",
+        axios.post("http://localhost:8080/auth/login",
             loginDataJSON,
             {
                 withCredentials : true,

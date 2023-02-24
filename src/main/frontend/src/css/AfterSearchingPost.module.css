@@ -32,12 +32,11 @@ div{
 }
 
 .post_main_left{
-    display: inline;
     width: 65%;
     height: 100%;
     float: left;
-    background-color: white;
     z-index: 4;
+    background-color: white;
 }
 
 .post_main_right{
@@ -48,44 +47,15 @@ div{
     background-color: white;
 }
 
-.post_main_search{
-    width: 90%;
-    height: 10%;
-    float: top;
-    margin : auto;
-    margin-top : 20px;
-    border : solid 2.5px #F2B284;
-    border-radius: 10px;
-    z-index: 1;
-    color : #F2B284;
-}
-
-/*검색 할떄 input 누를시 태투리 없애주는 코드*/
-.post_input:focus{
-    border: none;
-    outline: none;
-}
-
-
-.post_main_search button{
-    width: 15%;
-    height: 70%;
-    border: none;
-    border-radius: 15px;
-    color : white;
-    background-color: #F2B284;
-
-}
-
 .post_main_contents{
     width: 90%;
     height: 80%;
-    float: bottom;
     margin : auto;
     margin-top : 10px;
     border : solid 2.5px #F2B284;
     border-radius: 10px;
     z-index: 1;
+    clear: both;
 }
 
 .post_main_hotTopic{
@@ -94,17 +64,6 @@ div{
     float: top;
     margin : auto;
     margin-top : 20px;
-    border : solid 2.5px #F2B284;
-    border-radius: 10px;
-    z-index: 1;
-}
-
-.post_main_lunch{
-    width: 90%;
-    height: 35%;
-    float: bottom;
-    margin : auto;
-    margin-top : 10px;
     border : solid 2.5px #F2B284;
     border-radius: 10px;
     z-index: 1;
@@ -174,32 +133,6 @@ div{
     background-color: white;
 }
 
-/*전체 게시판의 글을 입력해주세요의 색상변경*/
-::-webkit-input-placeholder {
-    color: #F2B284;;
-}
-
-.post_main_nav{
-    width: 90%;
-    height: 6%;
-    margin-top : 10px;
-    margin-left: 10px;
-    border-bottom: solid 2px #F2B284;
-    text-align: left;
-    padding: 10px;
-    font-size: 15px;
-    font-weight: bold;
-    color : #F2B284;
-}
-
-.post_main_post{
-    width: 90%;
-    height: 88%;
-    margin-top : 10px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
 
 .post_hotTopic_nav{
     width: 90%;
@@ -214,15 +147,110 @@ div{
     color : #F2B284;
 }
 
-.post_Lunch_nav{
-    width: 90%;
-    height: 15%;
-    margin-top : 10px;
-    margin-left: 10px;
-    border-bottom: solid 2px #F2B284;
-    text-align: left;
+.post_main_nav{
+    width: 100%;
+    height: 12%;
+    background-color: #F2B284;
     padding: 10px;
-    font-size: 15px;
-    font-weight: bold;
+}
+
+.post_main_nav p {
+    display: inline;
+    color : white;
+    font-size: 20px;
+}
+
+.post_myStory{
+    width: 98%;
+    height: 30%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top : 5px;
+    padding: 5px;
+    border-bottom: solid 2px #F2B284;
+
+}
+
+.post__profile{
+    clear: both;
+    width: 100%;
+    height: 55%;
+}
+
+.post_profile__img{
+    width: 20%;
+    height: 80%;
+    background-color: gray;
+    margin-right: auto;
+    margin-left: 2%;
+    display: inline-block;
+    float : left;
+
+}
+
+.post_name{
+    display: inline-block;
+    float : left;
+    margin-left: 2%;
+}
+
+.post_name p{
+    display: inline-block;
+    margin-top : -3px;
+    margin-right: 5px;
+}
+
+.post_112{
+    float : right;
+}
+
+.post_112 button{
+    border : none;
     color : #F2B284;
+    background-color: white;
+    font-size: 12px;
+    margin-top : 10px
+}
+
+.post_contents{
+    width: 100%;
+    height: 45%;
+    clear: both;
+    margin-left: 10px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 15px;
+    clear : both;
+    display: flex;
+}
+
+.post_contents_contents{
+    width: 80%;
+    height: 100%;
+    padding: 10px;
+    border: solid 2px #F2B284;
+    border-radius: 15px;
+}
+
+.post_contents_contents button{
+    display: block;
+    border: none;
+    background-color: white;
+}
+
+.post_contents_comment{
+    font-size: 10px;
+    margin-top : 1%;
+}
+
+.post_contents_title{
+    font-weight: bold;
+}
+
+.post_good button {
+    background-color: white;
+    border: none;
+    margin-top: 30%;
 }

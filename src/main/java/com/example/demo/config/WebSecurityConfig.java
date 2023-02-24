@@ -86,6 +86,7 @@ public class WebSecurityConfig{
                         .antMatchers("/profile").permitAll()
                         .antMatchers("/greeting").permitAll()
                         .antMatchers("/webjars/**").permitAll()
+                        .antMatchers("/neis/**").permitAll()
                         .anyRequest().authenticated()
 
                 )

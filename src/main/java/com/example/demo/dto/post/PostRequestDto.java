@@ -27,4 +27,5 @@ public class PostRequestDto {
     @ApiModelProperty(value="글내용", example="내 용",required = true)
     private String content;
 
+
 }
