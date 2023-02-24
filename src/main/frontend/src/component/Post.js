@@ -60,7 +60,7 @@ function Post()
                                     <option>자유게시판</option>
                                     <option>학급 게시판</option>
                                     <option>시험 게시판</option>
-                                    <option>정보 게시판</option>
+                                    <option>정보게시판</option>
                                 </Form.Select>
 
                                 <button style={{float : "right", borderRadius : "10px", backgroundColor : "#F2B284"}}
