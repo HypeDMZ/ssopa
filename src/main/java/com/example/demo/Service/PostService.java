@@ -49,6 +49,7 @@ public class PostService {
                 .deleteYn(Boolean.FALSE)
                 .noticeYn(Boolean.FALSE)
                 .view_cnt(0)
+                .like_cnt(0)
                 .userId(member.getId())
                 .build();
         return PostResponseDto.of(postRepository.save(post));
@@ -59,7 +60,7 @@ public class PostService {
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
         System.out.println("로그인 정보 : "+member.getEmail());
         Post post = postRepository.findById(id).orElseThrow(() -> new RuntimeException("게시글 정보가 없습니다"));
-
+        post.setView_cnt(post.getView_cnt()+1);
         return PostReadDto.of(post);
     }
 
@@ -114,6 +115,10 @@ public class PostService {
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
         if(heartRepository.existsHeartByPostIdAndUserId(post_id, member.getId())){
             Heart heart = heartRepository.findByPostIdAndUserId(post_id, member.getId());
+            // like_cnt -1
+            Post post = postRepository.findById(post_id).orElseThrow(() -> new RuntimeException("게시글 정보가 없습니다"));
+            post.setLike_cnt(post.getLike_cnt()-1);
+            postRepository.save(post);
             heartRepository.delete(heart);
             return HeartDto.of(heart);
         }
@@ -122,6 +127,10 @@ public class PostService {
                     .postId(post_id)
                     .userId(member.getId())
                     .build();
+            // like_cnt +1
+            Post post = postRepository.findById(post_id).orElseThrow(() -> new RuntimeException("게시글 정보가 없습니다"));
+            post.setLike_cnt(post.getLike_cnt()+1);
+            postRepository.save(post);
             heartRepository.save(heart);
             return HeartDto.of(heart);
         }
