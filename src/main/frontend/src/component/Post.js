@@ -3,9 +3,12 @@ import Layout from '../css/layout/Layout.css'
 import styled from '../css/Post.module.css'
 import {Link} from 'react-router-dom';
 import axios from 'axios'
+import Form from 'react-bootstrap/Form';
 function Post()
 {
-    let [post, changePost] = useState();
+    let [post, changePost] = useState();  //게시글을 불러올때 사용
+    let[게시판종류 , 게시판변경] = useState('자유게시판'); //게시판을 선택할때 사용 select로 누르면 게시판 종류 바뀜
+    let[bookMark, add] = useState();  //bookMark 버튼을 누르면 추가하는 기능 만들떄 사용
 
 
     /*재 랜더링 할때마다 server에서 최신 post를 가져온다.*/
@@ -21,7 +24,8 @@ function Post()
     return(
         <div className={styled.post_container}>
             <div className={styled.post_my}>
-               <div style={{margin : "10px", borderBottom : "solid 1.5px #F2B284", padding : "2px", color : "#F2B284"}}>profile</div>
+               <div style={{margin : "10px", borderBottom : "solid 1.5px #F2B284", padding : "2px", color : "#F2B284" ,display : "inline-block"}}>profile</div>
+                <button style={{float : "right", fontSize : "20px", backgroundColor : "wheat", border : "none"}}> ⚙ </button>
                 <div className={styled.post_profile}>
                     <div className={styled.post_profile_img}></div>
                     <div className={styled.post_profile_info}>
@@ -51,16 +55,26 @@ function Post()
                         <button onClick={()=>{}}>검색</button>
                     </div>
                     <div className={styled.post_main_contents}>
-                        <div className={styled.post_main_nav}>자유게시판  <button style={{float : "right", borderRadius : "10px", backgroundColor : "#F2B284"}}
+                        <div className={styled.post_main_nav}>
+                                <Form.Select size="sm" onChange={(e)=>{console.log(e.target.value)}}>
+                                    <option>자유게시판</option>
+                                    <option>학급 게시판</option>
+                                    <option>시험 게시판</option>
+                                    <option>정보 게시판</option>
+                                </Form.Select>
+
+                                <button style={{float : "right", borderRadius : "10px", backgroundColor : "#F2B284"}}
                         onCLick>글쓰기</button></div>
+                        
                         <div className={styled.post_main_post}>
                             {
                                 /*[0,1,2...]말고 post를 받아와서 사용하면됨.*/
                                 [0,1,2,3,4,5,6].map((a,i)=>{
                                     return(
                                         <div className={styled.post_post}>
-                                            <p>Title</p>
-                                            <p>Contents</p>
+                                            <p>Title {i}</p>
+                                            <p style={{display : "inline-block"}}> Content{i}</p>
+                                            <button style={{float : "right"}}>책갈피</button>
                                             <button onClick={()=>{
 
                                             }
@@ -69,13 +83,22 @@ function Post()
                                     )
                                 })
                             }
-e                            <button style={{float : "right"}}> 다음페이지=></button>
+                            <button style={{float : "right", backgroundColor : "white", border : "none", fontSize : "20px"}} /*여기서 onClick으로 post를 다시 받아와서 재랜더링 해야할듯*/> ➡️ </button>
                         </div>
                     </div>
                 </div>
                 <div className={styled.post_main_right}>
                     <div className={styled.post_main_hotTopic}>
                         <div className={styled.post_hotTopic_nav}>Hot Topic</div>
+                        <div className={styled.post_hotTopic_main}>
+                                <ol>
+                                    <li> <a href ="#"> 1위 topic </a> </li>
+                                    <li> <a href ="#">  2위 topic</a> </li>
+                                    <li> <a href ="#">  3위 topic </a> </li>
+                                    <li> <a href ="#">  4위  topic</a> </li>
+                                    <li> <a href ="#">  5위  topic</a> </li>
+                                </ol>
+                        </div>
                     </div>
 
                     <div className={styled.post_main_lunch}>
