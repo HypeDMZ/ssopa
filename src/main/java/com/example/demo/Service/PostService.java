@@ -99,7 +99,7 @@ public class PostService {
 
         Page<LoadDto> loadDtoList;
         if (loadPostRepository.existsPostByCategory(category)) {
-            PageRequest pageRequest = PageRequest.of(page, 10, Sort.by("modifiedDate").descending());
+            PageRequest pageRequest = PageRequest.of(page, 20, Sort.by("modifiedDate").descending());
             loadDtoList = loadPostRepository.findByCategory(category, pageRequest);
             // loadDtoList = loadPostRepository.findAllByCategory(category);
         }
