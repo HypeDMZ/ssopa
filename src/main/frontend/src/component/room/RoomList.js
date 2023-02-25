@@ -13,7 +13,7 @@ function RoomList(){
     },[])
 
     const findAllRooms = () => {
-        axios.get("http://localhost:8080/chat/rooms").then((response)=>{
+        axios.get("/api/chat/rooms").then((response)=>{
             console.log(response.data)
             chatRoomsChange(response.data);
         })
@@ -29,7 +29,7 @@ function RoomList(){
 
             console.log(axios.defaults.headers.common['Authorization']);
 
-            axios.post("https://localhost:8080/chat/room",
+            axios.post("/api/chat/room",
                 {
                     // data to sent to the server - post body
                     // it can be an empty object
