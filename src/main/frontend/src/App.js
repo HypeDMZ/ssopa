@@ -34,8 +34,8 @@ function App() {
                     <Route path="/auth/showpw/:email" element={<ShowPw/>}></Route>
                     <Route path="/auth/write/:email" element={<Write/>}></Route>
 
-                    <Route path="/Post" element={<Post/>}></Route>
-                    <Route path="/Post/add" element={<Write/>}/>
+                    <Route path="/post" element={<Post/>}></Route>
+                    <Route path="/post/add" element={<Write/>}/>
 
                     {/*chat*/}
                     <Route path="/chat/list" element={<RoomList/>}></Route>

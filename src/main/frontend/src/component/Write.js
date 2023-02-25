@@ -20,7 +20,7 @@ function Write()
         tokenRefreshing();
     },[])
     useEffect( () => {
-        postData.category = "뜨밤";
+        postData.category = 게시판;
         postData.content = 내용;
         postData.title = 제목;
 
@@ -38,7 +38,7 @@ function Write()
 
     const onSendHandler = (e) => {
         console.log(axios.defaults.headers.common["Authorization"]);
-        axios.post("http://localhost:8080/post/add", postDataJSON, {
+        axios.post("/api/post/add", postDataJSON, {
             withCredentials : true,
             headers : {"Content-Type": 'application/json'}
         })
@@ -51,9 +51,8 @@ function Write()
             .catch((response)=>{console.log('이상하다')})
     }
     const options = [
-        {value : "1", name: "one"},
-        {value : "2", name: "two"},
-        {value : "3", name: "three"},
+        {value : "뜨밤", name: "뜨밤"},
+        {value : "test", name: "test"},
     ];
 
     return(

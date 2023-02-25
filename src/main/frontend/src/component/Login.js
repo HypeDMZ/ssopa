@@ -60,7 +60,7 @@ function Login(props){
                 console.log(getCookie('token'));
                 alert("로그인 완료");
 
-                navigate("/Post");
+                navigate("/post");
             })
             .catch((response) => { console.log('Error!') });
     }
