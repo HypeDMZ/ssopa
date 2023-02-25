@@ -7,7 +7,6 @@ function AfterChooseMyPost(){
         <div className={styled.post_container}>
             <div className={styled.post_nav}></div>
             <div className={styled.post_main_container}>
-
                 <div className={styled.post_main_left}>
                     <div className={styled.post_main_contents}>
                         <div className={styled.post_main_post}>

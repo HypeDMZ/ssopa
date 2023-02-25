@@ -6,6 +6,7 @@ import logo from"../img/logo.png";
 import { useBootstrapBreakpoints } from "react-bootstrap/esm/ThemeProvider";
 import {Post_Lunch} from "./Post_Menu/Post_Lunch";
 import {Post} from "./Post";
+import Logo from "../img/logo.png";
 
 function Main(props){
     return (
@@ -18,11 +19,10 @@ function Main(props){
 
             <div className ="rightPage">
                 <div className="Login">
-                    <div className="icon"> </div>
-                    <p style={{fontSize : "40px", color : "white"}} className="SSOPA">SSOPA</p>
+                    <div className="icon"></div>
 
                     <button style = {{backgroundColor : "#FFF3D3"}}> <Link to ="/auth/login" >  <p>로그인</p> </Link> </button>
-                    <button style= {{backgroundColor : "#E87D30"}}> <Link to= "/auth/signup"> <p>DMZ 회원가입</p> </Link></button>
+                    <button style= {{backgroundColor : "#E87D30"}}> <Link to= "/auth/signup"> <p>회원가입</p> </Link></button>
                     <Link to ="/auth/findid" className ="findid" style={{float : "right", textDecoration : "none"}}> 아이디/비밀번호 찾기</Link>
                 </div>
 

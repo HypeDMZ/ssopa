@@ -37,7 +37,7 @@ function FindId(props) {
         //1. 먼저 회원인지 아닌 지 체크(=데베에 데이터 있는 지 체크)
         //2-1. 회원이 아니라면, 경고창 띄우기
         alert('인증번호 전송!');
-        axios.post("http://ssopa02.com/api/auth/findId", {name: Name, phonenumber : Phone},
+        axios.post("/api/auth/findId", {name: Name, phonenumber : Phone},
             {
             withCredentials : true,
             headers : {"Content-Type": 'application/json'}
@@ -54,7 +54,7 @@ function FindId(props) {
     }
     const onCheckHandler = (event) => {
         //보낸 인증번호와 입력된 인증 번호가 일치하는 지 확인
-        axios.post("http://ssopa02.com/api/auth/findId/veritfySMS",
+        axios.post("/api/auth/findId/veritfySMS",
             {code : ConfirmNum, phonenumber : Phone},
             {
                 withCredentials : true,

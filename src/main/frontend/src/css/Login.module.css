@@ -114,6 +114,9 @@
     z-index: 3;
 }
 
+.login_button:hover{
+    background: #E87D30;
+}
 .login_signup_nav{
     position: absolute;
     width: 30%;

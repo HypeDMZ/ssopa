@@ -29,7 +29,7 @@ function Login(props){
 
     const onLogin = () => {
         console.log(loginDataJSON);
-        axios.post("http://localhost:8080/auth/login",
+        axios.post("/api/auth/login",
             loginDataJSON,
             {
                 withCredentials : true,
@@ -42,8 +42,8 @@ function Login(props){
                 console.log(`Bearer ${response.data.data.refreshToken}`);
 
                 setCookie('token',
-                    {accessToken: `Bearer ${response.data.data.accessToken}`
-                        ,refreshToken: `Bearer ${response.data.data.refreshToken}`},
+                    {accessToken: `${response.data.data.accessToken}`
+                        ,refreshToken: `${response.data.data.refreshToken}`},
                     {
                         path: "/"
                     });
@@ -60,7 +60,7 @@ function Login(props){
                 console.log(getCookie('token'));
                 alert("로그인 완료");
 
-                navigate("/Post");
+                navigate("/post");
             })
             .catch((response) => { console.log('Error!') });
     }

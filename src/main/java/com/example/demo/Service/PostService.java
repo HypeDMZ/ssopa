@@ -10,6 +10,8 @@ import com.example.demo.entity.Post;
 import com.example.demo.jwt.TokenProvider;
 import com.example.demo.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -43,10 +45,11 @@ public class PostService {
                 .content(content)
                 .category(category)
                 .created_date(LocalDateTime.now())
-                .modified_date(LocalDateTime.now())
+                .modifiedDate(LocalDateTime.now())
                 .deleteYn(Boolean.FALSE)
                 .noticeYn(Boolean.FALSE)
                 .view_cnt(0)
+                .like_cnt(0)
                 .userId(member.getId())
                 .build();
         return PostResponseDto.of(postRepository.save(post));
@@ -57,7 +60,7 @@ public class PostService {
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
         System.out.println("로그인 정보 : "+member.getEmail());
         Post post = postRepository.findById(id).orElseThrow(() -> new RuntimeException("게시글 정보가 없습니다"));
-
+        post.setView_cnt(post.getView_cnt()+1);
         return PostReadDto.of(post);
     }
 
@@ -91,18 +94,20 @@ public class PostService {
     }
 
     @Transactional
-    public List<LoadDto> loadpost (String category) {
+    public List<LoadDto> loadpost (String category, int page) {
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
         System.out.println("로그인 정보 : "+member.getEmail());
 
-        List<LoadDto> loadDtoList;
+        Page<LoadDto> loadDtoList;
         if (loadPostRepository.existsPostByCategory(category)) {
-            loadDtoList = loadPostRepository.findAllByCategory(category);
+            PageRequest pageRequest = PageRequest.of(page, 20, Sort.by("modifiedDate").descending());
+            loadDtoList = loadPostRepository.findByCategory(category, pageRequest);
+            // loadDtoList = loadPostRepository.findAllByCategory(category);
         }
         else {
             throw new NoSufficientPermissionException();
         }
-        return loadDtoList;
+        return loadDtoList.getContent();
     }
 
     @Transactional
@@ -110,6 +115,10 @@ public class PostService {
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
         if(heartRepository.existsHeartByPostIdAndUserId(post_id, member.getId())){
             Heart heart = heartRepository.findByPostIdAndUserId(post_id, member.getId());
+            // like_cnt -1
+            Post post = postRepository.findById(post_id).orElseThrow(() -> new RuntimeException("게시글 정보가 없습니다"));
+            post.setLike_cnt(post.getLike_cnt()-1);
+            postRepository.save(post);
             heartRepository.delete(heart);
             return HeartDto.of(heart);
         }
@@ -118,6 +127,10 @@ public class PostService {
                     .postId(post_id)
                     .userId(member.getId())
                     .build();
+            // like_cnt +1
+            Post post = postRepository.findById(post_id).orElseThrow(() -> new RuntimeException("게시글 정보가 없습니다"));
+            post.setLike_cnt(post.getLike_cnt()+1);
+            postRepository.save(post);
             heartRepository.save(heart);
             return HeartDto.of(heart);
         }

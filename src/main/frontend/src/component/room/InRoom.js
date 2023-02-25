@@ -19,7 +19,7 @@ function InRoom(){
     const reconnect = useRef(0);
 
     const findRoom = async () => {
-        const response = await axios.get(`https://ssopa02.com/api/chat/room/${roomId}`);
+        const response = await axios.get(`/api/chat/room/${roomId}`);
         setRoom(response.data);
     };
 
@@ -47,7 +47,7 @@ function InRoom(){
             if (reconnect.current++ <= 5) {
                 setTimeout(() => {
                     console.log('connection reconnect');
-                    sock.current = new SockJS('/ws/chat');
+                    sock.current = new SockJS('/api/ws/chat');
                     ws.current = Stomp.over(sock.current);
                     ws.current.connect(headers);
                 }, 10 * 1000);

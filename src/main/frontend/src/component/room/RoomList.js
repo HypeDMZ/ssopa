@@ -13,7 +13,7 @@ function RoomList(){
     },[])
 
     const findAllRooms = () => {
-        axios.get("http://ssopa02.com/api/chat/rooms").then((response)=>{
+        axios.get("/api/chat/rooms").then((response)=>{
             console.log(response.data)
             chatRoomsChange(response.data);
         })
@@ -29,8 +29,18 @@ function RoomList(){
 
             console.log(axios.defaults.headers.common['Authorization']);
 
-            axios.post("https://ssopa02.com/api/chat/room",
-                InputRoomName)
+            axios.post("/api/chat/room",
+                {
+                    // data to sent to the server - post body
+                    // it can be an empty object
+                },
+                {
+                    // specify query parameters
+                    params: {
+                        name: InputRoomName,
+
+                    },
+                })
                 .then((response)=>{
                     alert(response.data.roomName + "방 개설에 성공하였습니다.");
                     roomNameChange('');
