@@ -2,6 +2,7 @@ package com.example.demo.Service;
 import com.example.demo.Exception.Report.AlreadyReportException;
 import com.example.demo.Exception.Report.NotSelfReportException;
 import com.example.demo.Exception.Member.MemberNotFoundException;
+import com.example.demo.Exception.Report.ReportedUserException;
 import com.example.demo.config.SecurityUtil;
 import com.example.demo.dto.Report.UserReportRequest;
 import com.example.demo.dto.Report.UserResponseDto;
@@ -14,6 +15,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
 
 @RequiredArgsConstructor
 @Service
@@ -42,6 +47,7 @@ public class ReportService {
             if(memberReportRepository.findByReportedUserId(req.getReportedUserId()).size() >= 10) {
                 // 신고 수 10 이상일 시 true 설정 -> true / false 를 통해서 게시물 작성, 댓글 작성 등 권한 주기 or false시 로그인 막는 방법?
                 reportedUser.setReported(true);
+                reportedUser.setLastReportedDay(LocalDate.now());
             }
 
             UserResponseDto res = new UserResponseDto(reporter.getId(), reportedUser.getId(), req.getContent());
@@ -51,5 +57,23 @@ public class ReportService {
             throw new AlreadyReportException();
         }
     }
+
+    void checkReport(Long userId){
+        Member member = memberRepository.findById(userId).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
+        System.out.println("로그인 정보 : "+member.getEmail());
+        Period period = Period.between(member.getLastReportedDay(), LocalDate.now());
+
+        //&& period.getDays() <10
+        if(member.isReported() == true && period.getDays() <10 ) {
+            throw new ReportedUserException("신고된 유저 : 게시물 작성 권한 없음");
+        }
+        else if(member.isReported() == true && period.getDays() >=10 ){
+            member.setReported(false);
+            member.setLastReportedDay(null);
+        }
+    }
+
+    // 신고 기간 풀렸을 시에 누적 신고 삭제 해줘야됨
+
 }
 

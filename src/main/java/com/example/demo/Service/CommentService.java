@@ -34,6 +34,8 @@ public class CommentService {
 
     private final LoadCommentRepository loadCommentRepository;
 
+    private final ReportService reportService;
+
     //댓글 삭제
     @Transactional
     public CommentDeleteDto removeComment(Long id) throws RuntimeException{
@@ -71,7 +73,11 @@ public class CommentService {
     public CommentResponseDto createComment(Long id, String content){
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
         System.out.println("로그인 정보 : "+member.getEmail());
+
+        reportService.checkReport(member.getId()); // 신고당한 유저는 댓글 사용 제한
+
         Post post = postRepository.findById(id).orElseThrow(() -> new RuntimeException("게시글 정보가 없습니다"));
+
         Comment comment = Comment.builder()
                 .comment(content)
                 .createdDate(LocalDateTime.now().toString())
