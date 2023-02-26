@@ -65,7 +65,7 @@ public class ReportService {
 
         //&& period.getDays() <10
         if(member.isReported() == true && period.getDays() <10 ) {
-            throw new ReportedUserException("신고된 유저 : 게시물 작성 권한 없음");
+            throw new ReportedUserException("[신고된 유저 : 권한 없음]");
         }
         else if(member.isReported() == true && period.getDays() >=10 ){
             member.setReported(false);
