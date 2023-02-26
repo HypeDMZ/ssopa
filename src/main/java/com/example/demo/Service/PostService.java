@@ -1,6 +1,7 @@
 package com.example.demo.Service;
 
 import com.example.demo.Exception.Post.NoSufficientPermissionException;
+import com.example.demo.Exception.Report.ReportedUserException;
 import com.example.demo.config.SecurityUtil;
 import com.example.demo.dto.post.*;
 import com.example.demo.entity.Heart;
@@ -18,7 +19,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.*;
 
 @Service
@@ -35,10 +38,15 @@ public class PostService {
 
     private final HotRepository hotRepository;
 
+    private final ReportService reportService;
+
     @Transactional
     public PostResponseDto newpost(String title, String content, String category) {
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
         System.out.println("로그인 정보 : "+member.getEmail());
+
+        reportService.checkReport(member.getId()); // 신고당한 유저는 게시글 작성 제한
+
         Post post = Post.builder()
                 .title(title)
                 .writer(member.getNickname())
