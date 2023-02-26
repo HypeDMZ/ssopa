@@ -31,6 +31,8 @@ public class Post {
     @Column()
     private int view_cnt;
     @Column()
+    private int like_cnt;
+    @Column()
     private Boolean noticeYn;
     @Column()
     private Boolean deleteYn;

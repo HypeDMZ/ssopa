@@ -40,7 +40,7 @@
 
 .icon
 {
-    height: 40%;
+    height: 50%;
     width: 50%;
     float : top;
     background-color: white;
@@ -49,6 +49,14 @@
     margin-right: auto;
     margin-top : 10px;
     border-radius: 15px;
+    background-color: #F2B284;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background:url("../img/logo.png");
+    background-size: 100% 100%;
 }
 
 .SSOPA{

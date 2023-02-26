@@ -1,5 +1,5 @@
 import {Link, useNavigate, useParams} from "react-router-dom";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import styled from "../css/FindId.module.css";
 import Layout from "./layout/Layout";
 import axios from "axios";
@@ -9,23 +9,19 @@ function ShowPw(props){
 
     const navigate = useNavigate();
     const {email} = useParams();
-    const [기존비밀번호, 기존비밀번호설정] = useState('');
     const [새비밀번호, 비밀번호설정] = useState('');
     const [비밀번호확인, 확인설정] = useState('');
 
     const onPwHandler = (event) => {
         비밀번호설정(event.currentTarget.value);
     }
-    const onExPwHandler = (event) => {
-        기존비밀번호설정(event.currentTarget.value);
-    }
     const onConfirmPwHandler = (event) => {
         확인설정(event.currentTarget.value);
     }
     const onChangePwHandler = (event) => {
-        console.log(email,기존비밀번호,새비밀번호);
-        axios.post("https://ssopa02.com/api/member/password"
-            , {email: email, exPassword: 기존비밀번호,newPassword: 새비밀번호},
+        console.log(email,새비밀번호,비밀번호확인);
+        axios.post("/api/auth/resetpassword"
+            , {email: email, password: 새비밀번호, passwordConfirm: 비밀번호확인},
             {
                 withCredentials : true,
                 headers : {"Content-Type": 'application/json'}
