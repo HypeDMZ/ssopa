@@ -12,7 +12,7 @@ function InRoom(){
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
 
-    const headers = {Authorization: getCookie('token').accessToken};
+    const headers = {Authorization: "Bearer "+getCookie('token').accessToken};
 
     const sock = useRef(null);
     const ws = useRef(null);
