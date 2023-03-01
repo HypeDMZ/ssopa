@@ -53,7 +53,7 @@ function Post()
                         <button style={{width: "80%", height : "30px", borderRadius : "10px", backgroundColor : "#FBD0B2"}}>내 정보</button>
                     </div>
                     <div className={styled.post_profile_catagory}>
-                        <div><Link to = "/auth/AfterChooseMyPost" style={{textDecoration : "none"}}>✍️ 내가 쓴 글</Link></div>
+                        <div><Link to = "/auth/MyCommentPost" style={{textDecoration : "none"}}>✍️ 내가 쓴 글</Link></div>
                         <div><Link to = "#" style={{textDecoration : "none"}}>📖 댓글 단 글</Link></div>
                         <div><Link to = "/auth/AfterClickBookMark" style={{textDecoration : "none"}}><BsFillBookmarkCheckFill style={{color : "#F2B284"}}/> 책갈피</Link></div>
                         <div><Link to ="/auth/chattingRoom" style={{textDecoration : "none"}}><BsFillChatTextFill style={{color : "#F2B284"}}/> 오픈채팅방</Link></div>

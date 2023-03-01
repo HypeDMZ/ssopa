@@ -17,6 +17,9 @@ public class PostResponseDto {
     @ApiModelProperty(value="글제목", example="오늘의 공지",required = true)
     private String title;
 
+    @ApiModelProperty(value="글 고유 id", example="18",required = true)
+    private Long id;
+
     @ApiModelProperty(value="글카테고리", example="게시판 이름(ex 뜨밤)",required = true)
     private String category;
 
@@ -29,6 +32,7 @@ public class PostResponseDto {
 
     public static PostResponseDto of(Post post) {
         return PostResponseDto.builder()
+                .id(post.getId())
                 .title(post.getTitle())
                 .category(post.getCategory())
                 .content(post.getContent())
