@@ -12,6 +12,7 @@ function RoomList(){
     const [chatRooms, chatRoomsChange] = useState([]);
     const [chatRoom, setChatRoom] = useState(false);
     const [sendId, setSendId] = useState('');
+    const [select,setSelect] = useState('');
 
     useEffect(()=>{
         findAllRooms();
@@ -86,9 +87,10 @@ function RoomList(){
                     <div className={styled.post_main_contents}>
                         <div className={styled.post_friend_nav}> 채팅방 목록 </div>
                         {chatRooms.map(roomData => (
-                            <div className={styled.post_friend_list} key={roomData.roomId} onClick={()=>{
+                            <div className={`${select === roomData.roomId ? styled.post_select : styled.post_friend_list}`} key={roomData.roomId} onClick={()=>{
                                 setChatRoom(true);
                                 setSendId(roomData.roomId);
+                                setSelect(roomData.roomId);
                             }}>
                                 {roomData.roomName}
                             </div>
