@@ -54,7 +54,11 @@ public class ChatService {
     }
 
     public List<ChatMessage> loadchat(String roomId){
-
+        List<ChatMessage> messages = chatMessageRepository.findAllByRoomId(roomId);
+        messages.forEach(chatMessage -> {
+            Optional<Member> member = memberRepository.findById(Long.valueOf(chatMessage.getSender()));
+            chatMessage.setSender(member.get().getNickname());
+        });
         return chatMessageRepository.findAllByRoomId(roomId);
     }
 }
