@@ -1,13 +1,18 @@
 package com.example.demo.Service;
 
+import com.example.demo.Exception.Post.NoSufficientPermissionException;
 import com.example.demo.config.SecurityUtil;
 import com.example.demo.dto.chat.ChatMessage;
 import com.example.demo.dto.chat.ChatRoom;
+import com.example.demo.dto.post.LoadDto;
 import com.example.demo.entity.Member;
 import com.example.demo.repository.ChatMessageRepository;
 import com.example.demo.repository.ChatRoomRepository;
 import com.example.demo.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -53,8 +58,13 @@ public class ChatService {
         return chatRoom;
     }
 
-    public List<ChatMessage> loadchat(String roomId){
-        List<ChatMessage> messages = chatMessageRepository.findAllByRoomId(roomId);
+    public List<ChatMessage> loadchat(String roomId,int page){
+
+
+        PageRequest pageRequest = PageRequest.of(page, 20, Sort.by("time").descending());
+        Page<ChatMessage> chatMessages = chatMessageRepository.findByRoomId(roomId,pageRequest);
+        List<ChatMessage> messages=chatMessages.getContent();
+
         messages.parallelStream().forEach(chatMessage -> {
             Optional<Member> member = memberRepository.findById(Long.parseLong(chatMessage.getSender()));
             if(member.isPresent()){
