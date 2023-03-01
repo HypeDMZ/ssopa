@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface HotRepository extends JpaRepository<Hot, Long> {
     Optional<Hot> findByPostIdAndUserId(Long postId, Long userId);
 
+    Hot findFirstByOrderByIdAsc();
+
 }
