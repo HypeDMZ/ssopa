@@ -32,10 +32,9 @@ function App() {
                     <Route path="/auth/findpw" element={<FindPw/>}></Route>
                     <Route path="/auth/showid/:email" element={<ShowId/>}></Route>
                     <Route path="/auth/showpw/:email" element={<ShowPw/>}></Route>
-                    <Route path="/auth/write/:email" element={<Write/>}></Route>
 
-                    <Route path="/post" element={<Post/>}></Route>
-                    <Route path="/post/add" element={<Write/>}/>
+                    <Route path="/post/add" element={<Write/>}></Route>
+                    <Route path="/Post" element={<Post/>}></Route>
 
                     {/*chat*/}
                     <Route path="/chat/list" element={<RoomList/>}></Route>
