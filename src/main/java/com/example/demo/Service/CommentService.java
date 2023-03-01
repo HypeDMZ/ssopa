@@ -11,6 +11,7 @@ import com.example.demo.dto.Comment.CommentResponseDto;
 import com.example.demo.dto.Comment.LoadCommentDto;
 import com.example.demo.dto.post.PostResponseDto;
 import com.example.demo.entity.Comment;
+import com.example.demo.entity.Hot;
 import com.example.demo.entity.Member;
 import com.example.demo.entity.Post;
 import com.example.demo.repository.CommentRepository;
@@ -28,13 +29,11 @@ import javax.transaction.Transactional;
 @Service
 public class CommentService {
     private final PostRepository postRepository;
-
     private final MemberRepository memberRepository;
     private final CommentRepository commentRepository;
-
     private final LoadCommentRepository loadCommentRepository;
-
     private final ReportService reportService;
+    private final SaveData saveData;
 
     //댓글 삭제
     @Transactional
@@ -84,6 +83,12 @@ public class CommentService {
                 .userId(member.getId())
                 .postId(post.getId())
                 .build();
+        Hot hot = Hot.builder()
+                .postId(post.getId())
+                .userId(member.getId())
+                .weight(5)
+                .build();
+        saveData.saveData(hot);
         return CommentResponseDto.of(commentRepository.save(comment));
     }
 
