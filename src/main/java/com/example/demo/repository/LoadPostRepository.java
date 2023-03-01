@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -26,4 +27,6 @@ public interface LoadPostRepository extends JpaRepository<Post, Long> {
     // 페이징 기능
     Page<LoadDto> findByCategory(String category, Pageable pageable);
     Page<Post> findAll(Pageable pageable);
+
+    Optional<Post> findById(Long id);
 }
