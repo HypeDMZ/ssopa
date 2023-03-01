@@ -22,6 +22,9 @@ function Login(props){
     },[아이디,비밀번호]);
 
     useEffect(()=>{
+        if(getCookie('token')!==undefined){
+            navigate("/post");
+        }
         if(getCookie('id')!==undefined){
             아이디변경(getCookie('id'));
         }

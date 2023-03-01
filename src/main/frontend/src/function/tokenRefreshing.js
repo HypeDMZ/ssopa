@@ -31,6 +31,7 @@ function tokenRefreshing(){
             resolve(true);
         }).catch((error)=>{
             alert("재 로그인");
+            removeCookie('token',{path:"/"});
             window.location.href = '/auth/login';
             reject(false)
         })

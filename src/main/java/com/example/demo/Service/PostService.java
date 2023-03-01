@@ -33,7 +33,6 @@ public class PostService {
     private final PostRepository postRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
-    private final LoadPostRepository loadPostRepository;
     private final HeartRepository heartRepository;
     private final HotRepository hotRepository;
     private final ReportService reportService;
@@ -114,9 +113,9 @@ public class PostService {
         System.out.println("로그인 정보 : "+member.getEmail());
 
         Page<LoadDto> loadDtoList;
-        if (loadPostRepository.existsPostByCategory(category)) {
+        if (postRepository.existsPostByCategory(category)) {
             PageRequest pageRequest = PageRequest.of(page, 20, Sort.by("modifiedDate").descending());
-            loadDtoList = loadPostRepository.findByCategory(category, pageRequest);
+            loadDtoList = postRepository.findByCategory(category, pageRequest);
             // loadDtoList = loadPostRepository.findAllByCategory(category);
         }
         else {
@@ -163,8 +162,8 @@ public class PostService {
         System.out.println("로그인 정보 : "+member.getEmail());
 
         List<LoadDto> loadDtoList;
-        if (loadPostRepository.findAllByUserId(member.getId()) != null) {
-            loadDtoList = loadPostRepository.findAllByUserId(member.getId());
+        if (postRepository.findAllByUserId(member.getId()) != null) {
+            loadDtoList = postRepository.findAllByUserId(member.getId());
         }
         else {
             throw new NoSufficientPermissionException();

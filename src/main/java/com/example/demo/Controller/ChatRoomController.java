@@ -1,15 +1,18 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Service.ChatService;
+import com.example.demo.common.HttpResponseUtil;
 import com.example.demo.dto.chat.ChatMessage;
 import com.example.demo.dto.chat.ChatRoom;
 import com.example.demo.repository.ChatMessageRepository;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import retrofit2.http.Path;
 
 import java.util.List;
 
@@ -19,6 +22,8 @@ import java.util.List;
 @Api(tags = "ChatRoomController : 채팅 관련 컨트롤러")
 public class ChatRoomController {
     private final ChatService chatService;
+
+    private final HttpResponseUtil httpResponseUtil;
 
 
 
@@ -57,10 +62,14 @@ public class ChatRoomController {
 
     // 특정 채팅방 조회
     @Operation(summary = "채팅방 채팅 내역 불러오기")
-    @GetMapping("load/room/{roomId}")
+    @GetMapping("load/room/{roomId}/{page}")
     @ResponseBody
-    public List<ChatMessage> loadChat(@PathVariable String roomId) {
-        List<ChatMessage> chatMessages = chatService.loadchat(roomId);
-        return chatMessages;
+    public ResponseEntity<?> loadChat(@PathVariable String roomId, @PathVariable int page) {
+        try {
+            return httpResponseUtil.createOKHttpResponse(chatService.loadchat(roomId, page), "게시글 불러오기 성공");
+        } catch (Exception e) {
+            return httpResponseUtil.createInternalServerErrorHttpResponse("게시글 불러오기 실패: " + e.getMessage());
+        }
+
     }
 }///
