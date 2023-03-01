@@ -55,10 +55,16 @@ public class ChatService {
 
     public List<ChatMessage> loadchat(String roomId){
         List<ChatMessage> messages = chatMessageRepository.findAllByRoomId(roomId);
-        messages.forEach(chatMessage -> {
-            Optional<Member> member = memberRepository.findById(Long.valueOf(chatMessage.getSender()));
-            chatMessage.setSender(member.get().getNickname());
+        messages.parallelStream().forEach(chatMessage -> {
+            Optional<Member> member = memberRepository.findById(Long.parseLong(chatMessage.getSender()));
+            if(member.isPresent()){
+                chatMessage.setSender(member.get().getNickname());
+            }else{
+                chatMessage.setSender("탈퇴한 회원");
+            }
+
         });
-        return chatMessageRepository.findAllByRoomId(roomId);
+
+        return messages;
     }
 }
