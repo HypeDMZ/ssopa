@@ -117,3 +117,12 @@ div{
     height: 90%; /* 스크롤이 가능한 높이 */
     overflow-y: scroll; /* 세로 스크롤 활성화 */
 }
+
+.post_select{
+    width: 100%;
+    height: 10%;
+    border-bottom: solid 2px #F2B284;
+    padding: 10px;
+    color : #ffffff;
+    background: #F2B284;
+}
