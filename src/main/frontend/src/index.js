@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { CookiesProvider } from "react-cookie";
 import axios from "axios";
+import "./font/font.css";
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -13,6 +14,7 @@ root.render(
       <CookiesProvider>
         <App />
       </CookiesProvider>
+
   </>
 );
 

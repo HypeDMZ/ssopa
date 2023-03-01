@@ -1,6 +1,7 @@
 package com.example.demo.Service;
 
 import com.example.demo.Exception.Post.NoSufficientPermissionException;
+import com.example.demo.Exception.Report.ReportedUserException;
 import com.example.demo.config.SecurityUtil;
 import com.example.demo.dto.post.*;
 import com.example.demo.entity.Heart;
@@ -18,7 +19,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.*;
 
 @Service
@@ -32,13 +35,18 @@ public class PostService {
     private final TokenProvider tokenProvider;
     private final LoadPostRepository loadPostRepository;
     private final HeartRepository heartRepository;
-
     private final HotRepository hotRepository;
+    private final ReportService reportService;
+
+    private final SaveData saveData;
 
     @Transactional
     public PostResponseDto newpost(String title, String content, String category) {
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
         System.out.println("로그인 정보 : "+member.getEmail());
+
+        reportService.checkReport(member.getId()); // 신고당한 유저는 게시글 작성 제한
+
         Post post = Post.builder()
                 .title(title)
                 .writer(member.getNickname())
@@ -61,6 +69,13 @@ public class PostService {
         System.out.println("로그인 정보 : "+member.getEmail());
         Post post = postRepository.findById(id).orElseThrow(() -> new RuntimeException("게시글 정보가 없습니다"));
         post.setView_cnt(post.getView_cnt()+1);
+        // hot테이블에 저장
+        Hot hot = Hot.builder()
+                .postId(post.getId())
+                .userId(member.getId())
+                .weight(1)
+                .build();
+        saveData.saveData(hot);
         return PostReadDto.of(post);
     }
 
@@ -127,6 +142,12 @@ public class PostService {
                     .postId(post_id)
                     .userId(member.getId())
                     .build();
+            Hot hot = Hot.builder()
+                    .postId(post_id)
+                    .userId(member.getId())
+                    .weight(5)
+                    .build();
+            saveData.saveData(hot);
             // like_cnt +1
             Post post = postRepository.findById(post_id).orElseThrow(() -> new RuntimeException("게시글 정보가 없습니다"));
             post.setLike_cnt(post.getLike_cnt()+1);
@@ -151,7 +172,7 @@ public class PostService {
         return loadDtoList;
     }
 
-    public List<HotDto> getHotList() {
+    public List<LoadDto> getHotList() {
         List<Hot> getList = hotRepository.findAll(Sort.by(Sort.Direction.DESC, "weight"));
         Map<Long, HotDto> hotMap = new LinkedHashMap<>();
         for (Hot hot : getList) {
@@ -163,6 +184,14 @@ public class PostService {
                 hotDTO.setWeight(hotDTO.getWeight() + hot.getWeight());
             }
         }
-        return new ArrayList<>(hotMap.values());
+        List<HotDto> hotList = new ArrayList<>(hotMap.values());
+        hotList.sort(Comparator.comparing(HotDto::getWeight).reversed());
+        // hotList로 LoadDto를 만들어서 반환
+        List<LoadDto> loadDtoList = new ArrayList<>();
+        for (HotDto hotDto : hotList) {
+            Post post = postRepository.findById(hotDto.getPostId()).orElseThrow(() -> new RuntimeException("게시글 정보가 없습니다"));
+            loadDtoList.add(LoadDto.of(post));
+        }
+        return loadDtoList;
     }
 }

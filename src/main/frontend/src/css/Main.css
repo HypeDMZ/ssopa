@@ -19,14 +19,13 @@
     left: 50px;
     top: -30px;
 
-    font-family: 'Kodchasan';
     font-style: normal;
     font-weight: 700;
     font-size: 75px;
     line-height: 98px;
 
     color: #F48E44;
-    text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.25);
+
 }
 
 .rightPage
@@ -62,7 +61,6 @@
 .SSOPA{
     float : top;
     margin : 0px;
-    font-family: 'Kodchasan';
     font-style: normal;
     text-align: center;
 }

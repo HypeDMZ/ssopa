@@ -43,13 +43,13 @@ div{
 .post_main_right{
     display: inline;
     width: 35%;
-    height: 100%;
+    height: 110%;
     float: right;
     background-color: white;
 }
 
 .post_main_search{
-    width: 90%;
+    width: 100%;
     height: 10%;
     float: top;
     margin : auto;
@@ -58,6 +58,9 @@ div{
     border-radius: 10px;
     z-index: 1;
     color : #F2B284;
+    padding-top : 2px;
+    padding-right: 2px;
+    min-height: 60px;
 }
 
 /*검색 할떄 input 누를시 태투리 없애주는 코드*/
@@ -78,8 +81,8 @@ div{
 }
 
 .post_main_contents{
-    width: 90%;
-    height: 80%;
+    width: 100%;
+    height: 100%;
     float: bottom;
     margin : auto;
     margin-top : 10px;
@@ -91,13 +94,14 @@ div{
 
 .post_main_hotTopic{
     width: 90%;
-    height: 55%;
+    height: 60%;
     float: top;
     margin : auto;
     margin-top : 20px;
     border : solid 2.5px #F2B284;
     border-radius: 10px;
     z-index: 1;
+    min-height: 400px;
 }
 
 .post_main_lunch{
@@ -181,8 +185,8 @@ div{
 }
 
 .post_main_nav{
-    width: 90%;
-    height: 6%;
+    width: 100%;
+    height: 12%;
     margin-top : 10px;
     margin-left: 10px;
     border-bottom: solid 2px #F2B284;
@@ -205,14 +209,15 @@ div{
 .post_hotTopic_nav{
     width: 90%;
     height: 10%;
-    margin-top : 10px;
-    margin-left: 10px;
+    margin-top : 3%;
+    margin-left: 3%;
     border-bottom: solid 2px #F2B284;
     text-align: left;
-    padding: 10px;
+    padding: 3%;
     font-size: 15px;
     font-weight: bold;
     color : #F2B284;
+    min-height: 50px;
 }
 
 .post_hotTopic_main{
@@ -221,13 +226,21 @@ div{
     display: block;
     margin-left: auto;
     margin-right: auto;
-    margin-top : 10px;
+    margin-top : 3%;
     padding: 5px;
     font-size: 25px;
 }
 
+.post_hotTopic_main div{
+    width: 90%;
+    height: 15%;
+    margin : 2%;
+    min-height: 55px;
+    border-bottom: solid 2px black;
+    padding-top : 4%;
+}
 .post_hotTopic_main li {
-    margin-top: 10%;
+    margin-top: 5%;
     border-bottom: solid 2px black;
 }
 
@@ -239,20 +252,82 @@ div{
 
 .post_Lunch_nav{
     width: 90%;
-    height: 15%;
-    margin-top : 10px;
-    margin-left: 10px;
+    height: 10%;
+    margin-top : 3%;
+    margin-left: 3%;
     border-bottom: solid 2px #F2B284;
     text-align: left;
-    padding: 10px;
+    padding: 3%;
     font-size: 15px;
     font-weight: bold;
     color : #F2B284;
+    min-height: 50px;
 }
 
 .post_post{
-    width: 100%;
-    height: 20%;
+    width: 98%;
+    height: 15vh;
     background-color: wheat;
     border-radius: 10px;
+    margin : 10px;
+    border : solid 2px #F2B284;
+    min-height: 100px;
+    position: relative;
+}
+
+.post_title {
+    width: 100%;
+    height: 45%;
+}
+
+.post_img{
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 50px;
+    background-color: white;
+    margin : 5px;
+    position: relative;
+}
+
+.post_time{
+    display: inline-block;
+    position: relative;
+    top : -30%;
+}
+
+.post_name{
+    font-size : 20px;
+    display: inline-block;
+    position: relative;
+    top : -20%;
+    margin-right: 20px;
+}
+
+.post_channel{
+    display: inline-block;
+    float: right;
+    margin-right: 20px;
+    margin-right: 20px;
+}
+
+.post_content{
+    width: 100%;
+    height: 55%;
+    border-top: solid 2px gray;
+    padding-top : 2%;
+    padding-left: 2%;
+}
+
+.post_content p{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.post_content p{
+    font-size: 20px;
+    margin-left: 40px;
+    position: relative;
+    top : -15%;
 }

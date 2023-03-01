@@ -112,3 +112,8 @@ div{
     height: 95%;
     display: flex;
 }
+
+.scrollable_div{
+    height: 90%; /* 스크롤이 가능한 높이 */
+    overflow-y: scroll; /* 세로 스크롤 활성화 */
+}

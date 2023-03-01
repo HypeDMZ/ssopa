@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import Layout from '../css/layout/Layout.css'
 import styled from '../css/AfterClickBookMark.module.css'
 import {Link} from 'react-router-dom';
+import { BsFillBookmarkCheckFill} from "react-icons/bs";
 function AfterClickBookMark()
 {
     return(
@@ -32,7 +33,7 @@ function AfterClickBookMark()
 
                 <div className={styled.post_main_left}>
                     <div className={styled.post_main_contents}>
-                        <div className={styled.post_main_nav}> <p>내가 쓴 글 (1) </p></div>
+                        <div className={styled.post_main_nav}> <p>책갈피 (1) </p></div>
                         <div className={styled.post_myStory}>
                             <div className={styled.post__profile}>
                                 <div className={styled.post_profile__img}></div>
@@ -40,7 +41,7 @@ function AfterClickBookMark()
                                     <p style={{display : "block", fontSize : "13px"}}>
                                         익명
                                         <span style={{fontSize : "10px", color : "gray"}}> 2021-02-12 12:30PM</span>
-                                        <span>📋</span>
+                                        <span><BsFillBookmarkCheckFill style={{color : "#F2B284", fontSize : "15px"}}/></span>
                                     </p>
 
                                     <p style={{fontSize : "13px"}}>대전고등학교 </p>

@@ -13,7 +13,7 @@ function tokenRefreshing(){
 
         const data = JSON.stringify(object);
 
-        axios.post("http://localhost:8080/auth/reissue",
+        axios.post("/api/auth/reissue",
             data,
             {
                 withCredentials : true,
