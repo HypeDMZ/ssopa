@@ -1,0 +1,104 @@
+.changeInfo_container{
+    width: 100vw;
+    height: 100vh;
+    min-width: 1000px;
+    min-height: 500px;
+}
+.changeInfo_nav{
+    width: 100%;
+    height: 10%;
+    background-color: #F2B284;
+    float : right;
+}
+.changeInfo_main_container{
+    width: 100%;
+    height: 90%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.changeInfo_main_content{
+    width: 500px;
+    height: 800px;
+    justify-content: center;
+    border : solid 2.5px #F2B284;
+    border-radius: 10px;
+}
+.changeInfo_main_nav{
+    width: 100%;
+    height: 10%;
+
+    text-align: left;
+    padding: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    background-color: #F2B284;
+    border-radius: 3px;
+
+    display: flex;
+    align-items: center;
+}
+.changeInfo_profile{
+    width: 100%;
+    height: 18%;
+    border-bottom: solid 2.5px #F2B284;
+    position: relative;
+}
+.changeInfo_name{
+    display: inline-block;
+    width: 60%;
+    height: 80%;
+    position: absolute;
+    top: 0%;
+    margin: 12px;
+}
+.changeInfo_logout_btn{
+    position: absolute;
+    left: 80%;
+    top: 20%;
+
+    color: white;
+    background-color: #E87D30;
+    border-radius: 20px;
+    border: #E87D30;
+    width: 80px;
+    height: 30px;
+    font-size: 17px;
+}
+.changeInfo_info{
+    width: 100%;
+    height: 72%;
+    border-radius: 5px;
+}
+.changeInfo_info_detail{
+    width: 500px;
+    height: 100px;
+    margin: 30px;
+    font-size: 20px;
+}
+
+.changeInfo_input{
+    width: 350px;
+    height: 50px;
+}
+input::placeholder {
+    color: gray;
+}
+.changeInfo_info_btn_box{
+    width: 500px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    margin: 5px;
+}
+.changeInfo_info_btn{
+    width: 400px;
+    height: 50px;
+    margin: 5px;
+    border: solid 1.5px #E87D30;
+    border-radius: 5px;
+    background-color: white;
+    color: #E87D30;
+    font-size: 15px;
+}

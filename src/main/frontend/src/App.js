@@ -19,6 +19,8 @@ import {AfterSearchingPost} from "./component/AfterSearchingPost";
 import {AfterChooseMyPost} from "./component/AfterChooseMyPost";
 import {AfterClickBookMark} from "./component/AfterClickBookMark";
 import {MyCommentPost} from "./component/MyCommentPost";
+import { MyInfo } from "./component/MyInfo";
+import { ChangeInfo } from "./component/ChangeInfo";
 function App() {
 
     return (
@@ -36,6 +38,10 @@ function App() {
 
                     <Route path="/post" element={<Post/>}></Route>
                     <Route path="/post/add" element={<Write/>}/>
+
+                    {/*member*/}
+                    <Route path="/member/me" element={<MyInfo/>}/>
+                    <Route path="/member/change/:option" element={<ChangeInfo/>}/>
 
                     {/*chat*/}
                     <Route path="/chat/list" element={<RoomList/>}></Route>

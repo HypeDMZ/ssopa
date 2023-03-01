@@ -19,6 +19,7 @@ function Post()
     let room = "test";
     let [page,pageChange] = useState(0);
     const [isBottom, setIsBottom] = useState(false);
+    const navi = useNavigate();
 
     /*재 랜더링 할때마다 server에서 최신 post를 가져온다.*/
     useEffect(() => {
@@ -48,7 +49,9 @@ function Post()
                     <div className={styled.post_profile_img}></div>
                     <div className={styled.post_profile_info}>
                         <p style={{textAlign : "center"}}>성이름(대전고)</p>
-                        <button style={{width: "80%", height : "30px", borderRadius : "10px", backgroundColor : "#FBD0B2"}}>내 정보</button>
+                        <button style={{width: "80%", height : "30px", borderRadius : "10px", backgroundColor : "#FBD0B2"}}
+                            onClick={() => {navi('/member/me')}
+                            }>내 정보</button>
                     </div>
                     <div className={styled.post_profile_catagory}>
                         <div>✍️ 내가 쓴 글</div>
