@@ -35,10 +35,10 @@ public class PostService {
     private final TokenProvider tokenProvider;
     private final LoadPostRepository loadPostRepository;
     private final HeartRepository heartRepository;
-
     private final HotRepository hotRepository;
-
     private final ReportService reportService;
+
+    private final SaveData saveData;
 
     @Transactional
     public PostResponseDto newpost(String title, String content, String category) {
@@ -69,6 +69,13 @@ public class PostService {
         System.out.println("로그인 정보 : "+member.getEmail());
         Post post = postRepository.findById(id).orElseThrow(() -> new RuntimeException("게시글 정보가 없습니다"));
         post.setView_cnt(post.getView_cnt()+1);
+        // hot테이블에 저장
+        Hot hot = Hot.builder()
+                .postId(post.getId())
+                .userId(member.getId())
+                .weight(1)
+                .build();
+        saveData.saveData(hot);
         return PostReadDto.of(post);
     }
 
@@ -135,6 +142,12 @@ public class PostService {
                     .postId(post_id)
                     .userId(member.getId())
                     .build();
+            Hot hot = Hot.builder()
+                    .postId(post_id)
+                    .userId(member.getId())
+                    .weight(5)
+                    .build();
+            saveData.saveData(hot);
             // like_cnt +1
             Post post = postRepository.findById(post_id).orElseThrow(() -> new RuntimeException("게시글 정보가 없습니다"));
             post.setLike_cnt(post.getLike_cnt()+1);
