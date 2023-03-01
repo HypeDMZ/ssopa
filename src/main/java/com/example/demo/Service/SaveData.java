@@ -14,22 +14,22 @@ import java.util.Optional;
 @Transactional
 public class SaveData {
     private final HotRepository hotRepository;
+
     public void saveData(Hot hot) {
         long count = hotRepository.count();
-        if (hot.getWeight() == 5){
-            // hot.postId랑, hot.userid가 데이터베이스에 유무를 확인후 있으면 막음
+        if (hot.getWeight() == 5) {
             Optional<Hot> existingHot = hotRepository.findByPostIdAndUserId(hot.getPostId(), hot.getUserId());
             if (existingHot.isPresent()) {
                 throw new RuntimeException("Hot already exists for postId=" + hot.getPostId() + " and userId=" + hot.getUserId());
             }
-            // 데이터베이스에 없으면 저장
         }
+
         if (count < 300) {
             // Add new record with auto-generated id
             hotRepository.save(hot);
         } else {
-            // Update existing record with id 1
-            Hot hotRecord = hotRepository.findById(1L).orElseThrow(() -> new RuntimeException("Record not found"));
+            // Update existing record with smallest id value
+            Hot hotRecord = hotRepository.findFirstByOrderByIdAsc();
             hotRecord.setPostId(hot.getPostId());
             hotRecord.setWeight(hot.getWeight());
             hotRecord.setUserId(hot.getUserId());
@@ -37,3 +37,4 @@ public class SaveData {
         }
     }
 }
+
