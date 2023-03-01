@@ -53,13 +53,13 @@ function MyCommentPost()
                         {
                             mypost.map((a,i)=>{
                                 return(
-                                    <div className={styled.post_myStory}>
+                                    <div className={styled.post_myStory} key={a.id}>
                                         <div className={styled.post__profile}>
                                             <div className={styled.post_profile__img}></div>
                                             <div className={styled.post_name}>
                                                 <p style={{display : "block", fontSize : "13px"}}>
-                                                    익명
-                                                    <span style={{fontSize : "10px", color : "gray"}}> 2021-02-12 12:30PM</span>
+                                                    {a.writer}
+                                                    <span style={{fontSize : "10px", color : "gray"}}> {a.modified_date[0] +"-"+ a.modified_date[1] + "-" + a.modified_date[2]}</span>
                                                     <span> <BsFillGearFill style={{float : "right"}} onClick={()=>{navigate("/auth/AfterChooseMyPost",{state: {'title' : a.title, 'id' : a.id} })}} /> </span></p>
 
                                                 <p style={{fontSize : "13px"}}> 조회수 : [{a.view_cnt}] </p>
@@ -73,7 +73,7 @@ function MyCommentPost()
                                         <div className={styled.post_contents}>
                                             <div className={styled.post_contents_contents}>
                                                 <button className={styled.post_contents_title}>{a.title}</button>
-                                                <button className={styled.post_contents_comment}>내일 뭐하지?</button>
+                                                <button className={styled.post_contents_comment}>{a.content}</button>
                                             </div>
                                             <div className={styled.post_good}>
                                                 <button>👍 0 </button>

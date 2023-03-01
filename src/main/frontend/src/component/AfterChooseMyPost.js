@@ -10,6 +10,7 @@ function AfterChooseMyPost(){
     let location = useLocation();
     let realId = location.state.id;  /*내가쓴 글의 page에서 가져온 id*/
     let [post, modifiedPost] = useState()
+    let [time, setTime] = useState("")
     let post_contents
     let post_title;
     const navigate = useNavigate();
@@ -20,6 +21,8 @@ function AfterChooseMyPost(){
                 { withCredentials: true})
                 .then((response) => {
                     modify(response.data.data);
+                    console.log(response.data.data);
+                    setTime(response.data.data.modified_date[0] +"-"+ response.data.data.modified_date[1] + "-" + response.data.data.modified_date[2] )
                 })
                 .catch((response) => { console.log(response)});
         });
@@ -39,11 +42,11 @@ function AfterChooseMyPost(){
                                 <div className={styled.post_profile}>
                                     <div className={styled.post_profile_img}></div>
                                     <div className={styled.post_name}>
-                                        <p style={{display : "block"}}>익명 </p>
+                                        <p style={{display : "block"}}>{mypost.writer} </p>
                                         <input type ="text" className={styled.modify_content}
-                                               onChange={(e) => {post_title = (e.target.value)}}/>
+                                               defaultValue={mypost.title}  onChange={(e) => {post_title = (e.target.value)}}/>
 
-                                        <p style={{border : "solid 2px black"}}> 3분전</p>
+                                        <p style={{border : "solid 2px black"}}>{time}</p>
                                     </div>
                                     <div className={styled.post_112}>
 
@@ -75,7 +78,7 @@ function AfterChooseMyPost(){
                                 <div className={styled.post_contents}>
                                     <div className={styled.post_contents_contents}>
                                         <input type ="text" className={styled.modify_content}
-                                        onChange={(e) => {post_contents = (e.target.value)}}/>
+                                               defaultValue={mypost.content} onChange={(e) => {post_contents = (e.target.value)}}/>
                                     </div>
                                 </div>
                             </div>

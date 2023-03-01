@@ -17,6 +17,7 @@ public class LoadDto {
     private Long id;
     private String title;
     private String writer;
+    private String content;
     private int view_cnt;
     private boolean noticeYn;
     private LocalDateTime modified_date;
@@ -26,6 +27,7 @@ public class LoadDto {
                 .id(post.getId())
                 .title(post.getTitle())
                 .writer(post.getWriter())
+                .content(post.getContent())
                 .view_cnt(post.getView_cnt())
                 .noticeYn(post.getNoticeYn())
                 .modified_date(post.getModifiedDate())
