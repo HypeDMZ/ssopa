@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,10 +19,10 @@ public class PostReadDto {
     @ApiModelProperty(value="글내용", example="내 용",required = true)
     private String content;
     @ApiModelProperty(value="게시글 작성 시간", example="2002.02.24",required = true)
-    private String created_date;
+    private LocalDateTime created_date;
 
     @ApiModelProperty(value="최종 수정 날자", example="2002.02.24",required = true)
-    private String modified_date;
+    private LocalDateTime modified_date;
 
     @ApiModelProperty(value="글 작성자", example="OpenAI",required = true)
     private String writer;
@@ -38,8 +40,8 @@ public class PostReadDto {
         return PostReadDto.builder()
                 .title(post.getTitle())
                 .content(post.getContent())
-                .created_date(post.getCreated_date().toString())
-                .modified_date(post.getModifiedDate().toString())
+                .created_date(post.getCreated_date())
+                .modified_date(post.getModifiedDate())
                 .writer(post.getWriter())
                 .view_cnt(post.getView_cnt())
                 .notice_yn(post.getNoticeYn())

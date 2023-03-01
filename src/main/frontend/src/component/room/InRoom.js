@@ -119,7 +119,7 @@ function InRoom(props){
             <div>
                 <h2>{room.name}</h2>
             </div>
-            <div onScroll={handleScroll} style={{height: "90%",overflowY: "scroll"}}>
+            <div onScroll={handleScroll} style={{height: "90%",overflowY: "scroll", paddingBottom:"10px"}}>
                 <ul>
                     {messages.map((message, index) => (
                         <li key={index}>

@@ -1,9 +1,26 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Layout from '../css/layout/Layout.css'
 import styled from '../css/MyCommentPost.module.css'
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
+import {tokenRefreshing} from "../function/tokenRefreshing";
+import axios from "axios";
+import {BsFillGearFill} from "react-icons/bs";
 function MyCommentPost()
+
 {
+    const navigate = useNavigate();
+    let [mypost, modify] = useState([])
+    useEffect(() => {
+        tokenRefreshing().then(() => {
+            axios.get(`/api/post/loadmy`,
+                { withCredentials: true})
+                .then((response) => {
+                    modify(mypost => [...mypost,...response.data.data]);
+                })
+                .catch((response) => { console.log(response) });
+        });
+    }, [modify]);
+
     return(
         <div className={styled.post_container}>
             <div className={styled.post_my}>
@@ -33,34 +50,42 @@ function MyCommentPost()
                 <div className={styled.post_main_left}>
                     <div className={styled.post_main_contents}>
                         <div className={styled.post_main_nav}> <p>내가 쓴 글 (1) </p></div>
-                        <div className={styled.post_myStory}>
-                            <div className={styled.post__profile}>
-                                <div className={styled.post_profile__img}></div>
-                                <div className={styled.post_name}>
-                                    <p style={{display : "block", fontSize : "13px"}}>
-                                        익명
-                                        <span style={{fontSize : "10px", color : "gray"}}> 2021-02-12 12:30PM</span>
-                                    </p>
+                        {
+                            mypost.map((a,i)=>{
+                                return(
+                                    <div className={styled.post_myStory} key={a.id}>
+                                        <div className={styled.post__profile}>
+                                            <div className={styled.post_profile__img}></div>
+                                            <div className={styled.post_name}>
+                                                <p style={{display : "block", fontSize : "13px"}}>
+                                                    {a.writer}
+                                                    <span style={{fontSize : "10px", color : "gray"}}> {a.modified_date[0] +"-"+ a.modified_date[1] + "-" + a.modified_date[2]}</span>
+                                                    <span> <BsFillGearFill style={{float : "right"}} onClick={()=>{navigate("/auth/AfterChooseMyPost",{state: {'title' : a.title, 'id' : a.id} })}} /> </span></p>
 
-                                    <p style={{fontSize : "13px"}}>대전고등학교 </p>
-                                </div>
-                                <div className={styled.post_112}>
-                                    <p style={{color : "#F2B284"}}>[자유게시판]</p>
-                                </div>
-                            </div>
+                                                <p style={{fontSize : "13px"}}> 조회수 : [{a.view_cnt}] </p>
+                                            </div>
+                                            <div className={styled.post_112}>
+                                                <p style={{color : "#F2B284"}}>[자유게시판]</p>
+                                            </div>
+                                        </div>
 
 
-                            <div className={styled.post_contents}>
-                                <div className={styled.post_contents_contents}>
-                                    <button className={styled.post_contents_title}>아 졸리다...ㅜ,.ㅜ</button>
-                                    <button className={styled.post_contents_comment}>내일 뭐하지?</button>
-                                </div>
-                                <div className={styled.post_good}>
-                                    <button>👍 0 </button>
-                                    <button>📖 0 </button>
-                                </div>
-                            </div>
-                        </div>
+                                        <div className={styled.post_contents}>
+                                            <div className={styled.post_contents_contents}>
+                                                <button className={styled.post_contents_title}>{a.title}</button>
+                                                <button className={styled.post_contents_comment}>{a.content}</button>
+                                            </div>
+                                            <div className={styled.post_good}>
+                                                <button>👍 0 </button>
+                                                <button>📖 0 </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        }
+
+
                     </div>
                 </div>
 
