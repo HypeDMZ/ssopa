@@ -10,13 +10,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class HotDto {
-    private Long id;
+    private Long postId;
     private int weight;
-    private Long userId;
 
     public HotDto(Hot hot) {
-        this.id = hot.getId();
+        this.postId = hot.getPostId();
         this.weight = hot.getWeight();
-        this.userId = hot.getUserId();
     }
 }

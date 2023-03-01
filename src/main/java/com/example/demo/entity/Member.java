@@ -3,6 +3,8 @@ package com.example.demo.entity;
 import javax.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
 @Getter
@@ -37,6 +39,8 @@ public class Member {
     // 신고 10번 이상 당했는 지 check 하는 변수
     private boolean reported;
 
+    @Column
+    private LocalDate lastReportedDay; // 최종 신고날짜
 
     @Builder
     public Member(Long id, String email, String phonenumber, String password, String name, Authority authority) {
