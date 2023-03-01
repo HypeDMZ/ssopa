@@ -46,9 +46,20 @@ function InRoom(props){
     }, [messages]);
 
     useEffect(() => {
+        setMessages([]);
+        axios.get(`/api/chat/load/room/${roomId}`,{
+            withCredentials: true
+        }).then((res)=>{
+            {
+                res.data.map((resmessage,i)=>{
+                    console.log(resmessage.message)
+                    setMessages(prevState => [...prevState, {sender: `${resmessage.sender}` ,message: `${resmessage.message}`}])
+                })
+            }
+        })
+
         sock.current = new SockJS('/api/ws/chat');
         ws.current = Stomp.over(sock.current);
-        setMessages([]);
         findRoom();
 
         ws.current.connect(headers, (frame) => {
