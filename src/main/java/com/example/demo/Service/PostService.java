@@ -172,7 +172,7 @@ public class PostService {
         return loadDtoList;
     }
 
-    public List<HotDto> getHotList() {
+    public List<LoadDto> getHotList() {
         List<Hot> getList = hotRepository.findAll(Sort.by(Sort.Direction.DESC, "weight"));
         Map<Long, HotDto> hotMap = new LinkedHashMap<>();
         for (Hot hot : getList) {
@@ -184,6 +184,14 @@ public class PostService {
                 hotDTO.setWeight(hotDTO.getWeight() + hot.getWeight());
             }
         }
-        return new ArrayList<>(hotMap.values());
+        List<HotDto> hotList = new ArrayList<>(hotMap.values());
+        hotList.sort(Comparator.comparing(HotDto::getWeight).reversed());
+        // hotList로 LoadDto를 만들어서 반환
+        List<LoadDto> loadDtoList = new ArrayList<>();
+        for (HotDto hotDto : hotList) {
+            Post post = postRepository.findById(hotDto.getPostId()).orElseThrow(() -> new RuntimeException("게시글 정보가 없습니다"));
+            loadDtoList.add(LoadDto.of(post));
+        }
+        return loadDtoList;
     }
 }
