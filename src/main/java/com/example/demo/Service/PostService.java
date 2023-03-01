@@ -44,7 +44,7 @@ public class PostService {
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
         System.out.println("로그인 정보 : "+member.getEmail());
 
-        //reportService.checkReport(member.getId()); // 신고당한 유저는 게시글 작성 제한
+        reportService.checkReport(member.getId()); // 신고당한 유저는 게시글 작성 제한
 
         Post post = Post.builder()
                 .title(title)

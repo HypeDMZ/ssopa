@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 import axios from 'axios'
 import Form from 'react-bootstrap/Form';
 import {tokenRefreshing} from "../function/tokenRefreshing";
-import {getCookie} from "../function/cookie";
+import {getCookie,removeCookie} from "../function/cookie";
 import InfiniteScroll from "react-infinite-scroll-component";
 import {useNavigate} from "react-router-dom";
 import { BsPerson, BsFillPencilFill,BsFillBookmarkCheckFill, BsFillChatTextFill} from "react-icons/bs";
@@ -63,7 +63,7 @@ function Post()
                     <p>내 성적 그래프</p>
                     <div className={styled.post_score}></div>
                 </div>
-                <Link to ="/" style={{color : "black",borderRadius : "5px", textDecoration : "none", border : "none", backgroundColor : "#FBD0B2", marginTop : "25px"}} onClick={()=>{}}>로그아웃</Link>
+                <Link to ="/" style={{color : "black",borderRadius : "5px", textDecoration : "none", border : "none", backgroundColor : "#FBD0B2", marginTop : "25px"}} onClick={()=>{removeCookie('token','/')}}>로그아웃</Link>
             </div>
 
             <div className={styled.post_nav}></div>
