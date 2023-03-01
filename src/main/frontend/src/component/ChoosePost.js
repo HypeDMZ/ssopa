@@ -1,8 +1,10 @@
 import styled from "../css/ChoosePost.module.css";
-import {Link} from "react-router-dom";
+import {useLocation} from "react-router-dom";
 import React from "react";
 
 function ChoosePost(){
+    let location = useLocation();
+    let title = location.state.title;
     return(
         <div className={styled.post_container}>
             <div className={styled.post_nav}></div>
@@ -16,7 +18,7 @@ function ChoosePost(){
                                     <div className={styled.post_profile_img}></div>
                                     <div className={styled.post_name}>
                                         <p style={{display : "block"}}>익명</p>
-                                        <p>대전고등학교 </p>
+                                        <p>{title} </p>
                                         <p style={{border : "solid 2px black"}}> 3분전</p>
                                     </div>
                                     <div className={styled.post_112}>

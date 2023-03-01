@@ -8,17 +8,19 @@ import {tokenRefreshing} from "../function/tokenRefreshing";
 import {getCookie} from "../function/cookie";
 import InfiniteScroll from "react-infinite-scroll-component";
 import {useNavigate} from "react-router-dom";
+import { BsPerson, BsFillPencilFill,BsFillBookmarkCheckFill, BsFillChatTextFill} from "react-icons/bs";
 
+
+//변경사항
+/*
+ 1. icon라이브러리 설치 : npm install react-icons --save
+*/
 function Post()
 {
     const navigate = useNavigate();
-    let [post, changePost] = useState();  //게시글을 불러올때 사용
-    let[게시판종류 , 게시판변경] = useState('자유게시판'); //게시판을 선택할때 사용 select로 누르면 게시판 종류 바뀜
-    let[bookMark, add] = useState();  //bookMark 버튼을 누르면 추가하는 기능 만들떄 사용
     let [게시판, 게시판Change] = useState([])
     let room = "test";
     let [page,pageChange] = useState(0);
-    const [isBottom, setIsBottom] = useState(false);
 
     /*재 랜더링 할때마다 server에서 최신 post를 가져온다.*/
     useEffect(() => {
@@ -51,10 +53,10 @@ function Post()
                         <button style={{width: "80%", height : "30px", borderRadius : "10px", backgroundColor : "#FBD0B2"}}>내 정보</button>
                     </div>
                     <div className={styled.post_profile_catagory}>
-                        <div>✍️ 내가 쓴 글</div>
-                        <div>📖 댓글 단 글</div>
-                        <div>📋 책갈피</div>
-                        <div>📋 오픈채팅방</div>
+                        <div><Link to = "/auth/AfterChooseMyPost" style={{textDecoration : "none"}}>✍️ 내가 쓴 글</Link></div>
+                        <div><Link to = "#" style={{textDecoration : "none"}}>📖 댓글 단 글</Link></div>
+                        <div><Link to = "/auth/AfterClickBookMark" style={{textDecoration : "none"}}><BsFillBookmarkCheckFill style={{color : "#F2B284"}}/> 책갈피</Link></div>
+                        <div><Link to ="/auth/chattingRoom" style={{textDecoration : "none"}}><BsFillChatTextFill style={{color : "#F2B284"}}/> 오픈채팅방</Link></div>
                     </div>
                 </div>
                 <div className={styled.post_scoreGraph}>
@@ -69,22 +71,24 @@ function Post()
                 <div className={styled.post_main_left}>
                     <div className={styled.post_main_search}>
                         <div style={{display : "inline", width : "10%", height : "90%", fontSize : "30px", paddingTop : "5px"}}>🔍</div>
-                        <input className={styled.post_input} style={{width : "70%", height : "70%", border : "none", marginLeft : "10px"}} placeholder= "전체 게시판의 글을 입력해보세요"/>
-                        <button onClick={()=>{ }}>검색</button>
+                        <input className={styled.post_input} style={{width : "70%", height : "70%", borderRadius : "15px"  , border : "solid 2px #F2B284", marginLeft : "10px"}} placeholder= "전체 게시판의 글을 입력해보세요"/>
+                        <button onClick={()=>{ }} style={{float : "right", marginTop : "5px"}}>검색</button>
                     </div>
                     <div id="scrollableDiv" className={styled.post_main_contents}>
                         <div className={styled.post_main_nav}>
-                            <Form.Select size="sm" onChange={(e)=>{console.log(e.target.value)}}>
+                            <Form.Select size="sm" onChange={(e)=>{console.log(e.target.value)}} style={{width : "20%", height : "60%"}}>
                                 <option>자유게시판</option>
                                 <option>학급 게시판</option>
                                 <option>시험 게시판</option>
                                 <option>정보게시판</option>
                             </Form.Select>
 
-                            <button style={{float : "right", borderRadius : "10px", backgroundColor : "#F2B284"}}
+                            <button style={{float : "right", borderRadius : "10px", backgroundColor : "#F2B284", width : "20%", height : "80%"}}
                             onClick={()=>{
                                 navigate("/post/add");
-                            }}>글쓰기</button></div>
+                            }}> <BsFillPencilFill style={{color : "white"}}/>글쓰기 </button>
+                        </div>
+
                         <div className={styled.post_main_post}>
                             <InfiniteScroll
                                 dataLength={게시판.length}
@@ -96,11 +100,20 @@ function Post()
                                 {
                                     /*[0,1,2...]말고 post를 받아와서 사용하면됨.*/
                                     게시판.map( (a,i)=>{
+                                       let  date = a.modified_date[0] +"-"+ a.modified_date[1] + "-" + a.modified_date[2]
+
                                         return(
-                                            <div className={styled.post_post} key={a.id}>
-                                                <p>{a.title}</p>
-                                                <p style={{display : "inline-block"}}> {a.writer}</p>
-                                                <button style={{float : "right"}}>책갈피</button>
+                                            <div className={styled.post_post} key={a.id} onClick={()=>{navigate("/auth/choosePost",{state: {'title' : a.title, 'id' : a.id} })}}>
+                                                <div className={styled.post_title}>
+                                                    <div className={styled.post_img}><BsPerson style={{position : "absolute", marginLeft : "7px", marginTop : "6px"}}></BsPerson></div>
+                                                    <span className={styled.post_name}>익명</span>
+                                                    <span className={styled.post_time} style= {{fontSize : "10px"}}> {date} </span>
+                                                    <p className={styled.post_channel}>[자유게시판]</p>
+                                                </div>
+
+                                                <div className={styled.post_content}>
+                                                    {a.title}
+                                                </div>
                                             </div>
                                         )
                                     })
@@ -113,20 +126,18 @@ function Post()
                     <div className={styled.post_main_hotTopic}>
                         <div className={styled.post_hotTopic_nav}>Hot Topic</div>
                         <div className={styled.post_hotTopic_main}>
-                            <ol>
-                                <li> <a href ="#"> 1위 topic </a> </li>
-                                <li> <a href ="#">  2위 topic</a> </li>
-                                <li> <a href ="#">  3위 topic </a> </li>
-                                <li> <a href ="#">  4위  topic</a> </li>
-                                <li> <a href ="#">  5위  topic</a> </li>
-                            </ol>
+                            <div> 1번 주제</div>
+                            <div> 1번 주제 </div>
+                            <div>1번 주제 </div>
+                            <div>1번 주제 </div>
+                            <div>1번 주제 </div>
                         </div>
+
                     </div>
 
                     <div className={styled.post_main_lunch}>
                         <div className={styled.post_Lunch_nav}>급식 게시판</div>
                     </div>
-
                 </div>
             </div>
         </div>
