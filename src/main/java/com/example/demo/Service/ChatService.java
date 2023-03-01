@@ -61,7 +61,7 @@ public class ChatService {
     public List<ChatMessage> loadchat(String roomId,int page){
 
 
-        PageRequest pageRequest = PageRequest.of(page, 20, Sort.by("time").descending());
+        PageRequest pageRequest = PageRequest.of(page, 40, Sort.by("time").descending());
         Page<ChatMessage> chatMessages = chatMessageRepository.findByRoomId(roomId,pageRequest);
         List<ChatMessage> messages=chatMessages.getContent();
 
