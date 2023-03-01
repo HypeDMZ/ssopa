@@ -40,7 +40,7 @@ function App() {
                     <Route path="/chat/list" element={<RoomList/>}></Route>
                     <Route path="/chat/room/enter/:roomId" element={<InRoom/>}></Route>
                     <Route path="/auth/choosePost" element={<ChoosePost/>}></Route>
-                    <Route path="/auth/chattingRoom" element={<ChattingRoom/>}></Route>
+                    <Route path="/auth/chattingRoom" element={<RoomList/>}></Route>
                     <Route path="/auth/AfterSearchingPost" element={<AfterSearchingPost/>}></Route>
                     <Route path="/auth/AfterChooseMyPost" element={<AfterChooseMyPost/>}></Route>
                     <Route path="/auth/AfterClickBookMark" element={<AfterClickBookMark/>}></Route>
