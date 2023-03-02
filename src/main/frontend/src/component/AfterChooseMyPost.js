@@ -75,7 +75,7 @@ function AfterChooseMyPost(){
                                 <div className={styled.post_contents}>
                                     <div className={styled.post_contents_contents}>
                                         <input type ="text" className={styled.modify_content}
-                                        onChange={(e) => {post_contents = (e.target.value)}}/>
+                                        onChange={(e) => {post_contents = (e.target.value)}} defaultValue={mypost.content} />
                                     </div>
                                 </div>
                             </div>
