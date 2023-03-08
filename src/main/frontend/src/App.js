@@ -19,6 +19,7 @@ import {AfterSearchingPost} from "./component/AfterSearchingPost";
 import {AfterChooseMyPost} from "./component/AfterChooseMyPost";
 import {AfterClickBookMark} from "./component/AfterClickBookMark";
 import {MyCommentPost} from "./component/MyCommentPost";
+import {Mypage} from "./component/Mypage";
 function App() {
 
     return (
@@ -35,6 +36,7 @@ function App() {
 
                     <Route path="/post/add" element={<Write/>}></Route>
                     <Route path="/Post" element={<Post/>}></Route>
+                    <Route path="/mypage" element={<Mypage/>}></Route>
 
                     {/*chat*/}
                     <Route path="/chat/list" element={<RoomList/>}></Route>

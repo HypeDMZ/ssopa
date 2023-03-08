@@ -50,7 +50,7 @@ function Post()
                     <div className={styled.post_profile_img}></div>
                     <div className={styled.post_profile_info}>
                         <p style={{textAlign : "center"}}>성이름(대전고)</p>
-                        <button style={{width: "80%", height : "30px", borderRadius : "10px", backgroundColor : "#FBD0B2"}}>내 정보</button>
+                        <button style={{width: "80%", height : "30px", borderRadius : "10px", backgroundColor : "#FBD0B2"}} onClick={()=>{navigate("/mypage",)}}>내 정보</button>
                     </div>
                     <div className={styled.post_profile_catagory}>
                         <div><Link to = "/auth/MyCommentPost" style={{textDecoration : "none"}}>✍️ 내가 쓴 글</Link></div>

@@ -55,3 +55,6 @@ sms:
 
 neis:
   apiKey: 5decd9d597c54dd5a7410cc48fde6709
+
+toss:
+  secret: test_sk_7XZYkKL4MrjxQR2N2vo30zJwlEWR
