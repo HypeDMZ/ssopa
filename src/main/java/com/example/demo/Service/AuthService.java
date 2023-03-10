@@ -29,6 +29,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import java.util.Optional;
 import java.util.Random;
 
 @Configuration
@@ -233,5 +234,18 @@ public class AuthService {
                     .isDuplicated(false)
                     .build();
         }
+    }
+
+    public getNicknameResponse getNickname(String email) {
+        Optional<Member> member = memberRepository.findByEmail(email);
+        member.ifPresentOrElse(m -> {
+
+        }, () -> {
+            throw new RuntimeException("getNickname 실패");
+        });
+
+        return new getNicknameResponse().builder()
+                .nickname(member.get().getNickname())
+                .build();
     }
 }
