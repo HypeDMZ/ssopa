@@ -1,13 +1,9 @@
 package com.example.demo.Service;
 
 import com.example.demo.Exception.Auth.alreadyRegisteredException;
-import com.example.demo.dto.auth.FindIdResponseDto;
-import com.example.demo.dto.auth.LoginDto;
-import com.example.demo.dto.auth.SmsDto;
-import com.example.demo.dto.auth.SuccessDto;
+import com.example.demo.dto.auth.*;
 import com.example.demo.dto.jwt.TokenDto;
 import com.example.demo.dto.jwt.TokenReqDto;
-import com.example.demo.dto.auth.MemberRequestDto;
 import com.example.demo.dto.member.MemberResponseDto;
 import com.example.demo.entity.Member;
 import com.example.demo.entity.RefreshToken;
@@ -213,5 +209,29 @@ public class AuthService {
         return new SuccessDto().builder()
                 .success(true)
                 .build();
+    }
+
+    public CheckDuplicateEmailResponseDto checkDuplicatedEmail(String email) {
+        if(memberRepository.existsByEmail(email)) {
+            return new CheckDuplicateEmailResponseDto().builder()
+                    .isDuplicated(true)
+                    .build();
+        }else{
+            return new CheckDuplicateEmailResponseDto().builder()
+                    .isDuplicated(false)
+                    .build();
+        }
+    }
+
+    public CheckDuplicateNumberResponse checkDuplicatedNumber(String number) {
+        if(memberRepository.existsByPhonenumber(number)){
+            return new CheckDuplicateNumberResponse().builder()
+                    .isDuplicated(true)
+                    .build();
+        }else{
+            return new CheckDuplicateNumberResponse().builder()
+                    .isDuplicated(false)
+                    .build();
+        }
     }
 }
