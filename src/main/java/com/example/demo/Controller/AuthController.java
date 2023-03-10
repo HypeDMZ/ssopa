@@ -106,4 +106,30 @@ public class AuthController {
             return httpResponseUtil.createInternalServerErrorHttpResponse("비밀번호 재설정 실패: " + e.getMessage());
         }
     }
+
+    @Operation(summary = "이메일 중복확인")
+    @GetMapping("/check/duplicatedEmail")
+    public ResponseEntity<?> checkDuplicatedEmail(@RequestParam(value="email") String email){
+        try {
+            return httpResponseUtil.createOKHttpResponse(authService.checkDuplicatedEmail(email), "인증문자 보내기 성공");
+        }catch (alreadyRegisteredException e) {
+            return httpResponseUtil.createBadRequestHttpResponse("이미 가입된 회원입니다.");
+        }
+        catch (Exception e) {
+            return httpResponseUtil.createInternalServerErrorHttpResponse("이메일 중복 확인 실패" + e.getMessage());
+        }
+    }
+
+    @Operation(summary = "휴대폰번호 중복확인")
+    @GetMapping("/check/duplicatedNumber")
+    public ResponseEntity<?> checkDuplicatedPhoneNumber(@RequestParam(value="phonenumber") String phonenumber){
+        try {
+            return httpResponseUtil.createOKHttpResponse(authService.checkDuplicatedNumber(phonenumber), "인증문자 보내기 성공");
+        }catch (alreadyRegisteredException e) {
+            return httpResponseUtil.createBadRequestHttpResponse("이미 가입된 회원입니다.");
+        }
+        catch (Exception e) {
+            return httpResponseUtil.createInternalServerErrorHttpResponse("휴대폰번호 중복 확인 실패" + e.getMessage());
+        }
+    }
 }
