@@ -14,6 +14,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class PostReadDto {
+    @ApiModelProperty(value="글 고유 아이디", example="3",required = true)
+    private Long id;
     @ApiModelProperty(value="글제목", example="오늘의 공지",required = true)
     private String title;
     @ApiModelProperty(value="글내용", example="내 용",required = true)
@@ -31,21 +33,22 @@ public class PostReadDto {
     private int view_cnt;
 
     @ApiModelProperty(value="공지글 여부", example="yes",required = true)
-    private boolean notice_yn;
+    private boolean noticeYn;
 
     @ApiModelProperty(value="글 삭제 여부", example="삭제됨",required = true)
-    private boolean delete_yn;
+    private boolean deleteYn;
 
     public static PostReadDto of(Post post) {
         return PostReadDto.builder()
+                .id(post.getId())
                 .title(post.getTitle())
                 .content(post.getContent())
                 .created_date(post.getCreated_date())
                 .modified_date(post.getModifiedDate())
                 .writer(post.getWriter())
                 .view_cnt(post.getView_cnt())
-                .notice_yn(post.getNoticeYn())
-                .delete_yn(post.getDeleteYn())
+                .noticeYn(post.getNoticeYn())
+                .deleteYn(post.getDeleteYn())
                 .build();
     }
 }

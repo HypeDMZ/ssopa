@@ -20,7 +20,9 @@ public class LoadDto {
     private String content;
     private int view_cnt;
     private boolean noticeYn;
+    private boolean deleteYn;
     private LocalDateTime modified_date;
+    private LocalDateTime created_date;
 
     public static LoadDto of(Post post) {
         return LoadDto.builder()
@@ -31,6 +33,8 @@ public class LoadDto {
                 .view_cnt(post.getView_cnt())
                 .noticeYn(post.getNoticeYn())
                 .modified_date(post.getModifiedDate())
+                .created_date(post.getCreated_date())
+                .deleteYn(post.getDeleteYn())
                 .build();
     }
 }
