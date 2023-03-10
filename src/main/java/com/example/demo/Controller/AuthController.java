@@ -132,4 +132,15 @@ public class AuthController {
             return httpResponseUtil.createInternalServerErrorHttpResponse("휴대폰번호 중복 확인 실패" + e.getMessage());
         }
     }
+
+    @Operation(summary = "닉네임 조회")
+    @GetMapping("/get/nickname")
+    public ResponseEntity<?> getnickname(@RequestParam(value="email") String email){
+        try {
+            return httpResponseUtil.createOKHttpResponse(authService.getNickname(email), "인증문자 보내기 성공");
+        }
+        catch (Exception e) {
+            return httpResponseUtil.createInternalServerErrorHttpResponse("닉네임 조회 실패" + e.getMessage());
+        }
+    }
 }
