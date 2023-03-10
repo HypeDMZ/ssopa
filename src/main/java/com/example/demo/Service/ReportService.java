@@ -22,6 +22,7 @@ import java.time.Period;
 
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class ReportService {
     public final MemberReportRepository memberReportRepository;
     public final MemberRepository memberRepository;

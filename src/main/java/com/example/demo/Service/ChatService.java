@@ -14,12 +14,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.util.*;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class ChatService {
     private Map<String, ChatRoom> chatRooms;
     private final ChatRoomRepository chatRoomRepository;

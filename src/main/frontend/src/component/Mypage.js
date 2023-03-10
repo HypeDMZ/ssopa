@@ -11,32 +11,47 @@ function Mypage()
 {
     const [게시판, 게시판설정] = useState("");
 
-    let postData = new Object();
+    let [postDataJSON, postDataJSONChange] = useState([]);
+    let merchandise_data = new Object();
+
+
 
     useEffect(()=>{
-        tokenRefreshing()
-        loadTossPayments(clientKey).then(tossPayments => {
-            tossPayments.requestPayment('카드', { // 결제 수단 파라미터
-                                                // 결제 정보 파라미터
-                amount: 1500000,
-                orderId: 'kHQCCtCKVIFbGKQGPHY16',
-                orderName: '닉네임 변경',
-                customerName: '박토스',
-                successUrl: 'https://localhost:3000/api/payment/success',
-                failUrl: 'https://localhost:3000/api/payment/fail',
-            }).then(function(data){
-                alert("결제가 완료되었습니다");
-                alert(data);
 
-            })
-                .catch(function (error) {
-                    if (error.code === 'USER_CANCEL') {
-                        // 결제 고객이 결제창을 닫았을 때 에러 처리
-                    } else if (error.code === 'INVALID_CARD_COMPANY') {
-                        // 유효하지 않은 카드 코드에 대한 에러 처리
-                    }
-                })
+        merchandise_data.amount=1000;
+        merchandise_data.name="닉네임 변경";
+
+        tokenRefreshing()
+        axios.post("/api/payment/request", merchandise_data, {
+            withCredentials : true,
+            headers : {"Content-Type": 'application/json'}
         })
+            .then((result)=> {
+                alert('결제 객체 생성 완료');
+                console.log(result.data);
+                loadTossPayments(clientKey).then(tossPayments => {
+                    tossPayments.requestPayment('카드', { // 결제 수단 파라미터
+                        // 결제 정보 파라미터
+                        amount: merchandise_data.amount,
+                        orderId: result.data.orderId,
+                        orderName: result.data.name,
+                        customerName: '박토스',
+                        successUrl: 'https://localhost:3000/api/payment/success',
+                        failUrl: 'https://localhost:3000/api/payment/fail',
+                    })
+                        .catch(function (error) {
+                            if (error.code === 'USER_CANCEL') {
+                                // 결제 고객이 결제창을 닫았을 때 에러 처리
+                            } else if (error.code === 'INVALID_CARD_COMPANY') {
+                                // 유효하지 않은 카드 코드에 대한 에러 처리
+                            }
+                        })
+                })
+                //<Link to={'/auth/showid/${Phone}'}></Link>
+                //navigate('/auth/showid/'+result.data.data.email);
+            })
+            .catch((response)=>{console.log('이상하다')})
+
     },[])
 
 

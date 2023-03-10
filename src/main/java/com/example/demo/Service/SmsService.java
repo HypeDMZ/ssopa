@@ -3,11 +3,13 @@ package com.example.demo.Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 
 @RequiredArgsConstructor
 @Repository
+@Transactional
 public class SmsService {
     private final String PREFIX = "sms:";  // (1)
     private final int LIMIT_TIME = 3 * 60;  // (2)
