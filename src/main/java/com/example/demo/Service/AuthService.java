@@ -159,7 +159,9 @@ public class AuthService {
     //사용자가 입력한 인증번호가 Redis에 저장된 인증번호와 동일한지 확인
     public SmsDto verifySms(String certNumber,String phoneNumber) {
         if (isVerify(certNumber+":0",phoneNumber)) {
-            throw new RuntimeException("인증번호가 일치하지 않습니다.");
+            return new SmsDto().builder()
+                    .success(false)
+                    .build();
         }else{
             System.out.println("인증번호 일치");
             smsCertificationDao.check_as_verfied(phoneNumber);
