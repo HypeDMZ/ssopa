@@ -20,7 +20,7 @@ import {
     ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import {Login} from './component/Login'
-import {SignUp} from './component/SignUp'
+import {SignUp} from './component/signUp/SignUp'
 import {MainPage} from './component/MainPage'
 
 const Stack = createStackNavigator();
@@ -31,7 +31,9 @@ function Main(){
             <Stack.Navigator>
                 <Stack.Screen name={'MainPage'} component={MainPage}/>
                 <Stack.Screen name={'Login'} component={Login}/>
-                <Stack.Screen name={'SignUp'} component={SignUp}/>
+                <Stack.Screen name={'SignUp'} component={SignUp}>
+
+                </Stack.Screen>
             </Stack.Navigator>
         </NavigationContainer>
     );
