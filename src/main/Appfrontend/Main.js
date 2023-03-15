@@ -21,12 +21,15 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import {Login} from './component/Login'
 import {SignUp} from './component/SignUp'
+import {MainPage} from './component/MainPage'
+
 const Stack = createStackNavigator();
 function Main(){
 
     return (
         <NavigationContainer>
             <Stack.Navigator>
+                <Stack.Screen name={'MainPage'} component={MainPage}/>
                 <Stack.Screen name={'Login'} component={Login}/>
                 <Stack.Screen name={'SignUp'} component={SignUp}/>
             </Stack.Navigator>
