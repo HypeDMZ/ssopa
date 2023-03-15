@@ -1,15 +1,14 @@
-import React from 'react';
+import React,{ useState } from 'react';
 import {
     SafeAreaView,
     ScrollView,
     StatusBar,
     StyleSheet,
     Text,
-    TouchableOpacity,
+    TextInput,
     useColorScheme,
-    Image,
     View,
-    Button,
+    Button, TouchableOpacity,
 } from 'react-native';
 
 import {
@@ -20,25 +19,24 @@ import {
     ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-function MainPage(props){
+function EmailInput(props){
+
+    const [text, onChangeText] = useState('');
+
     return(
         <View style={styles.container}>
-            <View style={{flex: 3}}></View>
-            <Image source={require('../img/logo.png')} style={styles.logo}/>
-            <Text style={styles.textMain}>SSOPA와 함께하는 학교 생활</Text>
-            <View style={{flex: 2}}></View>
-            <View style={{flexDirection: 'row', flex: 2}}>
-                <TouchableOpacity style={styles.buttonLogin} onPress={()=>{
-                    props.navigation.navigate('EmailInput')
-                }}>
-                    <Text style={styles.textLogin}>Login</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.buttonSignUp} onPress={()=>{
-                    props.navigation.navigate('EmailInput')}}>
-                    <Text style={styles.textSignUp}>SignUp</Text>
-                </TouchableOpacity>
-            </View>
+            <View style={{flex: 2}}/>
+            <Text style={styles.textMain}>Email을 입력해주세요.</Text>
+            <TextInput style = {styles.input}
+                       placeholder="Type here..."
+                       onChangeText={onChangeText}
+                       value={text}/>
+            <View style={{flex: 2}}/>
+            <TouchableOpacity style={styles.buttonLogin} onPress={()=>{
+                props.navigation.navigate('EmailInput')
+            }}>
+                <Text style={styles.textLogin}>Login</Text>
+            </TouchableOpacity>
         </View>
     )
 }
@@ -51,10 +49,8 @@ const styles = StyleSheet.create({
     },
     buttonLogin: {
         backgroundColor: "#E87D30",
-        borderRadius: 6,
-        width: "40%",
-        height: "35%",
-        marginLeft: 10,
+        width: "100%",
+        height: "10%",
         justifyContent: 'center',
     },
     buttonSignUp: {
@@ -79,18 +75,24 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 25,
     },
+    line: {
+        flex: 1,
+        height: 1,
+        backgroundColor: '#E87D30',
+        width: "80%",
+    },
     textLogin: {
         textAlign: 'center',
         color: "white",
         fontWeight: "bold",
         fontSize: 25,
     },
-    textSignUp: {
-        textAlign: 'center',
-        fontWeight: "bold",
-        color: "#444",
-        fontSize: 25,
-    }
+    input: {
+        width: "80%",
+        borderBottomWidth: 1,
+        borderBottomColor: '#E87D30',
+    },
 });
 
-export {MainPage}
+export {EmailInput}
+

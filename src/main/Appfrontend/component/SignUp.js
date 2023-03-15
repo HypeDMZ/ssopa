@@ -27,6 +27,7 @@ function SignUp(props){
                         props.navigation.navigate('Login')
                     }}/>
         </View>
+
     )
 }
 
