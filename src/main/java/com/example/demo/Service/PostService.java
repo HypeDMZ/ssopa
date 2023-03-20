@@ -4,10 +4,7 @@ import com.example.demo.Exception.Post.NoSufficientPermissionException;
 import com.example.demo.Exception.Report.ReportedUserException;
 import com.example.demo.config.SecurityUtil;
 import com.example.demo.dto.post.*;
-import com.example.demo.entity.Heart;
-import com.example.demo.entity.Hot;
-import com.example.demo.entity.Member;
-import com.example.demo.entity.Post;
+import com.example.demo.entity.*;
 import com.example.demo.jwt.TokenProvider;
 import com.example.demo.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -50,7 +47,7 @@ public class PostService {
                 .title(title)
                 .writer(member.getNickname())
                 .content(content)
-                .category(category)
+                .category(postCategory.valueOf(category))
                 .created_date(LocalDateTime.now())
                 .modifiedDate(LocalDateTime.now())
                 .deleteYn(Boolean.FALSE)
