@@ -45,4 +45,4 @@ jobs:
           password: ${{ secrets.DMZ_KEY }}
           port: ${{ secrets.DMZ_PORT }}
           source: 'src/main/frontend/build'
-          target: '/home/dmz/ssopa/src/main/frontend'
+          target: '/home/dmz/ssopa_frontend'
