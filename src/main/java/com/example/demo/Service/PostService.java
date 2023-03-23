@@ -110,10 +110,10 @@ public class PostService {
         System.out.println("로그인 정보 : "+member.getEmail());
 
         Page<LoadDto> loadDtoList;
-        if (postRepository.existsPostByCategory(category)) {
+        if (postRepository.existsPostByCategory(postCategory.valueOf(category))) {
             PageRequest pageRequest = PageRequest.of(page, 20, Sort.by("modifiedDate").descending());
-            loadDtoList = postRepository.findByCategory(category, pageRequest);
-            // loadDtoList = loadPostRepository.findAllByCategory(category);
+            loadDtoList = postRepository.findByCategory(postCategory.valueOf(category), pageRequest);
+
         }
         else {
             throw new NoSufficientPermissionException();

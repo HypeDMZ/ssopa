@@ -19,7 +19,7 @@ function Post()
 {
     const navigate = useNavigate();
     let [게시판, 게시판Change] = useState([])
-    let room = "test";
+    let room = "FREE";
     let [page,pageChange] = useState(0);
 
     /*재 랜더링 할때마다 server에서 최신 post를 가져온다.*/

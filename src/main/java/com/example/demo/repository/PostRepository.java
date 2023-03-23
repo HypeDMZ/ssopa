@@ -3,6 +3,7 @@ package com.example.demo.repository;
 import com.example.demo.dto.post.LoadDto;
 import com.example.demo.entity.Member;
 import com.example.demo.entity.Post;
+import com.example.demo.entity.postCategory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,16 +18,16 @@ import java.util.Optional;
 @Transactional
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-    List<LoadDto> findAllByCategory(String category);
 
-    // 게시글 총 갯수
-    boolean existsPostByCategory(String category);
+
+
+    boolean existsPostByCategory(postCategory category);
 
     // 내가 쓴 글
     List<LoadDto> findAllByUserId(Long user_id);
 
     // 페이징 기능
-    Page<LoadDto> findByCategory(String category, Pageable pageable);
+    Page<LoadDto> findByCategory(postCategory category, Pageable pageable);
     Page<Post> findAll(Pageable pageable);
 
     Optional<Post> findById(Long id);
