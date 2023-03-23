@@ -250,4 +250,4 @@ public class AuthService {
                 .nickname(member.get().getNickname())
                 .build();
     }
-}
+}//
