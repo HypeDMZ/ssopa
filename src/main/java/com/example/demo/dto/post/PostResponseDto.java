@@ -34,7 +34,7 @@ public class PostResponseDto {
         return PostResponseDto.builder()
                 .id(post.getId())
                 .title(post.getTitle())
-                .category(post.getCategory())
+                .category(post.getCategory().toString())
                 .content(post.getContent())
                 .writer(post.getWriter())
                 .build();
