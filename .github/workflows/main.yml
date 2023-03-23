@@ -34,7 +34,7 @@ jobs:
         with:
           host: ${{ secrets.DMZ }}
           username: ${{ secrets.DMZ_USER }}
-          key: ${{ secrets.DMZ_KEY }}
+          password: ${{ secrets.DMZ_KEY }}
           port: ${{ secrets.DMZ_PORT }}
 
       - name: copy file via ssh password
@@ -42,7 +42,7 @@ jobs:
         with:
           host: ${{ secrets.DMZ }}
           username: ${{ secrets.DMZ_USER }}
-          key: ${{ secrets.DMZ_KEY }}
+          password: ${{ secrets.DMZ_KEY }}
           port: ${{ secrets.DMZ_PORT }}
           source: 'src/main/frontend/build'
           target: '/home/dmz/ssopa/src/main/frontend'
