@@ -1,30 +1,50 @@
-name: dmz_time CI/CD
 
-on:
+
+name: dmz_time CI/CD
+on: # deploy Branch에서 push 이벤트가 일어났을 때만 실행
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
 
-env:
-  S3_BUCKET_NAME: dmz_time-deploy
 
 jobs:
   build:
+    runs-on: ubuntu-22.04 # Job 가상환경 인스턴스
+    steps: # Steps
+      - name: Checkout source code. # 레포지토리 체크아웃
+        uses: actions/checkout@main
 
-    runs-on: ubuntu-latest
+      - name: Cache node modules # node modules 캐싱
+        uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-build-
+            ${{ runner.OS }}-
+      - name: Install Dependencies # 의존 파일 설치
+        run: npm install
+        working-directory: ./dmztime/src/main/frontend
 
-    steps:
-    - uses: actions/checkout@v2
-    
-    - name: Set up JDK 17
-      uses: actions/setup-java@v2
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-    
-    - name: Build with Gradle
-      run: ./gradlew clean build
+      - name: Build # React Build
+        run: CI='' npm run build
+        working-directory: ./dmztime/src/main/frontend
+
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DMZ }}
+          username: ${{ secrets.DMZ_USER }}
+          key: ${{ secrets.DMZ_KEY }}
+          port: ${{ secrets.DMZ_PORT }}
+
+      - name: copy file via ssh password
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.DMZ }}
+          username: ${{ secrets.DMZ_USER }}
+          key: ${{ secrets.DMZ_KEY }}
+          port: ${{ secrets.DMZ_PORT }}
+          source: 'build'
+          target: '/home/dmz/ssopa/src/main/frontend'
