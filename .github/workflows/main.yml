@@ -44,5 +44,5 @@ jobs:
           username: ${{ secrets.DMZ_USER }}
           key: ${{ secrets.DMZ_KEY }}
           port: ${{ secrets.DMZ_PORT }}
-          source: 'build'
+          source: 'src/main/frontend/build'
           target: '/home/dmz/ssopa/src/main/frontend'
