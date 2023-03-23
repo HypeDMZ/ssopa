@@ -20,8 +20,8 @@ public class Post {
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
-    private String category;
+    @Enumerated(EnumType.STRING)
+    private postCategory category;
 
     @Column(nullable = false)
     private String content;

@@ -9,6 +9,7 @@ spring:
   freemarker:
     cache: false
 
+
   devtools:
     restart:
       enabled: true
@@ -55,3 +56,8 @@ sms:
 
 neis:
   apiKey: 5decd9d597c54dd5a7410cc48fde6709
+
+server:
+  error:
+    include-exception: true # 오류 응답에 exception의 내용을 포함할지 여부
+    include-stacktrace: always # 오류 응답에 stacktrace 내용을 포함할 지 여부

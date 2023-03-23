@@ -51,8 +51,8 @@ function Write()
             .catch((response)=>{console.log('이상하다')})
     }
     const options = [
-        {value : "뜨밤", name: "뜨밤"},
-        {value : "test", name: "test"},
+        {value : "FREE", name: "자유"},
+        {value : "SECRET", name: "비밀"},
     ];
 
     return(
