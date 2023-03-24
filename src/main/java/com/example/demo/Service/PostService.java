@@ -106,8 +106,8 @@ public class PostService {
 
     @Transactional
     public List<LoadDto> loadpost (String category, int page) {
-        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
-        System.out.println("로그인 정보 : "+member.getEmail());
+//        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
+//        System.out.println("로그인 정보 : "+member.getEmail());
 
         Page<LoadDto> loadDtoList;
         if (postRepository.existsPostByCategory(postCategory.valueOf(category))) {
