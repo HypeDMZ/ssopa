@@ -79,7 +79,7 @@ public class WebSecurityConfig{
                         .antMatchers("/swagger-resources/configuration/ui").permitAll()
                         .antMatchers("/swagger-ui/index.html").permitAll()
                         .antMatchers("/actuator/**").permitAll()
-                        .antMatchers("/chat/**").permitAll()
+                        //.antMatchers("/chat/**").permitAll()
                         .antMatchers("/chat").permitAll()
                         .antMatchers("/chat/room").permitAll()
                         .antMatchers("/ws/chat/**").permitAll()
