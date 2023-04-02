@@ -12,4 +12,6 @@ public interface HotRepository extends JpaRepository<Hot, Long> {
 
     Hot findFirstByOrderByIdAsc();
 
+    Boolean existsByPostIdAndUserId(Long postId, Long userId);
+
 }
