@@ -21,6 +21,7 @@ public class LoadDto {
     private int view_cnt;
     private boolean noticeYn;
     private LocalDateTime modified_date;
+    private int like_cnt;
 
     public static LoadDto of(Post post) {
         return LoadDto.builder()
@@ -31,6 +32,7 @@ public class LoadDto {
                 .view_cnt(post.getView_cnt())
                 .noticeYn(post.getNoticeYn())
                 .modified_date(post.getModifiedDate())
+                .like_cnt(post.getLike_cnt())
                 .build();
     }
 }
