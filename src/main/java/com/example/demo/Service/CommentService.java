@@ -84,7 +84,7 @@ public class CommentService {
                 .postId(post.getId())
                 .build();
         Hot hot = Hot.builder()
-                .postId(post.getId())
+                .post(post)
                 .userId(member.getId())
                 .weight(5)
                 .build();

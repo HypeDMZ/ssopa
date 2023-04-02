@@ -18,9 +18,9 @@ public class SaveData {
     public void saveData(Hot hot) {
         long count = hotRepository.count();
         if (hot.getWeight() == 5) {
-            Optional<Hot> existingHot = hotRepository.findByPostIdAndUserId(hot.getPostId(), hot.getUserId());
+            Optional<Hot> existingHot = hotRepository.findByPostIdAndUserId(hot.getPost().getId(), hot.getUserId());
             if (existingHot.isPresent()) {
-                throw new RuntimeException("Hot already exists for postId=" + hot.getPostId() + " and userId=" + hot.getUserId());
+                throw new RuntimeException("Hot already exists for postId=" + hot.getPost().getId() + " and userId=" + hot.getUserId());
             }
         }
 
@@ -30,7 +30,7 @@ public class SaveData {
         } else {
             // Update existing record with smallest id value
             Hot hotRecord = hotRepository.findFirstByOrderByIdAsc();
-            hotRecord.setPostId(hot.getPostId());
+            hotRecord.setPost(hot.getPost());
             hotRecord.setWeight(hot.getWeight());
             hotRecord.setUserId(hot.getUserId());
             hotRepository.save(hotRecord);

@@ -67,7 +67,7 @@ public class PostService {
         post.setView_cnt(post.getView_cnt()+1);
         // hot테이블에 저장
         Hot hot = Hot.builder()
-                .postId(post.getId())
+                .post(post)
                 .userId(member.getId())
                 .weight(1)
                 .build();
@@ -134,18 +134,18 @@ public class PostService {
             return HeartDto.of(heart);
         }
         else{
+            Post post = postRepository.findById(post_id).orElseThrow(() -> new RuntimeException("게시글 정보가 없습니다"));
             Heart heart = Heart.builder()
                     .postId(post_id)
                     .userId(member.getId())
                     .build();
             Hot hot = Hot.builder()
-                    .postId(post_id)
+                    .post(post)
                     .userId(member.getId())
                     .weight(5)
                     .build();
             saveData.saveData(hot);
             // like_cnt +1
-            Post post = postRepository.findById(post_id).orElseThrow(() -> new RuntimeException("게시글 정보가 없습니다"));
             post.setLike_cnt(post.getLike_cnt()+1);
             postRepository.save(post);
             heartRepository.save(heart);
@@ -170,12 +170,12 @@ public class PostService {
 
     public List<LoadDto> getHotList() {
         List<Hot> getList = hotRepository.findAll(Sort.by(Sort.Direction.DESC, "weight"));
-        Map<Long, HotDto> hotMap = new LinkedHashMap<>();
+        Map<Post, HotDto> hotMap = new LinkedHashMap<>();
         for (Hot hot : getList) {
-            Long postId = hot.getPostId();
-            HotDto hotDTO = hotMap.get(postId);
+            Post post = hot.getPost();
+            HotDto hotDTO = hotMap.get(post);
             if (hotDTO == null) {
-                hotMap.put(postId, new HotDto(hot));
+                hotMap.put(post, new HotDto(hot));
             } else {
                 hotDTO.setWeight(hotDTO.getWeight() + hot.getWeight());
             }
@@ -185,7 +185,7 @@ public class PostService {
         // hotList로 LoadDto를 만들어서 반환
         List<LoadDto> loadDtoList = new ArrayList<>();
         for (HotDto hotDto : hotList) {
-            Post post = postRepository.findById(hotDto.getPostId()).orElseThrow(() -> new RuntimeException("게시글 정보가 없습니다"));
+            Post post = postRepository.findById(hotDto.getPost().getId()).orElseThrow(() -> new RuntimeException("게시글 정보가 없습니다"));
             loadDtoList.add(LoadDto.of(post));
         }
         return loadDtoList;

@@ -4,10 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -17,9 +14,9 @@ public class Hot {
     public Hot() {
     }
     @Builder
-    public Hot(Long id, Long postId, int weight, Long userId){
+    public Hot(Long id, Post  post, int weight, Long userId){
         this.id = id;
-        this.postId = postId;
+        this.post = post;
         this.weight = weight;
         this.userId = userId;
     }
@@ -27,8 +24,9 @@ public class Hot {
     @GeneratedValue
     @Column()
     private Long id;
-    @Column(name = "post_id", nullable = false)
-    private Long postId;
+    @ManyToOne
+    @JoinColumn(name = "post_id", referencedColumnName = "id", nullable = false)
+    private Post post;
     @Column(name = "weight", nullable = false)
     private int weight;
     @Column(name = "user_id", nullable = false)
