@@ -14,15 +14,15 @@ import lombok.NoArgsConstructor;
 public class MemberResponseDto {
     @ApiModelProperty(value="이메일", example="ksdk6145@naver.com",required = true)
     private String email;
-    @ApiModelProperty(value="이름, 2~10자", example="조태완",required = true)
-    private String name;
+    @ApiModelProperty(value="프로필이미지url", example="www.exmaple.com",required = true)
+    private String profileImage;
     @ApiModelProperty(value="닉네임, 2~10자", example="조태완바보",required = true)
     private String nickname;
 
     public static MemberResponseDto of(Member member) {
         return MemberResponseDto.builder()
                 .email(member.getEmail())
-                .name(member.getName())
+                .profileImage(member.getProfileImage())
                 .nickname(member.getNickname())
                 .build();
     }

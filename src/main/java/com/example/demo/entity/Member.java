@@ -32,6 +32,9 @@ public class Member {
     @Column(nullable = false)
     private String nickname;
 
+    @Column(nullable = false)
+    private String profileImage;
+
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
@@ -55,4 +58,5 @@ public class Member {
     public void setReported(boolean reported) {
         this.reported=reported;
     }
+
 }
