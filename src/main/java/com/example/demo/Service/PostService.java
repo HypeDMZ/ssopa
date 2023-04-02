@@ -136,7 +136,7 @@ public class PostService {
         else{
             Post post = postRepository.findById(post_id).orElseThrow(() -> new RuntimeException("게시글 정보가 없습니다"));
             Heart heart = Heart.builder()
-                    .postId(post_id)
+                    .post(post)
                     .userId(member.getId())
                     .build();
             Hot hot = Hot.builder()
