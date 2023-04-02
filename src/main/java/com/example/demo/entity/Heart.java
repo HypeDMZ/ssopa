@@ -16,6 +16,7 @@ public class Heart {
     private Long id;
     @Column()
     private Long userId;
-    @Column()
-    private Long postId;
+    @ManyToOne
+    @JoinColumn(name = "post_id", referencedColumnName = "id", nullable = false)
+    private Post post;
 }
