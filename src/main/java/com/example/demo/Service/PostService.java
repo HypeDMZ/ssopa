@@ -135,16 +135,23 @@ public class PostService {
         }
         else{
             Post post = postRepository.findById(post_id).orElseThrow(() -> new RuntimeException("게시글 정보가 없습니다"));
+
+            if(hotRepository.existsByPostIdAndUserId(post.getId(), member.getId())){
+
+            }
+            else{
+                Hot hot = Hot.builder()
+                        .post(post)
+                        .userId(member.getId())
+                        .weight(5)
+                        .build();
+                saveData.saveData(hot);
+            }
             Heart heart = Heart.builder()
                     .post(post)
                     .userId(member.getId())
                     .build();
-            Hot hot = Hot.builder()
-                    .post(post)
-                    .userId(member.getId())
-                    .weight(5)
-                    .build();
-            saveData.saveData(hot);
+
             // like_cnt +1
             post.setLike_cnt(post.getLike_cnt()+1);
             postRepository.save(post);
