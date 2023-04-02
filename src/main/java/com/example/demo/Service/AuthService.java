@@ -74,6 +74,7 @@ public class AuthService {
             if(split[1].equals("01")){
                 smsCertificationDao.removeSmsCertification(member.getPhonenumber());
                 member.setNickname(nicknameGenerator.generateRandomNickname());
+                member.setProfileImage("https://cdn.mhns.co.kr/news/photo/202212/539489_655354_1316.jpg");
                 return MemberResponseDto.of(memberRepository.save(member));
             }
         }else{
