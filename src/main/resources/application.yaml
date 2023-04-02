@@ -33,6 +33,10 @@ spring:
       hibernate:
         format_sql: true
         show_sql: true
+        connection:
+          characterEncoding: utf8
+          CharSet: utf8
+          useUnicode: true
 
   security:
     oauth2:
