@@ -95,6 +95,11 @@ public class PostController {
     @ApiOperation(value = "인기 게시글 불러오기")
     @GetMapping("/hot")
     public ResponseEntity<?> HotDiary() {
-        return httpResponseUtil.createOKHttpResponse(postService.getHotList(), "인기 게시글 불러오기 성공");
+
+        try {
+            return httpResponseUtil.createOKHttpResponse(postService.getHotList(), "인기 게시글 불러오기 성공");
+        }catch (Exception e){
+            return httpResponseUtil.createInternalServerErrorHttpResponse("인기 게시글 불러오기 실패: " + e.getMessage());
+        }
     }
 }
