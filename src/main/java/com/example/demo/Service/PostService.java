@@ -65,6 +65,10 @@ public class PostService {
         System.out.println("로그인 정보 : "+member.getEmail());
         Post post = postRepository.findById(id).orElseThrow(() -> new RuntimeException("게시글 정보가 없습니다"));
         post.setView_cnt(post.getView_cnt()+1);
+        Boolean isLiked = false;
+        if(heartRepository.existsHeartByPostIdAndUserId(id, member.getId())) {
+            isLiked = true;
+        }
         // hot테이블에 저장
         Hot hot = Hot.builder()
                 .post(post)
@@ -72,7 +76,7 @@ public class PostService {
                 .weight(1)
                 .build();
         saveData.saveData(hot);
-        return PostReadDto.of(post);
+        return PostReadDto.of(postRepository.save(post),isLiked);
     }
 
     @Transactional
