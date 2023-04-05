@@ -38,6 +38,9 @@ public class PostReadDto {
     @ApiModelProperty(value="공지글 여부", example="yes",required = true)
     private boolean noticeYn;
 
+    @ApiModelProperty(value="카테고리", example="FREE",required = true)
+    private String category;
+
     @ApiModelProperty(value="글 삭제 여부", example="삭제됨",required = true)
     private boolean deleteYn;
 
@@ -52,6 +55,7 @@ public class PostReadDto {
                 .created_date(post.getCreated_date())
                 .modified_date(post.getModifiedDate())
                 .writer(post.getWriter())
+                .category(post.getCategory().toString())
                 .view_cnt(post.getView_cnt())
                 .noticeYn(post.getNoticeYn())
                 .deleteYn(post.getDeleteYn())
