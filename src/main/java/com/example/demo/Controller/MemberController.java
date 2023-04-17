@@ -5,12 +5,17 @@ import com.example.demo.common.HttpResponseUtil;
 import com.example.demo.dto.member.ChangeNicknameRequestDto;
 import com.example.demo.dto.member.ChangePasswordRequestDto;
 import com.example.demo.dto.member.MemberResponseDto;
+import com.example.demo.Service.cloudFlareR2Service;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
     private final MemberService memberService;
     private final HttpResponseUtil httpResponseUtil;
+    //private final cloudFlareR2Service clfrR2Service;
 
     @GetMapping("/me")
     @ApiOperation(value = "내 정보 조회")
@@ -50,4 +56,14 @@ public class MemberController {
             return httpResponseUtil.createInternalServerErrorHttpResponse("비밀번호 변경 실패: " + e.getMessage());
         }
     }
+
+    /**
+     * CloudFlare r2 에 이미지 업로드
+     * @return 성공 시 200 Success와 함께 업로드 된 파일의 파일명 리스트 반환
+     */
+//    @ApiOperation(value = "CloudFlare r2에 이미지 업로드", notes = "CloudFlare r2에 이미지 업로드 ")
+//    @PostMapping("/editProfileImage")
+//    public ResponseEntity<String> uploadImage(@ApiParam(value="img 파일()", required = true) @RequestPart MultipartFile multipartFile) {
+//        return (ResponseEntity<String>) httpResponseUtil.createOKHttpResponse(clfrR2Service.uploadImage(multipartFile), "이미지 업로드 성공");
+//    }
 }

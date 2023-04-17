@@ -1,4 +1,4 @@
-package com.example.demo.Controller;
+package com.example.demo.Controller.Chat;
 
 import com.example.demo.Service.ChatService;
 import com.example.demo.common.HttpResponseUtil;

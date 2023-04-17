@@ -3,7 +3,7 @@ package com.example.demo.entity;
 import javax.persistence.*;
 import lombok.*;
 
-@Getter
+@Getter //lombok
 @Setter
 @Entity
 @ToString
@@ -19,4 +19,7 @@ public class Heart {
     @ManyToOne
     @JoinColumn(name = "post_id", referencedColumnName = "id", nullable = false)
     private Post post;
+
 }
+
+

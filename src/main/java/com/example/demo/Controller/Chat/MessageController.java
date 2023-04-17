@@ -1,4 +1,4 @@
-package com.example.demo.Controller;
+package com.example.demo.Controller.Chat;
 
 import com.example.demo.dto.chat.ChatMessage;
 import com.example.demo.entity.Member;
