@@ -16,6 +16,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final NicknameGenerator nicknameGenerator;
+
     public MemberResponseDto getMyInfoBySecurity() {
         return memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .map(MemberResponseDto::of)

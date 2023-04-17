@@ -5,9 +5,11 @@ import com.example.demo.dto.auth.*;
 import com.example.demo.dto.jwt.TokenDto;
 import com.example.demo.dto.jwt.TokenReqDto;
 import com.example.demo.dto.member.MemberResponseDto;
+import com.example.demo.entity.DeviceToken;
 import com.example.demo.entity.Member;
 import com.example.demo.entity.RefreshToken;
 import com.example.demo.jwt.TokenProvider;
+import com.example.demo.repository.DeviceTokenRepository;
 import com.example.demo.repository.MemberRepository;
 import com.example.demo.repository.RefreshTokenRepository;
 import com.example.demo.repository.VerifySmsRepository;
@@ -48,6 +50,7 @@ public class AuthService {
     private final CustomUserDetailsService customUserDetailsService;
     private final NicknameGenerator nicknameGenerator;
     private static DefaultMessageService messageService ;
+    private final DeviceTokenRepository deviceTokenRepository;
 
     @Value("${sms.apiKey}")
     private String apiKey;
@@ -250,5 +253,17 @@ public class AuthService {
         return new getNicknameResponse().builder()
                 .nickname(member.get().getNickname())
                 .build();
+    }
+
+    public String registerToken(String token) {
+        if (deviceTokenRepository.existsByToken(token)) {
+            return "이미 등록된 토큰입니다.";
+        }else{
+            DeviceToken deviceToken = new DeviceToken();
+            deviceToken.setIsRegistered(false);
+            deviceToken.setToken(token);
+            deviceTokenRepository.save(deviceToken);
+            return "토큰 등록 성공";
+        }
     }
 }//

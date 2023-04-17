@@ -1,4 +1,4 @@
-package com.example.demo.Controller;
+package com.example.demo.Controller.Post;
 
 import com.example.demo.Exception.Post.NoSufficientPermissionException;
 import com.example.demo.Service.PostService;

@@ -65,3 +65,15 @@ server:
   error:
     include-exception: true # 오류 응답에 exception의 내용을 포함할지 여부
     include-stacktrace: always # 오류 응답에 stacktrace 내용을 포함할 지 여부
+
+cloud:
+  aws:
+    s3:
+      bucket: 버킷명
+    credentials:
+      access-key: IAM 계정 - access key
+      secret-key: IAM 계정 - secret access key
+    region:
+      static: 현재 s3 버킷의 Region
+    stack:
+      auto: false
