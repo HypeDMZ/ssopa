@@ -21,9 +21,8 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     private final AuthService authService;
     private final HttpResponseUtil httpResponseUtil;
-
-    @Operation(summary = "회원가입")
-    @PostMapping("/signup")
+    @Operation(summary = "디바이스토큰등록")
+    @PostMapping("/registertoken")
     public ResponseEntity<?> signup(@RequestParam(value="deviceToken") String token) {
         try {
             return httpResponseUtil.createOKHttpResponse(authService.registerToken(token), "토큰 등록 성공");
@@ -32,8 +31,8 @@ public class AuthController {
         }
     }
 
-    @Operation(summary = "디바이스토큰등록")
-    @PostMapping("/registertoken")
+    @Operation(summary = "회원가입")
+    @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody MemberRequestDto requestDto) {
         try {
             return httpResponseUtil.createOKHttpResponse(authService.signup(requestDto), "회원가입 성공");
