@@ -256,13 +256,18 @@ public class AuthService {
     }
 
     public String registerToken(String token) {
-        if (deviceTokenRepository.existsByToken(token)) {
-            return "이미 등록된 토큰입니다.";
-        }else{
-            DeviceToken deviceToken = new DeviceToken();
-            deviceToken.setIsRegistered(false);
-            deviceToken.setToken(token);
-            deviceTokenRepository.save(deviceToken);
+        Optional<DeviceToken> deviceToken = deviceTokenRepository.findByToken(token);
+        if (deviceToken.isPresent()) {
+            DeviceToken temp = deviceToken.get();
+            temp.setMember(null);
+            deviceTokenRepository.save(temp);
+            return "토큰 등록 성공";
+        }
+        else{
+            DeviceToken newToken = new DeviceToken();
+            newToken.setIsRegistered(false);
+            newToken.setToken(token);
+            deviceTokenRepository.save(newToken);
             return "토큰 등록 성공";
         }
     }
