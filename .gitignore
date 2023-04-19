@@ -35,3 +35,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### key ###
+src/main/resources/apnsPushKey.p8
+src/main/resources/application.yaml
