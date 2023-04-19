@@ -57,6 +57,16 @@ public class MemberController {
         }
     }
 
+    @PostMapping("/synctoken")
+    @ApiOperation(value = "모바일 기기의 토큰을 계정과 연동")
+    public ResponseEntity<?> syncToken(@RequestParam(value="deviceToken") String token) {
+        try {
+            return httpResponseUtil.createOKHttpResponse(memberService.syncToken(token), "토큰연동 성공 ");
+        } catch (Exception e) {
+            return httpResponseUtil.createInternalServerErrorHttpResponse("토큰 연동 실패: " + e.getMessage());
+        }
+    }
+
     /**
      * CloudFlare r2 에 이미지 업로드
      * @return 성공 시 200 Success와 함께 업로드 된 파일의 파일명 리스트 반환

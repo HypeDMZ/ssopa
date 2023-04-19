@@ -28,4 +28,7 @@ public class DeviceToken {
     @JoinColumn(name = "memberId", referencedColumnName = "id", nullable = true)
     private Member memberId;
 
+    public void setMember(Member member) {
+        this.memberId = member;
+    }
 }
