@@ -172,7 +172,7 @@ public class AuthController {
             for (DeviceToken token : tokens) {
                 tokenList.add(token.getToken());
             }
-            apnsPushService.sendPush(tokenList,PushPayload.builder().alertTitle("알림").alertBody("테스트").sound("bingbong.aiff").build());
+            apnsPushService.sendPush(tokenList,PushPayload.builder().alertTitle("알림").alertBody("너 누구야!!").sound("bingbong.aiff").build());
 
             return "good";
         }
