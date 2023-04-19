@@ -46,6 +46,12 @@ dependencies {
 	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	//implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+	implementation group: 'com.eatthepath', name: 'pushy', version: '0.15.2'
+	implementation group: 'io.netty', name: 'netty-buffer', version: '4.1.85.Final'
+	// https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+	implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
+	// https://mvnrepository.com/artifact/com.eatthepath/fast-uuid
+	implementation group: 'com.eatthepath', name: 'fast-uuid', version: '0.1'
 
 
 	//view

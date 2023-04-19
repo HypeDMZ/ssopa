@@ -260,6 +260,7 @@ public class AuthService {
         if (deviceToken.isPresent()) {
             DeviceToken temp = deviceToken.get();
             temp.setMember(null);
+            temp.setIsRegistered(false);
             deviceTokenRepository.save(temp);
             return "토큰 등록 성공";
         }

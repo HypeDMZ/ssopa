@@ -2,6 +2,7 @@ package com.example.demo.repository;
 
 import com.example.demo.entity.DeviceToken;
 import com.example.demo.entity.Heart;
+import com.example.demo.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -19,4 +20,6 @@ public interface DeviceTokenRepository extends JpaRepository<DeviceToken,Long> {
     Optional<DeviceToken> findByToken(String token);
 
     Optional<DeviceToken> findByTokenAndMemberIdIsNotNull(String token);
+
+    List<DeviceToken> findAllByMemberId(Member member);
 }

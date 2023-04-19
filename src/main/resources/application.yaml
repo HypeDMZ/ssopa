@@ -77,3 +77,11 @@ cloud:
       static: 현재 s3 버킷의 Region
     stack:
       auto: false
+
+push:
+  apns:
+    topic: dmz.ssopa
+    teamId: CFQ4ZSUWR7
+    authKeyId: 2QPURU9C8F
+    apnsHostName: api.push.apple.com
+    apnsPort: 443

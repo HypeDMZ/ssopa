@@ -61,6 +61,7 @@ public class MemberService {
         } else {
             deviceTokenRepository.findAllByMemberIdIsNullAndTokenEquals(token).forEach(Token -> {
                 Token.setMember(member);
+                Token.setIsRegistered(true);
 
             });
 
