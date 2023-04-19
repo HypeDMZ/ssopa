@@ -8,12 +8,19 @@ import com.example.demo.dto.auth.*;
 import com.example.demo.dto.jwt.TokenReqDto;
 import com.example.demo.dto.auth.MemberRequestDto;
 
+import com.example.demo.entity.DeviceToken;
+import com.example.demo.entity.PushPayload;
+import com.example.demo.repository.DeviceTokenRepository;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Payload;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/auth")
@@ -23,6 +30,7 @@ public class AuthController {
     private final AuthService authService;
     private final HttpResponseUtil httpResponseUtil;
     private final ApnsPushService apnsPushService;
+    private final DeviceTokenRepository deviceTokenRepository;
     @Operation(summary = "디바이스토큰등록")
     @PostMapping("/registertoken")
     public ResponseEntity<?> signup(@RequestParam(value="deviceToken") String token) {
@@ -155,14 +163,21 @@ public class AuthController {
         }
     }
 
-//    @Operation(summary = "")
-//    @GetMapping("/get/push")
-//    public ResponseEntity<?> getnickname(){
-//        try {
-//            return httpResponseUtil.createOKHttpResponse(apnsPushService.sendPush();, "인증문자 보내기 성공");
-//        }
-//        catch (Exception e) {
-//            return httpResponseUtil.createInternalServerErrorHttpResponse("닉네임 조회 실패" + e.getMessage());
-//        }
-//    }
+    @Operation(summary = "")
+    @GetMapping("/get/push")
+    public String getnickname(){
+        try {
+            List<DeviceToken> tokens = deviceTokenRepository.findAllByMemberIdIsNotNull();
+            List<String> tokenList = new ArrayList<>();
+            for (DeviceToken token : tokens) {
+                tokenList.add(token.getToken());
+            }
+            apnsPushService.sendPush(tokenList,PushPayload.builder().alertTitle("알림").alertBody("테스트").sound("bingbong.aiff").build());
+
+            return "good";
+        }
+        catch (Exception e) {
+            return e.getMessage();
+        }
+    }
 }
