@@ -35,7 +35,7 @@ public class PostService {
     private final HotRepository hotRepository;
     private final ReportService reportService;
     private final ApnsPushService apnsPushService;
-
+    private final DeviceTokenRepository deviceTokenRepository;
     private final SaveData saveData;
 
     @Transactional
@@ -58,6 +58,15 @@ public class PostService {
                 .like_cnt(0)
                 .userId(member.getId())
                 .build();
+        List<DeviceToken> deviceTokens = deviceTokenRepository.findAllByMemberIdIsNotNull();
+        List<String> tokens = new ArrayList<>();
+        for(DeviceToken deviceToken : deviceTokens) {
+            tokens.add(deviceToken.getToken());
+        }
+        apnsPushService.sendPush(tokens, PushPayload.builder().alertBody("새로운 게시글이 등록되었습니다.").alertTitle("새로운 게시글").sound("bingbong.aiff").build());
+
+
+
         return PostResponseDto.of(postRepository.save(post));
     }
 

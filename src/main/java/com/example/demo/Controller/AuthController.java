@@ -1,6 +1,7 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Exception.Auth.alreadyRegisteredException;
+import com.example.demo.Service.ApnsPushService;
 import com.example.demo.Service.AuthService;
 import com.example.demo.common.HttpResponseUtil;
 import com.example.demo.dto.auth.*;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     private final AuthService authService;
     private final HttpResponseUtil httpResponseUtil;
+    private final ApnsPushService apnsPushService;
     @Operation(summary = "디바이스토큰등록")
     @PostMapping("/registertoken")
     public ResponseEntity<?> signup(@RequestParam(value="deviceToken") String token) {
@@ -152,4 +154,15 @@ public class AuthController {
             return httpResponseUtil.createInternalServerErrorHttpResponse("닉네임 조회 실패" + e.getMessage());
         }
     }
+
+//    @Operation(summary = "")
+//    @GetMapping("/get/push")
+//    public ResponseEntity<?> getnickname(){
+//        try {
+//            return httpResponseUtil.createOKHttpResponse(apnsPushService.sendPush();, "인증문자 보내기 성공");
+//        }
+//        catch (Exception e) {
+//            return httpResponseUtil.createInternalServerErrorHttpResponse("닉네임 조회 실패" + e.getMessage());
+//        }
+//    }
 }

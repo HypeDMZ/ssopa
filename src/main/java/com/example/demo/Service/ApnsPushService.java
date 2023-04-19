@@ -72,10 +72,19 @@ public class ApnsPushService {
         ArrayList<String> deviceTokens = new ArrayList<>();
 
         members.forEach(member -> {
+
             List<DeviceToken> tokens = deviceTokenRepository.findAllByMemberId(member);
-            tokens.forEach(token -> {
-                deviceTokens.add(token.getToken());
-            });
+
+            if(tokens.isEmpty()) {
+                // ID에 해당하는 User 객체가 없는 경우
+            }else {
+
+
+                tokens.forEach(token -> {
+                    deviceTokens.add(token.getToken());
+                });
+
+            }
         });
         sendPush(deviceTokens, payload);
     }
@@ -96,6 +105,7 @@ public class ApnsPushService {
                 // This will get called when the sever has replied. response will
                 // be null and cause will be non-null if something went wrong when
                 // sending the notification.
+                System.out.println(response);
 
                 if (response != null) {
                     // Handle the push notification response as before from here.
