@@ -9,8 +9,11 @@ import com.example.demo.dto.jwt.TokenReqDto;
 import com.example.demo.dto.auth.MemberRequestDto;
 
 import com.example.demo.entity.DeviceToken;
+import com.example.demo.entity.Member;
 import com.example.demo.entity.PushPayload;
 import com.example.demo.repository.DeviceTokenRepository;
+import com.example.demo.repository.MemberReportRepository;
+import com.example.demo.repository.MemberRepository;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +32,9 @@ import java.util.List;
 public class AuthController {
     private final AuthService authService;
     private final HttpResponseUtil httpResponseUtil;
+//    private final DeviceTokenRepository deviceTokenRepository;
+//    private final ApnsPushService apnsPushService;
+//    private final MemberRepository memberRepository;
     @Operation(summary = "디바이스토큰등록")
     @PostMapping("/registertoken")
     public ResponseEntity<?> signup(@RequestParam(value="deviceToken") String token) {
