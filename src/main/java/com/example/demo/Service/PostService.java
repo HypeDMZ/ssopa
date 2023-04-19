@@ -175,9 +175,9 @@ public class PostService {
 
 
             PushPayload payload = PushPayload.builder().alertBody(post.getTitle()).alertTitle("새로운 좋아요").sound("bingbong.aiff").build();
-
             List<Member> members = new ArrayList<>();
-            members.add(member);
+            Member postOwner = memberRepository.findById(post.getUserId()).orElseThrow(() -> new RuntimeException("게시글 작성자 정보가 없습니다"));
+            members.add(postOwner);
             apnsPushService.sendPushByMember(members,payload);
 
 
