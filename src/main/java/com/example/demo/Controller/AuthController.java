@@ -29,8 +29,6 @@ import java.util.List;
 public class AuthController {
     private final AuthService authService;
     private final HttpResponseUtil httpResponseUtil;
-    private final ApnsPushService apnsPushService;
-    private final DeviceTokenRepository deviceTokenRepository;
     @Operation(summary = "디바이스토큰등록")
     @PostMapping("/registertoken")
     public ResponseEntity<?> signup(@RequestParam(value="deviceToken") String token) {
@@ -163,21 +161,5 @@ public class AuthController {
         }
     }
 
-    @Operation(summary = "")
-    @GetMapping("/get/push")
-    public String getnickname(){
-        try {
-            List<DeviceToken> tokens = deviceTokenRepository.findAllByMemberIdIsNotNull();
-            List<String> tokenList = new ArrayList<>();
-            for (DeviceToken token : tokens) {
-                tokenList.add(token.getToken());
-            }
-            apnsPushService.sendPush(tokenList,PushPayload.builder().alertTitle("알림").alertBody("너 누구야!!").sound("bingbong.aiff").build());
 
-            return "good";
-        }
-        catch (Exception e) {
-            return e.getMessage();
-        }
-    }
 }

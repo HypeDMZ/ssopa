@@ -88,6 +88,7 @@ public class WebSecurityConfig{
                         .antMatchers("/webjars/**").permitAll()
                         .antMatchers("/neis/**").permitAll()
                         //.antMatchers("/post/**").permitAll()
+                        .antMatchers("/member/push").hasRole("ROLE_ADMIN")
                         .anyRequest().authenticated()
 
                 )

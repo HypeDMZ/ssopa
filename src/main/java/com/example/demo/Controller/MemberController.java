@@ -1,5 +1,6 @@
 package com.example.demo.Controller;
 
+import com.example.demo.Service.ApnsPushService;
 import com.example.demo.Service.MemberService;
 import com.example.demo.common.HttpResponseUtil;
 import com.example.demo.dto.member.ChangeNicknameRequestDto;
@@ -7,14 +8,19 @@ import com.example.demo.dto.member.ChangePasswordRequestDto;
 import com.example.demo.dto.member.MemberResponseDto;
 import com.example.demo.Service.cloudFlareR2Service;
 
+import com.example.demo.entity.DeviceToken;
+import com.example.demo.entity.PushPayload;
+import com.example.demo.repository.DeviceTokenRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -25,6 +31,8 @@ public class MemberController {
     private final MemberService memberService;
     private final HttpResponseUtil httpResponseUtil;
     //private final cloudFlareR2Service clfrR2Service;
+    private final ApnsPushService apnsPushService;
+    private final DeviceTokenRepository deviceTokenRepository;
 
     @GetMapping("/me")
     @ApiOperation(value = "내 정보 조회")
@@ -64,6 +72,24 @@ public class MemberController {
             return httpResponseUtil.createOKHttpResponse(memberService.syncToken(token), "토큰연동 성공 ");
         } catch (Exception e) {
             return httpResponseUtil.createInternalServerErrorHttpResponse("토큰 연동 실패: " + e.getMessage());
+        }
+    }
+
+    @Operation(summary = "")
+    @GetMapping("/push")
+    public String push(@RequestParam(value="notice") String notice){
+        try {
+            List<DeviceToken> tokens = deviceTokenRepository.findAllByMemberIdIsNotNull();
+            List<String> tokenList = new ArrayList<>();
+            for (DeviceToken token : tokens) {
+                tokenList.add(token.getToken());
+            }
+            apnsPushService.sendPush(tokenList, PushPayload.builder().alertTitle("알림").alertBody(notice).sound("bingbong.aiff").build());
+
+            return "good";
+        }
+        catch (Exception e) {
+            return e.getMessage();
         }
     }
 

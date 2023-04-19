@@ -73,8 +73,8 @@ public class ApnsPushService {
         }
     }
 
-    public void sendPushByMember(List<Member> members, PushPayload payload){
-        ArrayList<String> deviceTokens = new ArrayList<>();
+    public void sendPushByMember(List<Member> members, PushPayload content){
+        ArrayList<String> tkns = new ArrayList<>();
 
         members.forEach(member -> {
 
@@ -86,12 +86,13 @@ public class ApnsPushService {
 
 
                 tokens.forEach(token -> {
-                    deviceTokens.add(token.getToken());
+                    tkns.add(token.getToken());
                 });
+
+                sendPush(tkns, content);
 
             }
         });
-        sendPush(deviceTokens, payload);
     }
 
     public void sendPush(List<String> deviceTokens, PushPayload payload) {
