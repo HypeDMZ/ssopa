@@ -13,7 +13,6 @@ import com.example.demo.entity.Member;
 import com.example.demo.entity.PushPayload;
 import com.example.demo.repository.DeviceTokenRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -33,7 +32,7 @@ public class ApnsPushService {
 
     private static ApnsClient apnsClient;
 
-    private static DeviceTokenRepository deviceTokenRepository;
+    private final DeviceTokenRepository deviceTokenRepository;
 
 
     @PostConstruct
@@ -76,10 +75,12 @@ public class ApnsPushService {
     public void sendPushByMember(List<Member> members, PushPayload content){
         ArrayList<String> tkns = new ArrayList<>();
 
+
+
+
         members.forEach(member -> {
 
             List<DeviceToken> tokens = deviceTokenRepository.findAllByMemberId(member);
-
             if(tokens.isEmpty()) {
                 // ID에 해당하는 User 객체가 없는 경우
             }else {
@@ -89,10 +90,10 @@ public class ApnsPushService {
                     tkns.add(token.getToken());
                 });
 
-                sendPush(tkns, content);
-
             }
         });
+
+        sendPush(tkns, content);
     }
 
     public void sendPush(List<String> deviceTokens, PushPayload payload) {
