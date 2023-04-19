@@ -8,7 +8,8 @@ import org.springframework.scheduling.support.SimpleTriggerContext;
 @Setter
 @Builder
 @RequiredArgsConstructor
-
+@ToString
+@AllArgsConstructor
 public class PushPayload {
     private String alertTitle;
     private String alertBody;
