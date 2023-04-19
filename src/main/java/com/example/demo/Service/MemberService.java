@@ -3,6 +3,7 @@ package com.example.demo.Service;
 import com.example.demo.config.SecurityUtil;
 import com.example.demo.dto.auth.syncTokenResponseDto;
 import com.example.demo.dto.member.MemberResponseDto;
+import com.example.demo.entity.DeviceToken;
 import com.example.demo.entity.Member;
 import com.example.demo.repository.DeviceTokenRepository;
 import com.example.demo.repository.MemberRepository;
@@ -10,6 +11,8 @@ import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -45,12 +48,26 @@ public class MemberService {
 
     public syncTokenResponseDto syncToken(String token) {
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
-        deviceTokenRepository.findAllByMemberIdIsNullAndTokenEquals(token).forEach(deviceToken -> {
-            deviceToken.setMember(member);
-        });
 
-        return syncTokenResponseDto.builder()
-                .success(true)
-                .build();
+        Optional<DeviceToken> deviceToken = deviceTokenRepository.findByTokenAndMemberIdIsNotNull(token);
+        if (deviceToken.isPresent()) {
+            DeviceToken temp = deviceToken.get();
+            temp.setMember(member);
+            deviceTokenRepository.save(temp);
+            return syncTokenResponseDto.builder()
+                    .success(true)
+                    .build();
+
+        } else {
+            deviceTokenRepository.findAllByMemberIdIsNullAndTokenEquals(token).forEach(Token -> {
+                Token.setMember(member);
+
+            });
+
+            return syncTokenResponseDto.builder()
+                    .success(true)
+                    .build();
+        }
+
     }
 }
