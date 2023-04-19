@@ -1,5 +1,6 @@
 package com.example.demo.Service;
 
+import com.eatthepath.pushy.apns.PushType;
 import com.example.demo.Exception.Post.NoSufficientPermissionException;
 import com.example.demo.Exception.Report.ReportedUserException;
 import com.example.demo.config.SecurityUtil;
@@ -33,6 +34,7 @@ public class PostService {
     private final HeartRepository heartRepository;
     private final HotRepository hotRepository;
     private final ReportService reportService;
+    private final ApnsPushService apnsPushService;
 
     private final SaveData saveData;
 
@@ -160,6 +162,17 @@ public class PostService {
             post.setLike_cnt(post.getLike_cnt()+1);
             postRepository.save(post);
             heartRepository.save(heart);
+
+            PushPayload payload = new PushPayload();
+            payload.setAlertBody(post.getTitle());
+            payload.setAlertTitle("좋아요 알림");
+            payload.setSound("bingbong.aiff");
+
+            ArrayList<Member> members = new ArrayList<>();
+            members.add(member);
+            apnsPushService.sendPushByMember(members,payload);
+
+
             return HeartDto.of(heart);
         }
     }
