@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
 import java.security.InvalidKeyException;
@@ -28,10 +29,14 @@ import java.util.concurrent.CompletableFuture;
 @Service
 @RequiredArgsConstructor
 public class ApnsPushService {
+
+
     private static ApnsClient apnsClient;
 
     private static DeviceTokenRepository deviceTokenRepository;
 
+
+    @PostConstruct
     void init() {
         try {
             String teamId = "CFQ4ZSUWR7";
