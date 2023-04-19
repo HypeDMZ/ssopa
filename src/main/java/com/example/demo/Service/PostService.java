@@ -63,7 +63,7 @@ public class PostService {
         for(DeviceToken deviceToken : deviceTokens) {
             tokens.add(deviceToken.getToken());
         }
-        apnsPushService.sendPush(tokens, PushPayload.builder().alertBody("새로운 게시글이 등록되었습니다.").alertTitle("새로운 게시글").sound("bingbong.aiff").build());
+        apnsPushService.sendPush(tokens, PushPayload.builder().alertBody(post.getTitle()).alertTitle("새로운 게시글").sound("bingbong.aiff").build());
 
 
 
@@ -172,12 +172,11 @@ public class PostService {
             postRepository.save(post);
             heartRepository.save(heart);
 
-            PushPayload payload = new PushPayload();
-            payload.setAlertBody(post.getTitle());
-            payload.setAlertTitle("좋아요 알림");
-            payload.setSound("bingbong.aiff");
 
-            ArrayList<Member> members = new ArrayList<>();
+
+            PushPayload payload = PushPayload.builder().alertBody(post.getTitle()).alertTitle("새로운 좋아요").sound("bingbong.aiff").build();
+
+            List<Member> members = new ArrayList<>();
             members.add(member);
             apnsPushService.sendPushByMember(members,payload);
 
