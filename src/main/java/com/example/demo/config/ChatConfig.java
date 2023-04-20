@@ -30,7 +30,7 @@ public class ChatConfig implements WebSocketMessageBrokerConfigurer {
         ThreadPoolTaskScheduler te = new ThreadPoolTaskScheduler();
         te.setPoolSize(1);
         te.setThreadNamePrefix("wss-heartbeat-thread-");
-        te.initialize();
+        te.initialize();//
 
         registry.enableSimpleBroker("/queue", "/topic")
                 .setHeartbeatValue(new long[]{10000, 10000});// Configures the message broker to enable the use of two simple brokers: /queue and /topic
