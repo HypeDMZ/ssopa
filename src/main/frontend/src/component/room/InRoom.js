@@ -86,7 +86,7 @@ function InRoom(props){
             }
         })
 
-        sock.current = new SockJS('/api/ws/chat');
+        sock.current = new SockJS('/api/ws/chat/websocket');
         ws.current = Stomp.over(sock.current);
         findRoom();
 
