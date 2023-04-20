@@ -33,7 +33,8 @@ public class ChatConfig implements WebSocketMessageBrokerConfigurer {
         te.initialize();//
 
         registry.enableSimpleBroker("/queue", "/topic")
-                .setHeartbeatValue(new long[]{10000, 10000});// Configures the message broker to enable the use of two simple brokers: /queue and /topic
+                .setHeartbeatValue(new long[]{10000, 10000})// Configures the message broker to enable the use of two simple brokers: /queue and /topic
+                .setTaskScheduler(te);
 
         registry.setApplicationDestinationPrefixes("/app");  // Sets the prefix used to filter messages targeted for application handling
     }
