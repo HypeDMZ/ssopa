@@ -28,11 +28,10 @@ public class MessageController {
         message.setSender(sender);
         if (ChatMessage.MessageType.ENTER.equals(message.getType())) {
             message.setMessage(sender + "님이 입장하였습니다.");
-            message.setTime(LocalDateTime.now());
-            message.setMessage_id(0L);
+            //message.setTime(LocalDateTime.now());
         }
 
-        message.setTime(LocalDateTime.now());
+        //message.setTime(LocalDateTime.now());
         sendingOperations.convertAndSend("/topic/chat/room/" + message.getRoomId(), message);
     }
 }//
