@@ -29,13 +29,6 @@ jobs:
         run: CI='' npm run build
         working-directory: src/main/frontend
 
-      - name: executing remote ssh commands using password
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.DMZ }}
-          username: ${{ secrets.DMZ_USER }}
-          password: ${{ secrets.DMZ_KEY }}
-          port: ${{ secrets.DMZ_PORT }}
 
       - name: copy file via ssh password
         uses: appleboy/scp-action@master
@@ -46,3 +39,12 @@ jobs:
           port: ${{ secrets.DMZ_PORT }}
           source: 'src/main/frontend/build'
           target: '/home/dmz/ssopa_frontend'
+
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DMZ }}
+          username: ${{ secrets.DMZ_USER }}
+          password: ${{ secrets.DMZ_KEY }}
+          port: ${{ secrets.DMZ_PORT }}
+
