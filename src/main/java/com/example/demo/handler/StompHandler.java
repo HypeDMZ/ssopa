@@ -59,7 +59,7 @@ public class StompHandler implements ChannelInterceptor {
 //        //get nickname which is stored at member table by using token
 //        String userId = jwtService.getMemberEmailByToken(token);
 
-        String userId = "ssohye@icloud.com";
+        String userId = "18";
         accessor.setNativeHeader("sender", userId);
 
         //메시지 타입이 메시지일때만 데이터베이스에 내용 저장
