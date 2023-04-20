@@ -31,7 +31,7 @@ public class MessageController {
             //message.setTime(LocalDateTime.now());
         }
 
-        message.setTime(LocalDateTime.now());
+        //message.setTime(LocalDateTime.now());
         sendingOperations.convertAndSend("/topic/chat/room/" + message.getRoomId(), message);
     }
 }//
