@@ -24,7 +24,7 @@ function InRoom(props){
     const reconnect = useRef(0);
 
     const client = new StompJs.Client({
-        brokerURL: '/api/ws/chat',
+        brokerURL: 'wss://ssopa02.com/api/ws/chat',
         connectHeaders: headers,
         debug: function (str) {
             console.log(str);
