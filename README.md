@@ -9,6 +9,8 @@
 - React
 - MySQL
 - Redis
+- Websocket 
+- Stomp
 
 ## Production Period
 
