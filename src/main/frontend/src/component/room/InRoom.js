@@ -1,9 +1,10 @@
 import React, { useState, useEffect , useRef} from 'react';
 import {useParams} from 'react-router-dom';
 import {getCookie} from "../../function/cookie";
+import SockJS from 'sockjs-client';
+import {Stomp} from '@stomp/stompjs';
 import axios from 'axios';
 import styled from "../../css/ChattingRoom.module.css";
-import * as StompJs from "@stomp/stompjs";
 
 function InRoom(props){
     // const {roomId} = useParams();
@@ -22,64 +23,13 @@ function InRoom(props){
     const sock = useRef(null);
     const ws = useRef(null);
     const reconnect = useRef(0);
-
-    const client = new StompJs.Client({
-        brokerURL: 'wss://ssopa02.com/api/ws/chat/websocket',
-        connectHeaders: headers,
-        debug: function (str) {
-            console.log(str);
-        },
-        reconnectDelay: 5000,
-        heartbeatIncoming: 5000,
-        heartbeatOutgoing: 5000,
-    });
-
-    let subscription = null;
-
-    client.onConnect = function (frame) {
-        // Do something, all subscribes must be done is this callback
-        // This is needed because this will be executed after a (re)connect
-        subscription = client.subscribe(`/topic/chat/room/${roomId}`, message_callback, headers);
-        client.publish({
-            destination: '/app/chat/message',
-            body:JSON.stringify({ type: 'ENTER', roomId, sender:"1"}),
-            headers: headers
-        });
-
-
-
-    };
-
-    const message_callback = (message) => {
-        recvMessage(message)
-    }
-
-
-
-
-
-
-    client.onStompError = function (frame) {
-        // Will be invoked in case of error encountered at Broker
-        // Bad login/passcode typically will cause an error
-        // Complaint brokers will set `message` header with a brief message. Body may contain details.
-        // Compliant brokers will terminate the connection after any error
-        console.log('Broker reported error: ' + frame.headers['message']);
-        console.log('Additional details: ' + frame.body);
-    };
-
     const findRoom = async () => {
         const response = await axios.get(`/api/chat/room/${roomId}`);
         setRoom(response.data);
     };
 
     const sendMessage = () => {
-        client.publish({
-            destination: '/app/chat/message',
-            body:JSON.stringify({ type: 'TALK', roomId, sender:"1" , message }),
-            headers: headers
-        });
-
+        ws.current.send('/app/chat/message', headers, JSON.stringify({ type: 'TALK', roomId, sender:"1" , message }));
         setMessage('');
         scrollToBottom();
     };
@@ -136,10 +86,31 @@ function InRoom(props){
             }
         })
 
-        client.activate();
-
+        sock.current = new SockJS('/api/ws/chat');
+        ws.current = Stomp.over(sock.current);
         findRoom();
 
+        ws.current.connect(headers, (frame) => {
+            ws.current.subscribe(`/topic/chat/room/${roomId}`, (message) => {
+                const recv = JSON.parse(message.body);
+                recvMessage(recv);
+            }, headers);
+            ws.current.send('/app/chat/message', headers, JSON.stringify({ type: 'ENTER', roomId, sender:"1" }));
+        }, (error) => {
+            if (reconnect.current++ <= 5) {
+                setTimeout(() => {
+                    console.log('connection reconnect');
+                    sock.current = new SockJS('/api/ws/chat');
+                    ws.current = Stomp.over(sock.current);
+                    ws.current.connect(headers);
+                }, 10 * 1000);
+            }
+        });
+
+        return () => {
+            ws.current.disconnect();
+            sock.current.close();
+        };
 
     }, [roomId]);
 
