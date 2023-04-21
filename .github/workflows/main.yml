@@ -4,8 +4,6 @@ name: dmz_time CI/CD
 on: # deploy Branch에서 push 이벤트가 일어났을 때만 실행
   pull_request:
     branches: [ main ]
-  push:
-    branches: [ main ]
 
 
 jobs:
