@@ -43,12 +43,7 @@ public class WebSecurityConfig{
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer (){
-        return (web)-> web.ignoring().antMatchers("/v2/api-docs",  "/configuration/ui",
-                "/swagger-resources", "/configuration/security",
-                "/swagger-ui.html", "/webjars/**","/swagger/**");
-    }
+
 
 
     @Bean
