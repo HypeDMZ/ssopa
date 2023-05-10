@@ -83,7 +83,7 @@ public class AuthService {
         }else{
             throw new RuntimeException("비정상접근입니다");
         }
-        return MemberResponseDto.of(null);
+        return MemberResponseDto.of(member);
     }
 
     public TokenDto login(LoginDto loginrequest) {
@@ -136,7 +136,7 @@ public class AuthService {
     }
 
     public SmsDto PhoneNumberCheck(String phoneNumber,Boolean isFindID) {
-        if(isFindID){
+        if(isFindID == false){
             if(!memberRepository.existsByPhonenumber(phoneNumber)){
                 throw new alreadyRegisteredException("가입되어 있지 않은 번호입니다");
             }

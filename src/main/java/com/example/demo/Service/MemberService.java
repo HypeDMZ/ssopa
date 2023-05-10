@@ -46,10 +46,16 @@ public class MemberService {
         return MemberResponseDto.of(memberRepository.save(member));
     }
 
+
+    //apns 토큰 등록
     public syncTokenResponseDto syncToken(String token) {
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
 
+
+        // 멤버ID가 이미 등록이 된 동일한 토큰이 있는지 확인
         Optional<DeviceToken> deviceToken = deviceTokenRepository.findByTokenAndMemberIdIsNotNull(token);
+
+        //이미 있으면
         if (deviceToken.isPresent()) {
             DeviceToken temp = deviceToken.get();
             temp.setMember(member);
@@ -57,8 +63,9 @@ public class MemberService {
             return syncTokenResponseDto.builder()
                     .success(true)
                     .build();
-
+        //아니라면
         } else {
+            //멤버ID가 없는 동일한 토큰이 있는지 확인
             deviceTokenRepository.findAllByMemberIdIsNullAndTokenEquals(token).forEach(Token -> {
                 Token.setMember(member);
                 Token.setIsRegistered(true);
