@@ -38,7 +38,7 @@ jobs:
           password: ${{ secrets.DMZ_KEY }}
           port: ${{ secrets.DMZ_PORT }}
           source: 'src/main/frontend/build'
-          target: '/home/dmz/ssopa_frontend'
+          target: '/home/taewan2002/ssopa_frontend'
 
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@master
