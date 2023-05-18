@@ -48,6 +48,5 @@ jobs:
         username: ${{ secrets.DMZ_USER }}
         key: ${{ secrets.DMZ_KEY }}
         port: ${{ secrets.DMZ_PORT }}
-        script: |
-          cd ~/app/
-          sh deploy.sh
+        script_stop: true
+        script: chmod +x /home/taewan2002/app/deploy.sh && sh /home/taewan2002/app/deploy.sh
