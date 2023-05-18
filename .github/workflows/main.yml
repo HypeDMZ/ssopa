@@ -1,36 +1,72 @@
 
-
-name: dmz_time CI/CD
-on: # deploy Branch에서 push 이벤트가 일어났을 때만 실행
-  pull_request:
-    branches: [ main ]
-
+name: Build and Deploy
+on:
+  push:
+    branches:
+      - main
 
 jobs:
-  build:
-    runs-on: ubuntu-22.04 # Job 가상환경 인스턴스
-    steps: # Steps
-      - name: Checkout source code. # 레포지토리 체크아웃
-        uses: actions/checkout@main
+  deploy:
+    runs-on: ubuntu-20.04
 
-      - name: Cache node modules # node modules 캐싱
-        uses: actions/cache@v1
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
         with:
-          path: node_modules
-          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.OS }}-build-
-            ${{ runner.OS }}-
-      - name: Install Dependencies # 의존 파일 설치
-        run: npm install
+          java-version: '17'
+
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      - name: Copy JAR file to remote server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.DMZ }}
+          username: ${{ secrets.DMZ_USER }}
+          password: ${{ secrets.DMZ_KEY }}
+          port: ${{ secrets.DMZ_PORT }}
+          source: ./build/libs/demo-0.0.1-SNAPSHOT.jar
+          target: ~/app/
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Cache Node.js dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Install Frontend Dependencies
+        run: npm ci
         working-directory: src/main/frontend
 
-      - name: Build # React Build
-        run: CI='' npm run build
+      - name: Build Frontend
+        run: npm run build
         working-directory: src/main/frontend
 
+      - name: stop nginx
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DMZ }}
+          username: ${{ secrets.DMZ_USER }}
+          password: ${{ secrets.DMZ_KEY }}
+          port: ${{ secrets.DMZ_PORT }}
+          script: |
+            service nginx stop
 
-      - name: copy file via ssh password
+      - name: Copy Frontend build to remote server
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.DMZ }}
@@ -40,11 +76,25 @@ jobs:
           source: 'src/main/frontend/build'
           target: '/home/taewan2002/ssopa_frontend'
 
-      - name: executing remote ssh commands using password
+      - name: start nginx
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.DMZ }}
           username: ${{ secrets.DMZ_USER }}
           password: ${{ secrets.DMZ_KEY }}
           port: ${{ secrets.DMZ_PORT }}
+          script: |
+            service nginx start
+
+      - name: SSH into remote server and execute deploy.sh
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DMZ }}
+          username: ${{ secrets.DMZ_USER }}
+          password: ${{ secrets.DMZ_KEY }}
+          port: ${{ secrets.DMZ_PORT }}
+          script: |
+            cd ~/app
+            ./deploy.sh
+
 
