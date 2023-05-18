@@ -38,8 +38,8 @@ jobs:
         username: ${{ secrets.DMZ_USER }}
         key: ${{ secrets.DMZ_KEY }}
         port: ${{ secrets.DMZ_PORT }}
-        source: ./demo-0.0.1-SNAPSHOT.jar  
-        target: ~/app/
+        source: "./build/libs/*.jar"
+        target: "/home/taewan2002/app"
     
     - name: SSH into remote server and execute deploy.sh
       uses: appleboy/ssh-action@master
