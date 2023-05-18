@@ -40,7 +40,6 @@ jobs:
         port: ${{ secrets.DMZ_PORT }}
         source: "build/libs/*.jar"
         target: "app"
-        rm: true
       
     
     - name: SSH into remote server and execute deploy.sh
