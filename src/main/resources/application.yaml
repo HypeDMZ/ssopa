@@ -19,7 +19,7 @@ spring:
       fail-on-empty-beans: false
 
   datasource:
-    url: jdbc:mysql://swiftsjh.tplinkdns.com:3306/test
+    url: jdbc:mysql://34.22.68.218:3306/test
     username: dmz
     password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
