@@ -29,26 +29,23 @@ jobs:
     - name: Build with Gradle
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       with:
-        arguments: build
+        arguments: build       
         
-    - name: Copy JAR file to remote server
-      uses: appleboy/scp-action@master
-      with:
-        host: ${{ secrets.DMZ }}
-        username: ${{ secrets.DMZ_USER }}
-        key: ${{ secrets.DMZ_KEY }}
-        port: ${{ secrets.DMZ_PORT }}
-        overwrite: true
-        source: './build/libs/demo-0.0.1-SNAPSHOT.jar'
-        target: "~/app"
+  
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.DMZ_KEY }}
+      - name: Add remote server to known hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan ${{ secrets.DMZ }} >> ~/.ssh/known_hosts
+      - name: SCP transfer
+        run: scp *.jar ${{ secrets.DMZ_USER }}@${{ secrets.DMZ }}:~/app
+     
       
-    
-    - name: SSH into remote server and execute deploy.sh
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.DMZ }}
-        username: ${{ secrets.DMZ_USER }}
-        key: ${{ secrets.DMZ_KEY }}
-        port: ${{ secrets.DMZ_PORT }}
-        script_stop: true
-        script: sh ~/app/deploy.sh
+        
