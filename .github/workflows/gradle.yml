@@ -64,7 +64,7 @@ jobs:
           key: ${{ secrets.DMZ_KEY }}
           port: ${{ secrets.DMZ_PORT }}
           script_stop: true
-          script: sh ~/app/deploy.sh 
+          script: sudo sh ~/app/deploy.sh 
      
       
         
