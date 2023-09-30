@@ -56,6 +56,15 @@ jobs:
           ssh-keyscan ${{ secrets.DMZ }} >> ~/.ssh/known_hosts
       - name: SCP transfer
         run: scp *.jar ${{ secrets.DMZ_USER }}@${{ secrets.DMZ }}:~/app
+      - name: SSH into remote server and execute deploy.sh
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DMZ }}
+          username: ${{ secrets.DMZ_USER }}
+          key: ${{ secrets.DMZ_KEY }}
+          port: ${{ secrets.DMZ_PORT }}
+          script_stop: true
+          script: sh ~/app/deploy.sh 
      
       
         
