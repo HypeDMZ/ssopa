@@ -38,8 +38,9 @@ jobs:
         username: ${{ secrets.DMZ_USER }}
         key: ${{ secrets.DMZ_KEY }}
         port: ${{ secrets.DMZ_PORT }}
-        source: "./build/libs/demo-0.0.1-SNAPSHOT.jar"
-        target: "~/app/demo-0.0.1-SNAPSHOT.jar"
+        overwrite: true
+        source: '/build/libs/demo-0.0.1-SNAPSHOT.jar'
+        target: "~/app"
       
     
     - name: SSH into remote server and execute deploy.sh
