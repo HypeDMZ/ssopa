@@ -50,4 +50,4 @@ jobs:
         key: ${{ secrets.DMZ_KEY }}
         port: ${{ secrets.DMZ_PORT }}
         script_stop: true
-        script: sh /home/taewan2002/app/deploy.sh
+        script: ls
