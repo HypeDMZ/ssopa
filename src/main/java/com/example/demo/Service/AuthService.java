@@ -137,8 +137,8 @@ public class AuthService {
 
     public SmsDto PhoneNumberCheck(String phoneNumber,Boolean isFindID) {
         if(isFindID == false){
-            if(!memberRepository.existsByPhonenumber(phoneNumber)){
-                throw new alreadyRegisteredException("가입되어 있지 않은 번호입니다");
+            if(memberRepository.existsByPhonenumber(phoneNumber)==true){
+                throw new alreadyRegisteredException("이미 가입된 번호입니다");
             }
         }
         Random rand  = new Random();
