@@ -29,13 +29,23 @@ jobs:
     - name: Build with Gradle
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       with:
-        arguments: build       
+        arguments: build
+        
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+          name: cicdsample
+          path: build/libs/*.jar
         
   
   deploy:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: cicdsample
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.5.4
         with:
